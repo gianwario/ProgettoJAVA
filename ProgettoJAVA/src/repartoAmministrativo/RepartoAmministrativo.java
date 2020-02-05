@@ -8,17 +8,19 @@ public abstract class RepartoAmministrativo implements Serializable {
 
 	private double fondi;
 
-	/*
+	/**
 	 * La classe che rappresenta il reparto amministrativo si occupa della gestione
 	 * del capitale dell'azienda e viene specializzato in due sottoreparti, il
 	 * reparto interno e quello esterno.
-	 * @param fondi i fondi iniziali dell'azienda
+	 * @param fondi i fondi iniziali di un reparto
 	 */
 	public RepartoAmministrativo(double fondi) {
+		
 		this.fondi = fondi;
+		
 	}
 
-	/*
+	/**
 	 * L'azienda riceve un pagamento e viene aggiunta una determinata somma ai fondi
 	 * @param fondi l'importo guadagnato
 	 */
@@ -26,7 +28,7 @@ public abstract class RepartoAmministrativo implements Serializable {
 		this.fondi += importo;
 	}
 
-	/*
+	/**
 	 * L'azienda effettua una spesa e viene rimosso dal fondo l'importo speso
 	 * @param fondi l'importo da rimuovere
 	 */
@@ -38,7 +40,7 @@ public abstract class RepartoAmministrativo implements Serializable {
 		}
 	}
 	
-	/*
+	/**
 	 * @return i fondi attuali dell'azienda
 	 */
 	public double controllaFondi() {
