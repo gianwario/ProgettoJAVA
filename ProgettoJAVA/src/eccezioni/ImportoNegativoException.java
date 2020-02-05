@@ -6,7 +6,7 @@ public class ImportoNegativoException extends RuntimeException {
 		super();
 	}
 
-	public ImportoNegativoException(String msg) {
-		super(msg);
+	public ImportoNegativoException(String message) {
+		super(message);
 	}
 }

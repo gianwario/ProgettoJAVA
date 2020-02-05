@@ -6,8 +6,8 @@ public class FondiInsufficientiException extends Exception{
 		super();
 	}
 	
-	public FondiInsufficientiException(String msg) {
-		super(msg);
+	public FondiInsufficientiException(String message) {
+		super(message);
 	}
 	
 
