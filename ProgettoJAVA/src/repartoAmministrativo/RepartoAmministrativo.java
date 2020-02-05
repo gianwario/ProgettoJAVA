@@ -6,7 +6,7 @@ import eccezioni.FondiInsufficientiException;
 
 public abstract class RepartoAmministrativo implements Serializable {
 
-	private double fondi = 0;
+	private double fondi;
 
 	/**
 	 * La classe che rappresenta il reparto amministrativo si occupa della gestione
