@@ -17,8 +17,9 @@ public class Impiegato extends Dipendente {
 	/**
 	 * Override del metodo 'pagaDipendente' della classe astratta dipendente. Paga
 	 * lo stipendio ad un impiegato in base al numero di ore effettuate. Le ore base
-	 * sono 30(possono essere anche di meno) per ogni settimana, pagate a 12,50euro l'ora, una volta
-	 * superate invece le ore vengono considerate straordinari, pagati di più.
+	 * sono 30(possono essere anche di meno) per ogni settimana, pagate a 12,50euro
+	 * l'ora, una volta superate invece le ore vengono considerate straordinari,
+	 * pagati di più.
 	 * 
 	 * @return l'importo da pagare al dipendente
 	 */

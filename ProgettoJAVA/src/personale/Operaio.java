@@ -10,10 +10,10 @@ public class Operaio extends Dipendente {
 	private String patente;
 	private boolean conducente;
 
-	public Operaio(String nome, String cognome, String patente, boolean conduce) {
+	public Operaio(String nome, String cognome, String patente) {
 		super(nome, cognome);
-		patente = patente;
-		conducente = conduce;
+		this.patente = patente;
+		conducente = false;
 	}
 
 	/**
@@ -22,10 +22,12 @@ public class Operaio extends Dipendente {
 	 * conducente ad un mezzo . Lo stipendio base di un operaio è di 350euro a
 	 * settimana, il bonus è calcolato in base a se guida o meno un mezzo e la
 	 * patente che ha.
+	 * 
 	 * @return l'importo da pagare al dipendente
 	 */
 	public double pagaDipendente() {
 		double stipendio = STIPENDIO_BASE;
+		setDipendentePagato();
 		if (conducente) {
 			if (patente == "B")
 				stipendio = stipendio + ((stipendio * PERCENTUALE_PATENTE_B) / 100);

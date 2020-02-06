@@ -1,6 +1,6 @@
 package personale;
 
-public class Dirigente extends Dipendente implements Responsabile{
+public class Dirigente extends Dipendente implements Responsabile {
 
 	final static double STIPENDIO_BASE = 425;
 
@@ -13,13 +13,14 @@ public class Dirigente extends Dipendente implements Responsabile{
 
 	/**
 	 * Override del metodo 'pagaDipendente' della classe astratta dipendente. Paga
-	 * lo stipendio ad un dirigente con un bonus in base agli anni di servizio.
-	 * Lo stipendio base di un dirigente è di 425euro a settimana, il bonus aumenta
+	 * lo stipendio ad un dirigente con un bonus in base agli anni di servizio. Lo
+	 * stipendio base di un dirigente è di 425euro a settimana, il bonus aumenta
 	 * dell'1% lo stipendio ogni anno di servizio.
 	 * 
 	 * @return l'importo da pagare al dipendente
 	 */
 	public double pagaDipendente() {
+		setDipendentePagato();
 		return STIPENDIO_BASE + ((STIPENDIO_BASE * anniDiServizio) / 100);
 	}
 
