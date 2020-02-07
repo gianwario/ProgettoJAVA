@@ -6,21 +6,30 @@ import javax.swing.JOptionPane;
 
 import eccezioni.FondiInsufficientiException;
 import esterni.Commissione;
+import esterni.Fornitore;
+import risorse.Macchinario;
+import risorse.Magazzino;
+import risorse.Prodotto;
 
 public class AmministrativoEsterno extends RepartoAmministrativo {
+	
+	private ArrayList<Commissione> listaCommissioni;
+	private Magazzino magazzino;
 
 	/**
 	 * La classe che rappresenta la sezione del reparto amministativo che si occupa
 	 * dell'interazione con gli esterni. Apre e chiude commissioni di lavoro,
 	 * rifornisce i materiali ai magazzini e ottiene i permessi di costruzione dagli
 	 * enti locali
+	 * 
+	 * @param fondi fondi iniziali
+	 * @param magazzino il magazzino che il reparto gestisce
 	 */
 
-	private ArrayList<Commissione> listaCommissioni;
-
-	public AmministrativoEsterno(double fondi) {
+	public AmministrativoEsterno(double fondi, Magazzino magazzino) {
 
 		super(fondi);
+		this.magazzino = magazzino;
 		listaCommissioni = new ArrayList<Commissione>();
 
 	}
@@ -91,6 +100,21 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 				listaCommissioni.remove(commissione);
 			}
 		}
+	}
+	
+	public void acquistaProdotto(Prodotto p) {
+		
+		effettuaSpesa(p.getPrezzo());
+		magazzino.aggiungiProdotto(p);
+		
+	}
+	
+	public Prodotto rimuoviDaMagazzino(Prodotto p) {
+		
+		if(p == null)
+			return null;
+		
+		return magazzino.prelevaProdotto(p);
 	}
 
 }
