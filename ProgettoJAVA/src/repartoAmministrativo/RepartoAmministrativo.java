@@ -3,6 +3,7 @@ package repartoAmministrativo;
 import java.io.Serializable;
 
 import eccezioni.FondiInsufficientiException;
+import eccezioni.ImportoNegativoException;
 
 public abstract class RepartoAmministrativo implements Serializable {
 
@@ -26,7 +27,10 @@ public abstract class RepartoAmministrativo implements Serializable {
 	 * @param fondi l'importo guadagnato
 	 */
 	public void aggiungiFondi(double importo) {
-		this.fondi += importo;
+		if(importo > 0)
+			this.fondi += importo;
+		else
+			throw new ImportoNegativoException();
 	}
 
 	/**
@@ -34,11 +38,15 @@ public abstract class RepartoAmministrativo implements Serializable {
 	 * 
 	 * @param fondi l'importo da rimuovere
 	 */
-	public void effettuaSpesa(double importo) throws FondiInsufficientiException {
-		if ((this.fondi - importo) > 0) {
-			this.fondi -= importo;
+	public void effettuaSpesa(double importo) {
+		if (importo > 0) {
+			if ((this.fondi - importo) > 0) {
+				this.fondi -= importo;
+			} else {
+				throw new FondiInsufficientiException("Impossibile effettuare la transazione, fondi non disponibili\n");
+			}
 		} else {
-			throw new FondiInsufficientiException("Impossibile effettuare la transazione, fondi non disponibili\n");
+			throw new ImportoNegativoException("L'importo inserito non è valido");
 		}
 	}
 
@@ -47,6 +55,10 @@ public abstract class RepartoAmministrativo implements Serializable {
 	 */
 	public double controllaFondi() {
 		return fondi;
+	}
+
+	public String toString() {
+		return getClass().getName() + "[ fondi : " + fondi + "]";
 	}
 
 }

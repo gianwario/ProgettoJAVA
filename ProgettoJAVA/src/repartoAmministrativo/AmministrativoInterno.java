@@ -44,12 +44,8 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 		for (Dipendente p : personale) {
 			if ((p.getNome().equals(d.getNome())) && (p.getCognome().equals(d.getCognome()))) {
 				if (!p.controllaStatoPagamento()) {
-					try {
-						effettuaSpesa(p.pagaDipendente());
-					} catch (FondiInsufficientiException e) {
+					effettuaSpesa(p.pagaDipendente());
 
-						System.out.println(e);
-					}
 				}
 			}
 		}
@@ -74,12 +70,29 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 	}
 
 	public ArrayList<Dipendente> listaDipendenti() {
-		return personale;
+		return (ArrayList<Dipendente>) personale.clone();
+	}
+	
+	public Dipendente getDipendente(int i) {
+		return personale.get(i).clone();
 	}
 
+	public boolean esisteDipendente(Dipendente d) {
+		return personale.contains(d);
+	}
+	
 	public void resettaStatoPagamenti() {
 		for (Dipendente p : personale) {
 			p.resettaStatoPagamento();
 		}
 	}
+
+	public String toString() {
+		String ret = super.toString() + "[ lista dipendenti : \n";
+		for (Dipendente d : personale)
+			ret = ret + "	" + d.toString() + "\n";
+		ret = ret + "]";
+		return ret;
+	}
+
 }

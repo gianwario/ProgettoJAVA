@@ -1,6 +1,6 @@
 package eccezioni;
 
-public class FondiInsufficientiException extends Exception{
+public class FondiInsufficientiException extends RuntimeException{
 	
 	public FondiInsufficientiException() {
 		super();

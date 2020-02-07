@@ -24,20 +24,20 @@ public class TesterTMP {
 		ai.assumiDipendente(i3);
 		ai.assumiDipendente(i4);
 
-		ArrayList<Dipendente> al = ai.listaDipendenti();
-		for (Dipendente d : al) {
-			System.out.println(d);
-			ai.effettuaPagamento(d);
-			System.out.println(ai.controllaFondi());
-		}
+		System.out.println(ai.toString());
 
 		ai.effettuaPagamento();
-		System.out.println(ai.controllaFondi());
+		System.out.println("Fondi dopo il pagamento: "+ai.controllaFondi());
+		
+
+		ai.effettuaPagamento();
+		System.out.println("Fondi dopo il secondo pagamento senza aver resettato lo stato: "+ai.controllaFondi());
 
 		ai.aggiungiFondi(10000 - 8475);
-		ai.controllaFondi();
 		ai.resettaStatoPagamenti();
+		System.out.println("Fondi resettati e stato resettato, nuovo capitale :"+ai.controllaFondi());
 
+		ArrayList<Dipendente> al = ai.listaDipendenti();
 		((Operaio) al.get(1)).setConducente(true);
 		((Quadro) al.get(2)).setDirigente(true);
 		((Dirigente) al.get(3)).nuovoAnnoDiServizio();
