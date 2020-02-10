@@ -12,7 +12,7 @@ import risorse.Magazzino;
 import risorse.Prodotto;
 
 public class AmministrativoEsterno extends RepartoAmministrativo {
-	
+
 	private ArrayList<Commissione> listaCommissioni;
 	private Magazzino magazzino;
 
@@ -22,7 +22,7 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 	 * rifornisce i materiali ai magazzini e ottiene i permessi di costruzione dagli
 	 * enti locali
 	 * 
-	 * @param fondi fondi iniziali
+	 * @param fondi     fondi iniziali
 	 * @param magazzino il magazzino che il reparto gestisce
 	 */
 
@@ -65,26 +65,28 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 			return;
 		else
 			listaCommissioni.add(commissione);
+
 	}
 
 	/**
-	 * Aggiunge ai fondi del reparto tutti gli incassi delle commissioni completate
-	 * e le rimuove dalla lista delle commissioni
+	 * Aggiunge ai fondi del reparto esterno la metà di tutti gli incassi delle
+	 * commissioni completate e le rimuove dalla lista delle commissioni
 	 */
 	public void chiudiCommissioni() {
 
 		for (Commissione c : listaCommissioni) {
 
-			if (c.getCompletamento() == true)
-				aggiungiFondi(c.getPagamento());
-			listaCommissioni.remove(c);
+			if (c.getCompletamento() == true) {
+				aggiungiFondi(c.getPagamento() / 2);
+				listaCommissioni.remove(c);
+			}
 		}
 
 	}
 
 	/**
-	 * Chiude ed effettua l'incasso di una singola commissione
-	 * passata come parametro
+	 * Chiude ed effettua l'incasso della metà dell'importo di una singola
+	 * commissione passata come parametro
 	 * 
 	 * @param commissione commissione da chiudere
 	 */
@@ -92,28 +94,28 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 
 		if (commissione == null)
 			return;
-		
+
 		if (listaCommissioni.contains(commissione)) {
 
 			if (commissione.getCompletamento() == true) {
-				aggiungiFondi(commissione.getPagamento());
+				aggiungiFondi(commissione.getPagamento() / 2);
 				listaCommissioni.remove(commissione);
 			}
 		}
 	}
-	
+
 	public void acquistaProdotto(Prodotto p) {
-		
+
 		effettuaSpesa(p.getPrezzo());
 		magazzino.aggiungiProdotto(p);
-		
+
 	}
-	
+
 	public Prodotto rimuoviDaMagazzino(Prodotto p) {
-		
-		if(p == null)
+
+		if (p == null)
 			return null;
-		
+
 		return magazzino.prelevaProdotto(p);
 	}
 

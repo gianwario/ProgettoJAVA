@@ -3,6 +3,7 @@ package repartoOperativo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import esterni.Commissione;
 import repartoOperativo.Squadra;
 import personale.Dipendente;
 import personale.Quadro;
@@ -10,11 +11,13 @@ import personale.Responsabile;
 
 public class Cantiere implements Cloneable, Serializable {
 
+	private Commissione commissione;
 	private ArrayList<Squadra> squadre;
 	private Responsabile responsabile;
 	private int valore;
 
-	public Cantiere(Responsabile responsabile, int valore) {
+	public Cantiere(Responsabile responsabile, int valore, Commissione commissione) {
+		commissione = commissione;
 		squadre = new ArrayList<Squadra>();
 		this.valore= valore;
 		Dipendente d = (Dipendente) responsabile;
@@ -22,6 +25,10 @@ public class Cantiere implements Cloneable, Serializable {
 			throw new IllegalArgumentException("Il responsabile di un cantiere con valore maggiore di 500k deve essere un dirigente");	
 		this.responsabile = responsabile;
 		
+	}
+	
+	public int getValore() {
+		return this.valore;
 	}
 
 	public void aggiungiSquadra(Squadra squadra) {
@@ -35,6 +42,12 @@ public class Cantiere implements Cloneable, Serializable {
 		for(Squadra s : squadre) {
 			s.liberaSquadra();
 		}
+		commissione.setCompletamento(true);
+		
+	}
+	
+	public Commissione getCommissione() {
+		return commissione;
 	}
 
 	public ArrayList<Squadra> getSquadre() {
