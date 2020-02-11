@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import esterni.Commissione;
 import repartoOperativo.Squadra;
+import risorse.Prodotto;
 import personale.Dipendente;
 import personale.Quadro;
 import personale.Responsabile;
@@ -14,10 +15,12 @@ public class Cantiere implements Cloneable, Serializable {
 	private Commissione commissione;
 	private ArrayList<Squadra> squadre;
 	private Responsabile responsabile;
+	private ArrayList<Prodotto> materiali;
 	private int valore;
 
-	public Cantiere(Responsabile responsabile, int valore, Commissione commissione) {
-		commissione = commissione;
+	public Cantiere(Responsabile responsabile, int valore, Commissione commissione, ArrayList<Prodotto> materiali) {
+		this.commissione = commissione;
+		this.materiali=materiali;
 		squadre = new ArrayList<Squadra>();
 		this.valore= valore;
 		Dipendente d = (Dipendente) responsabile;
@@ -35,16 +38,7 @@ public class Cantiere implements Cloneable, Serializable {
 		squadra.occupaSquadra();
 		squadre.add(squadra);
 	}
-	
-	public void chiudiCantiere() {
-		Dipendente d = (Dipendente) responsabile;
-		d.liberaDipendente();
-		for(Squadra s : squadre) {
-			s.liberaSquadra();
-		}
-		commissione.setCompletamento(true);
-		
-	}
+
 	
 	public Commissione getCommissione() {
 		return commissione;
@@ -62,7 +56,11 @@ public class Cantiere implements Cloneable, Serializable {
 		return (Dipendente) responsabile;
 	}
 
+	public ArrayList<Prodotto> getMateriali(){
+		return this.materiali;
+	}
 	
-	
-	
+	public boolean getStatoCantiere() {
+		return commissione.getCompletamento();
+	}
 }

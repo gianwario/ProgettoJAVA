@@ -8,7 +8,7 @@ import personale.Impiegato;
 import personale.Operaio;
 import personale.Quadro;
 
-public class TesterTMP {
+public class TesterInterno {
 
 	public static void main(String[] args) {
 

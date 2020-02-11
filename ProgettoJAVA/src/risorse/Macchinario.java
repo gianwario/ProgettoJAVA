@@ -16,14 +16,14 @@ public class Macchinario extends Prodotto {
 	 * @param volume  volume del macchinario in m^3
 	 *
 	 * @param patente patente necessaria per poter guidare il macchinario
-	 * @param operaio conducende del macchinario
+	 * 
 	 */
 
-	public Macchinario(String nome, double prezzo, double volume, String patente, Operaio operaio) {
+	public Macchinario(String nome, double prezzo, double volume, String patente) {
 
 		super(nome, prezzo, volume);
 		tipoPatente = patente;
-		conducente = operaio;
+		conducente = null;
 
 	}
 

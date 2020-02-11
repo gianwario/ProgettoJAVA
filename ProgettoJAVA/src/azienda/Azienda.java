@@ -22,7 +22,7 @@ public class Azienda {
 	public Azienda(int capitale) {
 		interno = new AmministrativoInterno(capitale / 2);
 		esterno = new AmministrativoEsterno(capitale / 2, magazzino);
-		operativo = new RepartoOperativo();
+		operativo = new RepartoOperativo(magazzino);
 	}
 	
 	public double getFondiTotali() {
