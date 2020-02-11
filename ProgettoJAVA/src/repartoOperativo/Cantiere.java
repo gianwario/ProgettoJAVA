@@ -48,10 +48,6 @@ public class Cantiere implements Cloneable, Serializable {
 		return squadre;
 	}
 
-	public Squadra getSquadra(int i) {
-		return squadre.get(i);
-	}
-	
 	public Dipendente getResponsabile() {
 		return (Dipendente) responsabile;
 	}

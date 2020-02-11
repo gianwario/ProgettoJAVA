@@ -5,7 +5,7 @@ import personale.Operaio;
 public class Macchinario extends Prodotto {
 
 	private String tipoPatente;
-	private Operaio conducente;
+	private boolean guidato;
 
 	/**
 	 * La classe, specializzazione di prodotto, rappresenta l'astrazione di un
@@ -13,8 +13,7 @@ public class Macchinario extends Prodotto {
 	 * 
 	 * @param nome    nome del macchinario
 	 * @param prezzo  costo del macchinario per la vendita
-	 * @param volume  volume del macchinario in m^3
-	 *
+	 * @param volume  volume del macchinario in m^3	 *
 	 * @param patente patente necessaria per poter guidare il macchinario
 	 * 
 	 */
@@ -34,20 +33,17 @@ public class Macchinario extends Prodotto {
 		this.tipoPatente = tipoPatente;
 	}
 
-	public Operaio getConducente() {
-		return conducente;
+	public boolean isGuidato() {
+		return guidato;
 	}
 
-	public void setConducente(Operaio operaio) {
-		conducente = operaio;
+	public void setGuidato(boolean guidato) {
+		this.guidato = guidato;
 	}
 
 	public Macchinario clone() {
 
-		Macchinario m2 = (Macchinario) super.clone();
-		m2.conducente = conducente.clone();
-		return m2;
-
+		return (Macchinario) super.clone();
 	}
 
 	public boolean equals(Object object) {

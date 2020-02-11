@@ -31,10 +31,6 @@ public class Squadra implements Serializable {
 		return caposquadra;
 	}
 
-	public void setCaposquadra(Quadro caposquadra) {
-		this.caposquadra = caposquadra;
-	}
-
 	public ArrayList<Operaio> getOperai() {
 		return operai;
 	}
