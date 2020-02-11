@@ -1,5 +1,6 @@
 package repartoOperativo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import esterni.Commissione;
@@ -8,7 +9,7 @@ import personale.Responsabile;
 import risorse.Magazzino;
 import risorse.Prodotto;
 
-public class RepartoOperativo {
+public class RepartoOperativo implements Serializable{
 
 	private ArrayList<Cantiere> cantieri;
 	private Magazzino magazzino;
@@ -36,6 +37,10 @@ public class RepartoOperativo {
 		}
 	}
 	
+	public Cantiere getCantiere(int i) {
+		return cantieri.get(i);
+	}
+	
 	public Magazzino getMagazzino() {
 		return this.magazzino;
 	}
@@ -48,4 +53,8 @@ public class RepartoOperativo {
 		return this.cantieri;
 	}
 
+	public String toString() {
+		
+		return getClass().getName()+"[Cantieri : "+cantieri.toString()+", magazzino : "+magazzino.toString()+"]";
+	}
 }

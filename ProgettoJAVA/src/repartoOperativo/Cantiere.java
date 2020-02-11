@@ -28,7 +28,7 @@ public class Cantiere implements Cloneable, Serializable {
 			throw new IllegalArgumentException("Il responsabile di un cantiere con valore maggiore di 500k deve essere un dirigente");	
 		this.responsabile = responsabile;
 		
-	}
+	}	 
 	
 	public int getValore() {
 		return this.valore;

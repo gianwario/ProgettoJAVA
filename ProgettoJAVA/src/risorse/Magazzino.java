@@ -1,9 +1,10 @@
 package risorse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import eccezioni.CapacitaInsufficienteException;
 
-public class Magazzino {
+public class Magazzino implements Serializable{
 
 	private double capacitaMax;
 	private double capacitaOccupata;

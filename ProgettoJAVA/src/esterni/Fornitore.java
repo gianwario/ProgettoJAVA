@@ -1,12 +1,13 @@
 package esterni;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 import risorse.Prodotto;
 
-public class Fornitore {
+public class Fornitore implements Serializable{
 
 	private String nome;
 	private ArrayList<Prodotto> catalogo;
