@@ -15,6 +15,7 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 	
 	private ArrayList<Commissione> listaCommissioni;
 	private Magazzino magazzino;
+	private ArrayList<Fornitore> listaFornitori;
 
 	/**
 	 * La classe che rappresenta la sezione del reparto amministativo che si occupa
@@ -31,9 +32,20 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 		super(fondi);
 		this.magazzino = magazzino;
 		listaCommissioni = new ArrayList<Commissione>();
+		listaFornitori = new ArrayList<Fornitore>();
 
 	}
-
+		
+	public ArrayList<Fornitore> getListaFornitori() {
+		
+		return listaFornitori;
+	}
+	
+	public ArrayList<Commissione> getListaCommissioni() {
+		
+		return listaCommissioni;
+	}
+	
 	/**
 	 * Paga i permessi di costruzione all'ente rendendoli disponibili per quella
 	 * commissione, utilizzando i fondi del reparto
@@ -102,10 +114,30 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 		}
 	}
 	
-	public void acquistaProdotto(Prodotto p) {
+	public void aggiungiFornitore(Fornitore f) {
 		
-		effettuaSpesa(p.getPrezzo());
-		magazzino.aggiungiProdotto(p);
+		if(f == null)
+			return;		
+		listaFornitori.add(f);
+		
+		
+	}
+	
+	public void rimuoviFornitore(Fornitore f) {
+		
+		if(f == null || !listaFornitori.contains(f))			
+			return;
+		
+		else listaFornitori.remove(f);
+	}
+	
+	public void pagaProdotti(ArrayList<Prodotto> list) {
+		
+		double sum = 0;
+		for(Prodotto p : list)
+			sum += p.getPrezzo();
+		
+		effettuaSpesa(sum);
 		
 	}
 	

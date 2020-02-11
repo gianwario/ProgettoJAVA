@@ -44,6 +44,14 @@ public class Fornitore {
 		
 	}
 	
+	public void aggiungiProdotto(Prodotto p) {
+		
+		if(p == null)
+			return;
+		
+		catalogo.add(p);
+	}
+	
 	public boolean equals(Object object) {
 		
 		if(object == null)
