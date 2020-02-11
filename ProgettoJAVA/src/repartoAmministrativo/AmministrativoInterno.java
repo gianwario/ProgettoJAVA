@@ -15,8 +15,8 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 	 * 
 	 * @param i fondi con cui parte il dipartimento interno
 	 */
-	public AmministrativoInterno(int fondiIniziali) {
-		super(fondiIniziali);
+	public AmministrativoInterno(double fondi) {
+		super(fondi);
 		personale = new ArrayList<Dipendente>();
 	}
 
