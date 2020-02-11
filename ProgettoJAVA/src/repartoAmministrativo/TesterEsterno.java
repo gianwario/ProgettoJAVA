@@ -1,7 +1,7 @@
 package repartoAmministrativo;
 
+import esterni.Commissione;
 import esterni.Fornitore;
-import personale.Operaio;
 import risorse.Attrezzo;
 import risorse.Macchinario;
 import risorse.Magazzino;
@@ -10,9 +10,36 @@ public class TesterEsterno {
 	
 	public static void main(String[] args) {
 	
-		Magazzino magazzino = new Magazzino(300.0);
+		Magazzino magazzino = new Magazzino(70.0);
+		AmministrativoEsterno reparto = new AmministrativoEsterno(8000, magazzino);
 		
-		System.out.println("Istanzio 6 attrezzi. \n");
+		System.out.println("Istanzio un magazzino vuoto con capacità max 70 e un reparto. \n "
+				+ reparto);
+		
+		System.out.println("Istanzio 3 commissioni \n");
+		
+		Commissione c1 = new Commissione("Gianni Morandi", 4000, 120);
+		Commissione c2 = new Commissione("Enzo Paolo Turchi", 1200, 50);
+		Commissione c3 = new Commissione("Barbara D'Urso", 7630, 230);
+		
+		System.out.println("Aggiungo le commissioni alla lista: ");
+		
+		reparto.riceviCommissione(c1);
+		reparto.riceviCommissione(c2);
+		reparto.riceviCommissione(c3);
+		
+		System.out.println("Lista commissioni attuale: \n" + reparto.getListaCommissioni());
+		
+		System.out.println("Pago i permessi agli enti locali di tutte le commissioni: ");
+		
+		reparto.pagaPermessi(reparto.getListaCommissioni().get(0));
+		reparto.pagaPermessi(reparto.getListaCommissioni().get(1));
+		reparto.pagaPermessi(reparto.getListaCommissioni().get(2));
+		
+		System.out.println("Lista commissioni attuale: \n" + reparto.getListaCommissioni());
+		
+		
+		System.out.println("\nIstanzio 6 attrezzi. \n");
 		
 		Attrezzo a1 = new Attrezzo("Travi", 120.65, 40.5, "legno");
 		Attrezzo a2 = new Attrezzo("Viti e chiodi", 35, 1.5, "metallo");
@@ -32,7 +59,49 @@ public class TesterEsterno {
 		Fornitore f1 = new Fornitore("SuperFornitore");
 		Fornitore f2 = new Fornitore("BestFornitore");
 		Fornitore f3 = new Fornitore("FornitoreGrandioso");
-	
+		
+		System.out.println("Riempio i cataloghi \n");
+		
+		f1.aggiungiProdotto(a1);
+		f1.aggiungiProdotto(a2);
+		f1.aggiungiProdotto(a5);
+		
+		f2.aggiungiProdotto(a3);
+		f2.aggiungiProdotto(a4);
+		f2.aggiungiProdotto(a6);
+		
+		f3.aggiungiProdotto(m1);
+		f3.aggiungiProdotto(m2);
+		f3.aggiungiProdotto(m3);
+		
+		System.out.println("Aggiungo i fornitori alla lista\n");
+		
+		reparto.aggiungiFornitore(f1);
+		reparto.aggiungiFornitore(f2);
+		reparto.aggiungiFornitore(f3);
+		
+		System.out.println(f1 + "\n" + f2 + "\n" + f3);
+		
+		System.out.println("Acquisto prodotti e fino a superare in volume la capacità disponibile del magazzino: ");
+		
+		reparto.acquistaDaFornitore(f1, a2);		
+		reparto.acquistaDaFornitore(f2, a4);
+		reparto.acquistaDaFornitore(f3, m1);
+		reparto.acquistaDaFornitore(f3, m2);
+		reparto.acquistaDaFornitore(f2, a6);
+		
+		System.out.println("\nReparto attuale: \n" + reparto);
+		
+		System.out.println("Rimuovo due fornitori dalla lista fornitori e due prodotti dal magazzino");
+		
+		reparto.rimuoviDaMagazzino(m2);
+		reparto.rimuoviDaMagazzino(a2);
+		reparto.rimuoviDaMagazzino(a3);
+		
+		reparto.rimuoviFornitore(f2);
+		reparto.rimuoviFornitore(f3);
+		
+		System.out.println("\nReparto attuale: \n" + reparto);		
 	
 	}
 }

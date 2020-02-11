@@ -88,7 +88,7 @@ public class Commissione implements Serializable, Cloneable {
 	public String toString() {
 
 		return getClass().getName() + "[nominativoCliente = " + nominativoCliente + ", pagamento = " + pagamento
-				+ ", prezzoPermessi = " + prezzoPermessi + ", completamento = " + completamento
+				+ ", prezzoPermessi = " + prezzoPermessi + "\n completamento = " + completamento
 				+ ", ottentimentoPermessi = " + ottenimentoPermessi + "]";
 	}
 

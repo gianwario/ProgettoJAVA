@@ -1,6 +1,6 @@
 package eccezioni;
 
-public class CapacitaInsufficienteException extends RuntimeException {
+public class CapacitaInsufficienteException extends Exception {
 	
 	public CapacitaInsufficienteException() {
 		super();

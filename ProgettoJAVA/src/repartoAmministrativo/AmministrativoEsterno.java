@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import eccezioni.CapacitaInsufficienteException;
 import eccezioni.FondiInsufficientiException;
 import esterni.Commissione;
 import esterni.Fornitore;
@@ -142,12 +143,42 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 
 	}
 
+	public void pagaProdotti(Prodotto p) {
+
+		if (p == null)
+			return;
+		effettuaSpesa(p.getPrezzo());
+
+	}
+
+	public void acquistaDaFornitore(Fornitore f, Prodotto p) {
+
+		if (f == null || p == null || !f.getCatalogo().contains(p) || !listaFornitori.contains(f))
+			return;
+
+		pagaProdotti(p);
+		try {
+			magazzino.aggiungiProdotto(p);
+		} catch (CapacitaInsufficienteException e) {
+			
+			JOptionPane.showMessageDialog(null, "Capacità magazzino insufficiente!", "CapacitaInsufficienteException", JOptionPane.ERROR_MESSAGE,
+					null);
+			e.printStackTrace();
+		}
+	}
+
 	public Prodotto rimuoviDaMagazzino(Prodotto p) {
 
 		if (p == null)
 			return null;
 
 		return magazzino.prelevaProdotto(p);
+	}
+
+	public String toString() {
+
+		return super.toString() + " [lista commissioni: \n" + listaCommissioni + "\nMagazzino: \n" + magazzino
+				+ "\nLista fornitori: \n" + listaFornitori + "]";
 	}
 
 }

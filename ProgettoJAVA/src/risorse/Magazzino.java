@@ -41,7 +41,7 @@ public class Magazzino {
 	 * 
 	 * @param p prodotto da aggiungere al magazzino in seguito all'acquisto
 	 */
-	public void aggiungiProdotto(Prodotto p) {
+	public void aggiungiProdotto(Prodotto p) throws CapacitaInsufficienteException {
 		
 		if (p == null)
 			return;
@@ -78,7 +78,7 @@ public class Magazzino {
 
 	public String toString() {
 
-		String s1 = getClass().getName() + "[ capacita massima = " + capacitaMax + ", capacita occupata = "
+		String s1 = getClass().getName() + "[capacita massima = " + capacitaMax + ", capacita occupata = "
 				+ capacitaOccupata + ", lista prodotti: \n";
 		String s2 = "";
 

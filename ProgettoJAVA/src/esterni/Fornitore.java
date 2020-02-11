@@ -49,7 +49,7 @@ public class Fornitore {
 		if(p == null)
 			return;
 		
-		catalogo.add(p);
+		catalogo.add((Prodotto) p);
 	}
 	
 	public boolean equals(Object object) {

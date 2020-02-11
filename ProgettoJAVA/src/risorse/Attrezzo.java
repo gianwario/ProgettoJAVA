@@ -38,17 +38,17 @@ public class Attrezzo extends Prodotto {
 
 	public boolean equals(Object object) {
 
-		if (object == null)
+		if (!super.equals(object))
 			return false;
 
 		Attrezzo a2 = (Attrezzo) object;
 
-		return (this.getClass() == a2.getClass() && super.equals(a2) && this.materiale.equals(a2.materiale));
+		return (this.materiale.equals(a2.materiale));
 	}
 
 	public String toString() {
 
-		return super.toString() + ", del tipo: " + getClass().getName() + "[materiale = " + materiale + "]";
+		return super.toString() + ", materiale = " + materiale + "]";
 	}
 
 }

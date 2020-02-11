@@ -22,8 +22,7 @@ public class Macchinario extends Prodotto {
 	public Macchinario(String nome, double prezzo, double volume, String patente) {
 
 		super(nome, prezzo, volume);
-		tipoPatente = patente;
-		conducente = null;
+		tipoPatente = patente;;
 
 	}
 
@@ -53,19 +52,17 @@ public class Macchinario extends Prodotto {
 
 	public boolean equals(Object object) {
 
-		if (object == null)
+		if (!super.equals(object))
 			return false;
 
 		Macchinario m2 = (Macchinario) object;
 
-		return (this.getClass() == m2.getClass() && super.equals(m2) && this.tipoPatente.equals(m2.tipoPatente)
-				&& this.conducente.equals(m2.conducente));
+		return (this.tipoPatente.equals(m2.tipoPatente));
 	}
 
 	public String toString() {
 
-		return super.toString() + ", del tipo: " + getClass().getName() + "[tipo patente = " + tipoPatente
-				+ ", conducente = " + conducente.toString() + "]";
+		return super.toString() + "tipo patente = " + tipoPatente + "]";
 	}
 
 }

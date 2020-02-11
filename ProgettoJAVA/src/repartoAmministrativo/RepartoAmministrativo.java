@@ -58,7 +58,7 @@ public abstract class RepartoAmministrativo implements Serializable {
 	}
 
 	public String toString() {
-		return getClass().getName() + "[ fondi : " + fondi + "]";
+		return getClass().getName() + "[fondi : " + fondi + "]";
 	}
 
 }
