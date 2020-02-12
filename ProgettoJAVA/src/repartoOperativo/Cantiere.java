@@ -40,7 +40,13 @@ public class Cantiere implements Cloneable, Serializable {
 		if (d instanceof Quadro && valore >= 500000)
 			throw new IllegalArgumentException(
 					"Il responsabile di un cantiere con valore maggiore di 500k deve essere un dirigente");
-		this.responsabile = responsabile;
+		if(d instanceof Quadro) {
+			Quadro q = (Quadro)d;
+			q.setDirigente(true);
+			this.responsabile=q;
+		}
+		else	
+			this.responsabile = responsabile;
 
 	}
 
@@ -71,5 +77,11 @@ public class Cantiere implements Cloneable, Serializable {
 
 	public boolean getStatoCantiere() {
 		return commissione.getCompletamento();
+	}
+	
+	public String toString() {
+		
+		return getClass().getName() + "[Valore = " + valore + ", commissione = " + commissione + ", responsabile = "
+				+ responsabile + "\nSquadre = " + squadre + "\nLista materiali: \n" + materiali + "\n";
 	}
 }

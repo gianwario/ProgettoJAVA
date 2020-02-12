@@ -3,6 +3,7 @@ package interfacciaGrafica;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
@@ -14,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import azienda.Azienda;
 import azienda.LeggiScriviAzienda;
@@ -71,7 +74,7 @@ public class InitGUI extends JFrame {
 			save.setVisible(true);
 			load.setVisible(false);
 			setVisible(false);
-			add(save,BorderLayout.CENTER);		
+			add(save, BorderLayout.CENTER);
 			setVisible(true);
 			carica.setEnabled(true);
 		});
@@ -80,7 +83,7 @@ public class InitGUI extends JFrame {
 
 	private JPanel createPanel() {
 		JPanel p = new JPanel();
-		JTextField t = new JTextField(20); 
+		JTextField t = new JTextField(20);
 		JLabel lb = new JLabel("Inserisci capitale");
 		JTextField name = new JTextField(20);
 		JLabel lb1 = new JLabel("Inserisci nome del file");
@@ -94,67 +97,107 @@ public class InitGUI extends JFrame {
 		cp.add(t);
 		cp.add(lb2);
 		cp.add(vol);
-		
+
 		JButton b = new JButton("Crea");
 		JButton bt = new JButton("Reparto Amministrativo");
 		JButton bt1 = new JButton("Reparto Operativo");
 		JPanel pan = new JPanel();
 		JPanel pan1 = new JPanel();
-		JPanel pan2 = new JPanel();
-		
+
 		pan.add(b);
 		pan1.add(bt);
 		pan.add(bt1);
-		
+
 		bt.setVisible(false);
 		bt1.setVisible(false);
-		
+
 		cp.add(pan);
 		cp.add(pan1);
 		cp.add(pan);
-		b.addActionListener((e) ->{
+		b.addActionListener((e) -> {
 			LeggiScriviAzienda a = new LeggiScriviAzienda();
-			az= new Azienda(Integer.parseInt(t.getText()),Integer.parseInt(vol.getText()));
+			az = new Azienda(Integer.parseInt(t.getText()), Integer.parseInt(vol.getText()));
+
 			a.setAzienda(az);
 			a.scriviAzienda(name.getText());
-			az=a.getAzienda();
+			az = a.getAzienda();
 			System.out.println(az);
 			b.setVisible(false);
 			bt.setVisible(true);
 			bt1.setVisible(true);
 		});
 		p.add(cp);
-		
+
 		return p;
 	}
 
 	private JPanel loadPanel() {
 		JPanel p = new JPanel();
-		JTextField t = new JTextField(20); 
+		JPanel p2 = new JPanel();
+		JTextField t = new JTextField(20);
 		JButton b = new JButton("Carica");
 		JPanel tp = new JPanel();
+		JLabel error = new JLabel("  Errore: file non trovato!");
+		JButton b1 = new JButton("Reparto amministrativo");
+		JButton b2 = new JButton("Reparto operativo");
+		JButton b3 = new JButton("Aggiorna info");
+		JButton b4 = new JButton("Salva ed esci");
+		error.setForeground(Color.red);
+		error.setFont(new Font("", Font.BOLD, 18));
 		tp.add(t);
 		tp.add(b);
+		p2.add(error);
 		p.add(tp, BorderLayout.NORTH);
+		p.add(p2, BorderLayout.SOUTH);
+		p2.setVisible(false);
 
 		b.addActionListener((e) -> {
+
 			LeggiScriviAzienda a = new LeggiScriviAzienda();
-			a.leggiAzienda(t.getText());
-			az = a.getAzienda();
-			JLabel jlt = new JLabel("Fondi totali : " + az.getFondiTotali());
-			JLabel jle = new JLabel("Fondi reparto amministrativo esterno : " + az.getFondiEsterno());
-			JLabel jli = new JLabel("Fondi reparto amministrativo interno : " + az.getFondiInterno());
-			JLabel jlc = new JLabel("Numero cantieri aperti : " + az.getOperativo().getNumeroCantieriAperti());
-			JPanel cp = new JPanel();
-			cp.setLayout(new GridLayout(4, 1));
-			cp.add(jlt);
-			cp.add(jle);
-			cp.add(jli);
-			cp.add(jlc);
-			p.setVisible(false);
-			p.add(cp, BorderLayout.CENTER);
-			p.setVisible(true);
-			b.setEnabled(false);
+			try {
+				a.leggiAzienda(t.getText());
+				az = a.getAzienda();
+
+				JLabel jlt = new JLabel("Fondi totali : " + az.getFondiTotali());
+				JLabel jle = new JLabel("Fondi del reparto amministrativo esterno: $" + az.getFondiEsterno());
+				JLabel jli = new JLabel("Fondi del reparto amministrativo interno: $" + az.getFondiInterno());
+				JLabel jlc = new JLabel("Numero cantieri aperti: " + az.getOperativo().getNumeroCantieriAperti());
+				JPanel cp = new JPanel();
+				JPanel cp2 = new JPanel();
+				JPanel cp3 = new JPanel();
+				JPanel cp4 = new JPanel();
+				p2.setVisible(false);
+
+				cp3.setBorder((new TitledBorder(new EtchedBorder(), "Gestisci")));
+
+				cp.setLayout(new GridLayout(4, 1));
+				cp4.setLayout(new GridLayout(2, 1));
+				cp.add(jlt);
+				cp.add(jle);
+				cp.add(jli);
+				cp.add(jlc);
+				cp3.add(b1);
+				cp3.add(b2);
+				cp4.add(b3);
+				cp4.add(b4);
+				cp2.add(cp3);
+				cp2.add(cp4);
+				p.setVisible(false);
+				p.add(cp, BorderLayout.CENTER);
+				p.add(cp2, BorderLayout.SOUTH);
+				p.setVisible(true);
+				b.setEnabled(false);
+
+			} catch (NullPointerException ex) {
+				t.setText("");
+				p2.setVisible(true);
+			}
+
+			b4.addActionListener((e2) -> {
+
+				// a.scriviAzienda(az); BIG PROB CHIEDI A GIAMMI
+
+			});
 		});
 
 		return p;
