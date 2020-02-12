@@ -2,6 +2,7 @@ package azienda;
 
 import java.util.ArrayList;
 
+import eccezioni.AperturaCantiereInvalidaException;
 import eccezioni.CapacitaInsufficienteException;
 import esterni.Commissione;
 import esterni.Fornitore;
@@ -21,7 +22,7 @@ public class GeneraAzienda {
 
 	public static void main(String[] args) {
 
-		Azienda a = new Azienda(100000);
+		Azienda a = new Azienda(100000,200);
 		AmministrativoEsterno es= a.getEsterno();
 		AmministrativoInterno in = a.getInterno();
 		RepartoOperativo op = a.getOperativo();
@@ -81,13 +82,22 @@ public class GeneraAzienda {
 		es.acquistaDaFornitore(f1, a1);
 		es.acquistaDaFornitore(f3, m1);
 		
+		
+		
 		//SALVATAGGIO OPERATIVI
-		op.apriCantiere(10000, d1, c1);
+		try {
+			c1.setOttenimentoPermessi(true);
+			op.apriCantiere(10000, d1, op.getProdottiDalMagazzino(), c1);
+		} catch (AperturaCantiereInvalidaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ArrayList<Operaio> l = new ArrayList<Operaio>();
 		l.add(o1);
 		op.getCantiere(0).aggiungiSquadra(new Squadra(q1, l));
 		
-		LeggiScriviAzienda lsa = new LeggiScriviAzienda(a);
+		LeggiScriviAzienda lsa = new LeggiScriviAzienda();
+		lsa.setAzienda(a);
 		lsa.scriviAzienda("azienda.dat");
 		
 		

@@ -12,8 +12,7 @@ public class LeggiScriviAzienda {
 
 	Azienda a;
 
-	public LeggiScriviAzienda(Azienda a) {
-		this.a = a;
+	public LeggiScriviAzienda() {
 	}
 
 	public void scriviAzienda(String fileName) {
@@ -46,6 +45,10 @@ public class LeggiScriviAzienda {
 
 	public Azienda getAzienda() {
 		return a;
+	}
+	
+	public void setAzienda(Azienda a) {
+		this.a=a;
 	}
 
 }
