@@ -92,11 +92,7 @@ public class TesterEsterno {
 		
 		System.out.println("\nReparto attuale: \n" + reparto);
 		
-		System.out.println("\nRimuovo due fornitori dalla lista fornitori e due prodotti dal magazzino");
-		
-		reparto.rimuoviDaMagazzino(m2);
-		reparto.rimuoviDaMagazzino(a2);
-		reparto.rimuoviDaMagazzino(a3);
+		System.out.println("\nRimuovo due fornitori dalla lista fornitori: ");
 		
 		reparto.rimuoviFornitore(f2);
 		reparto.rimuoviFornitore(f3);
