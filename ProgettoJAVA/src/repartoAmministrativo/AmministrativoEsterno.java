@@ -167,13 +167,6 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 		}
 	}
 
-	public Prodotto rimuoviDaMagazzino(Prodotto p) {
-
-		if (p == null)
-			return null;
-
-		return magazzino.prelevaProdotto(p);
-	}
 
 	public String toString() {
 

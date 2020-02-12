@@ -38,7 +38,9 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 	}
 
 	/**
-	 * paga lo stipendipo ad un singolo dipendente
+	 * paga lo stipendio ad un singolo dipendente con stato non pagato
+	 * 
+	 * @param d dipendente a cui pagare lo stipendio
 	 */
 	public void effettuaPagamento(Dipendente d) {
 		for (Dipendente p : personale) {
@@ -52,6 +54,8 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 	}
 
 	/**
+	 * Aggiunge un dipendente alla lista del personale
+	 * 
 	 * @param d dipendente da assumere
 	 */
 	public void assumiDipendente(Dipendente d) {
@@ -59,20 +63,17 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 	}
 
 	/**
-	 * d dipendente da licenziare
+	 * Rimuove un dipendente dalla lista del personale d dipendente da licenziare
 	 */
 	public void licenziaDipendente(Dipendente d) {
-		for (Dipendente p : personale) {
-			if ((p.getNome().equals(d.getNome())) && (p.getCognome().equals(d.getCognome()))) {
-				personale.remove(p);
-			}
-		}
+		if(personale.contains(d))
+			personale.remove(d);
 	}
 
 	public ArrayList<Dipendente> listaDipendenti() {
 		return (ArrayList<Dipendente>) personale.clone();
 	}
-	
+
 	public Dipendente getDipendente(int i) {
 		return personale.get(i).clone();
 	}
@@ -80,7 +81,12 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 	public boolean esisteDipendente(Dipendente d) {
 		return personale.contains(d);
 	}
-	
+
+	/**
+	 * Setta a false lo stato di pagamento di tutti i dipendenti presenti nella
+	 * lista del personale
+	 * 
+	 */
 	public void resettaStatoPagamenti() {
 		for (Dipendente p : personale) {
 			p.resettaStatoPagamento();

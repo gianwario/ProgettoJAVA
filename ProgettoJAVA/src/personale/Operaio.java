@@ -50,7 +50,10 @@ public class Operaio extends Dipendente {
 	public boolean isConducente() {
 		return conducente;
 	}
-
+	
+	/** Indica che l'operaio è conducente di un macchinario
+	 * 
+	 */
 	public void setConducente(boolean conducente) {
 		this.conducente = conducente;
 	}

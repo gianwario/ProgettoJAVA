@@ -8,7 +8,13 @@ public abstract class Dipendente implements Serializable, Cloneable {
 	private String cognome;
 	private boolean occupato;
 	private boolean pagato;
-
+	
+	/**
+	 * Classe che rappresenta il concetto di un dipendente che lavora per l'azienda. 
+	 * Riceve uno stipendio in base al ruolo che ricopre
+	 * @param nome
+	 * @param cognome
+	 */
 	public Dipendente(String nome, String cognome) {
 		this.nome = nome;
 		this.cognome = cognome;
@@ -33,11 +39,17 @@ public abstract class Dipendente implements Serializable, Cloneable {
 	public void resettaStatoPagamento() {
 		pagato = false;
 	}
-
+	
+	/**
+	 * Fa risultare il dipendente occupato nei lavori di un cantiere
+	 */
 	public void occupaDipendente() {
 		occupato = true;
 	}
-
+	
+	/**
+	 * Libera un dipendente dai lavori di cantiere per renderlo disponsibile alla riassegnazione
+	 */
 	public void liberaDipendente() {
 		occupato = false;
 	}

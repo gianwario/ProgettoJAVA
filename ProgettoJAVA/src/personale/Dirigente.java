@@ -27,7 +27,10 @@ public class Dirigente extends Dipendente implements Responsabile {
 	public int controllaAnniDiServizio() {
 		return anniDiServizio;
 	}
-
+	
+	/**
+	 * Incrementa gli anni di servizio presso l'azienda
+	 */
 	public void nuovoAnnoDiServizio() {
 		this.anniDiServizio += 1;
 	}
