@@ -53,6 +53,14 @@ public class RepartoOperativo implements Serializable{
 		return this.cantieri;
 	}
 
+	public int getNumeroCantieriAperti() {
+		int num=0;
+		for(Cantiere c : cantieri) {
+			num++;
+		}
+		return num;
+	}
+	
 	public String toString() {
 		
 		return getClass().getName()+"[Cantieri : "+cantieri.toString()+", magazzino : "+magazzino.toString()+"]";

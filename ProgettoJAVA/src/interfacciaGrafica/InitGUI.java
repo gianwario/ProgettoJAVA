@@ -7,8 +7,10 @@ import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import azienda.Azienda;
 import azienda.LeggiScriviAzienda;
@@ -31,6 +33,7 @@ public class InitGUI extends JFrame {
 
 		az = null;
 		// Organizzazione frame e inizializzazione bottoni
+		setResizable(false);
 		// salvaPanel=new JPanel();
 		caricaPanel = new JPanel();
 		nuovoPanel = new JPanel();
@@ -47,6 +50,16 @@ public class InitGUI extends JFrame {
 		topPanel.add(caricaPanel);
 		topPanel.add(nuovoPanel);
 		add(topPanel, BorderLayout.NORTH);
+		carica.addActionListener((e) -> {
+			nuovo.setEnabled(true);
+			setVisible(false);
+			add(loadPanel(), BorderLayout.CENTER);
+			setVisible(true);
+			carica.setEnabled(false);
+		});
+		nuovo.addActionListener((e) -> {nuovo.setEnabled(false); carica.setEnabled(true);});
+		
+
 	}
 
 	private JPanel createPanel() {
@@ -54,12 +67,46 @@ public class InitGUI extends JFrame {
 		return p;
 	}
 
-	private JPanel loadPanel(String fileName) {
+	private JPanel loadPanel() {
 		JPanel p = new JPanel();
+		
+		
 		JTextField t = new JTextField(20);
-		LeggiScriviAzienda a = new LeggiScriviAzienda(az);
-		a.leggiAzienda(fileName);
-		az = a.getAzienda();
+		JButton b = new JButton("Carica");
+		p.add(t, BorderLayout.NORTH);
+		p.add(b, BorderLayout.NORTH);
+		
+		
+		b.addActionListener((e) -> {
+			LeggiScriviAzienda a = new LeggiScriviAzienda(az);
+			a.leggiAzienda(t.getText());
+			az = a.getAzienda();
+			JLabel jlt = new JLabel("Fondi totali : "+az.getFondiTotali());
+			JLabel jle = new JLabel("Fondi reparto amministrativo esterno : "+az.getFondiEsterno());
+			JLabel jli = new JLabel("Fondi reparto amministrativo interno : "+az.getFondiInterno());
+			JLabel jlc = new JLabel("Numero cantieri aperti : "+az.getOperativo().getNumeroCantieriAperti());	
+			JPanel p1 = new JPanel();
+			JPanel p2 = new JPanel();
+			JPanel p3 = new JPanel();
+			JPanel p4 = new JPanel();
+			p1.add(jlt);
+			p2.add(jle);
+			p3.add(jli);
+			p4.add(jlc);
+			p.setVisible(false);
+			p.add(p1);
+			p.add(p2);
+			p.add(p3);
+			p.add(p4);
+			p1.setSize(600,100);
+			p2.setSize(600,100);
+			p3.setSize(600,100);
+			p4.setSize(600,100);
+			p.setVisible(true);
+			b.setEnabled(false);
+		});
+		p.setSize(300, 400);
+		
 		
 		return p;
 	}
