@@ -9,12 +9,12 @@ import java.io.Serializable;
 import repartoAmministrativo.AmministrativoEsterno;
 
 public class Azienda implements Serializable{
-	final static double VOLUME_MAGAZZINO = 200;
+	
 
 	AmministrativoInterno interno;
 	AmministrativoEsterno esterno;
 	RepartoOperativo operativo;
-	Magazzino magazzino = new Magazzino(VOLUME_MAGAZZINO);
+	Magazzino magazzino;
 
 
 	/**
@@ -22,8 +22,9 @@ public class Azienda implements Serializable{
 	 * @param capitale il fondo iniziale dell'azienda che verrà diviso fra i due
 	 *                 reparti(esterno e interno)
 	 */
-	public Azienda(int capitale) {
+	public Azienda(int capitale, int vol) {
 		interno = new AmministrativoInterno(capitale / 2);
+		magazzino = new Magazzino(vol);
 		esterno = new AmministrativoEsterno(capitale / 2, magazzino);
 		operativo = new RepartoOperativo(magazzino);
 	}

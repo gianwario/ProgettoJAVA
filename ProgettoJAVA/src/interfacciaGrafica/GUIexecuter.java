@@ -9,7 +9,7 @@ public class GUIexecuter {
 		InitGUI i = new InitGUI();
 		i.setTitle("Azienda");
 		i.setDefaultCloseOperation(i.EXIT_ON_CLOSE);
-		i.setSize(600,600);
+		i.setSize(600,300);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		i.setLocation(dim.width/2-i.getSize().width/2, dim.height/2-i.getSize().height/2);
 		i.setVisible(true);
