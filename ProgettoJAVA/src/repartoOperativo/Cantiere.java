@@ -18,18 +18,32 @@ public class Cantiere implements Cloneable, Serializable {
 	private ArrayList<Prodotto> materiali;
 	private int valore;
 
+	/**
+	 * La classe che rappresenta il concetto di cantiere, all'interno del quale
+	 * vengono svolti i lavori per completare una commissione di cui si hanno i
+	 * permessi di costruzione. Ha delle squadre di operai che vi lavorano e
+	 * un solo dipendente che ricopre il ruolo di
+	 * responsabile, il quale è scelto tra i quadri se il valore del cantiere è <
+	 * 500000, tra un dirigente altrimenti
+	 * 
+	 * @param responsabile dipendente responsabile del cantiere
+	 * @param valore       fondi del cantiere
+	 * @param commissione  commissione che ha richiesto l'apertura del cantiere
+	 * @param materiali    materiali affidati al cantiere per i lavori
+	 */
 	public Cantiere(Responsabile responsabile, int valore, Commissione commissione, ArrayList<Prodotto> materiali) {
 		this.commissione = commissione;
-		this.materiali=materiali;
+		this.materiali = materiali;
 		squadre = new ArrayList<Squadra>();
-		this.valore= valore;
+		this.valore = valore;
 		Dipendente d = (Dipendente) responsabile;
-		if(d instanceof Quadro && valore>=500000) 
-			throw new IllegalArgumentException("Il responsabile di un cantiere con valore maggiore di 500k deve essere un dirigente");	
+		if (d instanceof Quadro && valore >= 500000)
+			throw new IllegalArgumentException(
+					"Il responsabile di un cantiere con valore maggiore di 500k deve essere un dirigente");
 		this.responsabile = responsabile;
-		
-	}	 
-	
+
+	}
+
 	public int getValore() {
 		return this.valore;
 	}
@@ -39,7 +53,6 @@ public class Cantiere implements Cloneable, Serializable {
 		squadre.add(squadra);
 	}
 
-	
 	public Commissione getCommissione() {
 		return commissione;
 	}
@@ -52,10 +65,10 @@ public class Cantiere implements Cloneable, Serializable {
 		return (Dipendente) responsabile;
 	}
 
-	public ArrayList<Prodotto> getMateriali(){
+	public ArrayList<Prodotto> getMateriali() {
 		return this.materiali;
 	}
-	
+
 	public boolean getStatoCantiere() {
 		return commissione.getCompletamento();
 	}
