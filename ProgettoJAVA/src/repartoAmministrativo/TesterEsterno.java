@@ -28,15 +28,15 @@ public class TesterEsterno {
 		reparto.riceviCommissione(c2);
 		reparto.riceviCommissione(c3);
 		
-		System.out.println("Lista commissioni attuale: \n" + reparto.getListaCommissioni());
+		System.out.println("\nLista commissioni attuale: \n" + reparto.getListaCommissioni());
 		
-		System.out.println("Pago i permessi agli enti locali di tutte le commissioni: ");
+		System.out.println("\nPago i permessi agli enti locali di tutte le commissioni: ");
 		
 		reparto.pagaPermessi(reparto.getListaCommissioni().get(0));
 		reparto.pagaPermessi(reparto.getListaCommissioni().get(1));
 		reparto.pagaPermessi(reparto.getListaCommissioni().get(2));
 		
-		System.out.println("Lista commissioni attuale: \n" + reparto.getListaCommissioni());
+		System.out.println("\nLista commissioni attuale: \n" + reparto.getListaCommissioni());
 		
 		
 		System.out.println("\nIstanzio 6 attrezzi. \n");
@@ -48,19 +48,19 @@ public class TesterEsterno {
 		Attrezzo a5 = new Attrezzo("Telone", 25.80, 50.0, "stoffa");
 		Attrezzo a6 = new Attrezzo("Barile di cemento", 34.5, 10.5, "latta");
 		
-		System.out.println("Istanzio 3 macchinari. \n");		
+		System.out.println("\nIstanzio 3 macchinari. \n");		
 		
 		Macchinario m1 = new Macchinario("Gru", 3500.50, 50.5, "B");
 		Macchinario m2 = new Macchinario("Betoniera", 2300.0, 38.5, "B");
 		Macchinario m3 = new Macchinario("Scavatrice", 1560, 55.5, "C");
 	
-		System.out.println("Istanzio tre fornitori: \n");
+		System.out.println("\nIstanzio tre fornitori: \n");
 	
 		Fornitore f1 = new Fornitore("SuperFornitore");
 		Fornitore f2 = new Fornitore("BestFornitore");
 		Fornitore f3 = new Fornitore("FornitoreGrandioso");
 		
-		System.out.println("Riempio i cataloghi \n");
+		System.out.println("\nRiempio i cataloghi \n");
 		
 		f1.aggiungiProdotto(a1);
 		f1.aggiungiProdotto(a2);
@@ -74,7 +74,7 @@ public class TesterEsterno {
 		f3.aggiungiProdotto(m2);
 		f3.aggiungiProdotto(m3);
 		
-		System.out.println("Aggiungo i fornitori alla lista\n");
+		System.out.println("\nAggiungo i fornitori alla lista\n");
 		
 		reparto.aggiungiFornitore(f1);
 		reparto.aggiungiFornitore(f2);
@@ -82,7 +82,7 @@ public class TesterEsterno {
 		
 		System.out.println(f1 + "\n" + f2 + "\n" + f3);
 		
-		System.out.println("Acquisto prodotti e fino a superare in volume la capacità disponibile del magazzino: ");
+		System.out.println("\nAcquisto prodotti e fino a superare in volume la capacità disponibile del magazzino: ");
 		
 		reparto.acquistaDaFornitore(f1, a2);		
 		reparto.acquistaDaFornitore(f2, a4);
@@ -92,7 +92,7 @@ public class TesterEsterno {
 		
 		System.out.println("\nReparto attuale: \n" + reparto);
 		
-		System.out.println("Rimuovo due fornitori dalla lista fornitori e due prodotti dal magazzino");
+		System.out.println("\nRimuovo due fornitori dalla lista fornitori e due prodotti dal magazzino");
 		
 		reparto.rimuoviDaMagazzino(m2);
 		reparto.rimuoviDaMagazzino(a2);
