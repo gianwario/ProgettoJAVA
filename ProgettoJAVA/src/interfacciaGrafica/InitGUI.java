@@ -32,6 +32,8 @@ public class InitGUI extends JFrame {
 	private JPanel nuovoPanel;
 
 	private JPanel topPanel;
+	
+	private String filename;
 
 	Azienda az;
 
@@ -135,6 +137,7 @@ public class InitGUI extends JFrame {
 		JPanel p = new JPanel();
 		JPanel p2 = new JPanel();
 		JTextField t = new JTextField(20);
+		t.setText("azienda.dat"); //TOGLI
 		JButton b = new JButton("Carica");
 		JPanel tp = new JPanel();
 		JLabel error = new JLabel("  Errore: file non trovato!");
@@ -142,6 +145,15 @@ public class InitGUI extends JFrame {
 		JButton b2 = new JButton("Reparto operativo");
 		JButton b3 = new JButton("Aggiorna info");
 		JButton b4 = new JButton("Salva ed esci");
+		JLabel jlt = new JLabel();
+		JLabel jle = new JLabel();
+		JLabel jli = new JLabel();
+		JLabel jlc = new JLabel();
+
+		JPanel cp = new JPanel();
+		JPanel cp2 = new JPanel();
+		JPanel cp3 = new JPanel();
+		JPanel cp4 = new JPanel();
 		error.setForeground(Color.red);
 		error.setFont(new Font("", Font.BOLD, 18));
 		tp.add(t);
@@ -155,19 +167,17 @@ public class InitGUI extends JFrame {
 
 			LeggiScriviAzienda a = new LeggiScriviAzienda();
 			try {
+				
 				a.leggiAzienda(t.getText());
 				az = a.getAzienda();
-
-				JLabel jlt = new JLabel("Fondi totali : " + az.getFondiTotali());
-				JLabel jle = new JLabel("Fondi del reparto amministrativo esterno: $" + az.getFondiEsterno());
-				JLabel jli = new JLabel("Fondi del reparto amministrativo interno: $" + az.getFondiInterno());
-				JLabel jlc = new JLabel("Numero cantieri aperti: " + az.getOperativo().getNumeroCantieriAperti());
-				JPanel cp = new JPanel();
-				JPanel cp2 = new JPanel();
-				JPanel cp3 = new JPanel();
-				JPanel cp4 = new JPanel();
+				filename = t.getText();
+				
+				jlt.setText("Fondi totali : " + az.getFondiTotali());
+				jle.setText("Fondi del reparto amministrativo esterno: $" + az.getFondiEsterno());
+				jli.setText("Fondi del reparto amministrativo interno: $" + az.getFondiInterno());
+				jlc.setText("Numero cantieri aperti: " + az.getOperativo().getNumeroCantieriAperti());
+				
 				p2.setVisible(false);
-
 				cp3.setBorder((new TitledBorder(new EtchedBorder(), "Gestisci")));
 
 				cp.setLayout(new GridLayout(4, 1));
@@ -192,10 +202,28 @@ public class InitGUI extends JFrame {
 				t.setText("");
 				p2.setVisible(true);
 			}
+			
+			b1.addActionListener((e2) -> {				
+				
+				new AmministrativoGUI(az);				
 
-			b4.addActionListener((e2) -> {
+			});
 
-				// a.scriviAzienda(az); BIG PROB CHIEDI A GIAMMI
+			b4.addActionListener((e2) -> {				
+				
+				a.scriviAzienda(filename);
+				this.setVisible(false);				
+
+			});
+			
+			b3.addActionListener((e3) -> {				
+				
+				cp.setVisible(false);				
+				jlt.setText("Fondi totali : " + az.getFondiTotali());
+				jle.setText("Fondi del reparto amministrativo esterno: $" + az.getFondiEsterno());
+				jli.setText("Fondi del reparto amministrativo interno: $" + az.getFondiInterno());
+				jlc.setText("Numero cantieri aperti: " + az.getOperativo().getNumeroCantieriAperti());
+				cp.setVisible(true);				
 
 			});
 		});
