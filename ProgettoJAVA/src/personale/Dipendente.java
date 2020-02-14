@@ -90,7 +90,7 @@ public abstract class Dipendente implements Serializable, Cloneable {
 	
 	public String stampa() {
 		
-		return cognome + " " + nome + "  STATO PAGAMENTO = " + pagato + "   STATO OCCUPAZIONE =  " + occupato;
+		return cognome + " " + nome + ",  pagato = " + pagato + ", stipendio: $" + pagaDipendente() + ",   occupato =  " + occupato;
 	}
 	
 
