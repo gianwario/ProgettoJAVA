@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import eccezioni.AperturaCantiereInvalidaException;
 import esterni.Commissione;
 import personale.Dipendente;
+import personale.Operaio;
 import personale.Responsabile;
+import risorse.Macchinario;
 import risorse.Magazzino;
 import risorse.Prodotto;
 
@@ -108,6 +110,31 @@ public class RepartoOperativo implements Serializable {
 			num++;
 		}
 		return num;
+	}
+
+	/**
+	 * Setta a true lo stato di conducente di un operaio se non lo è già, se fa
+	 * parte di una squadra di quel cantiere e se ha la patente necessaria 
+	 * per guidarlo
+	 * 
+	 * @param m macchinario da guidare
+	 * @param o operaio da assegnare al macchinario
+	 * @param c cantiere che ha fra i suoi prodotti in uso il macchinario
+	 * @return restituisce true se l'operazione va a buon fine, false altrimenti
+	 */
+	public boolean assegnaConducente(Macchinario m, Operaio o, Cantiere c) {
+
+		if(c == null || m == null | o == null || !c.getMateriali().contains(m) || o.isConducente() == true)
+			return false;
+
+		for (Squadra s : c.getSquadre()) {
+			for (int i = 0; i < s.getOperai().size(); i++) 
+				if (s.getOperai().contains(o) && o.getPatente().equals(m.getTipoPatente())) {
+					o.setConducente(true);
+					return true;
+				}	
+		}		
+		return false;
 	}
 
 	public String toString() {

@@ -274,6 +274,11 @@ public class GeneraAzienda {
 		team5.add(o12);
 		team5.add(o13);
 		
+		op.assegnaConducente(m5, o1, op.getCantiere(0));
+		op.assegnaConducente(m1, o8, op.getCantiere(1));
+		op.assegnaConducente(m2, o7, op.getCantiere(1));
+		op.assegnaConducente(m4, o10, op.getCantiere(2));
+		
 		Squadra s1 = new Squadra(q3, team1);
 		Squadra s2 = new Squadra(q4, team2);
 		Squadra s3 = new Squadra(q5, team3);

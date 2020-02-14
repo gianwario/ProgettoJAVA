@@ -86,6 +86,12 @@ public abstract class Dipendente implements Serializable, Cloneable {
 		} catch (CloneNotSupportedException e) {
 			return null;
 		}
+	}	
+	
+	public String stampa() {
+		
+		return cognome + " " + nome + "  STATO PAGAMENTO = " + pagato + "   STATO OCCUPAZIONE =  " + occupato;
 	}
+	
 
 }

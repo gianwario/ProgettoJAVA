@@ -72,5 +72,11 @@ public class Operaio extends Dipendente {
 	public Operaio clone() {
 		return (Operaio) super.clone();
 	}
+	
+	public String stampa() {
+		
+		return "OPERAIO: " + super.stampa() + ", patente  = " + patente + ", conducente = " + conducente + "\n";
+	}
+
 
 }

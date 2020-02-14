@@ -45,5 +45,11 @@ public class Quadro extends Dipendente implements Responsabile {
 	public Quadro clone() {
 		return (Quadro) super.clone();
 	}
+	
+	public String stampa() {
+		
+		return "QUADRO: " + super.stampa() + ", dirige cantiere  = " + isDirigente + "\n";
+	}
+
 
 }

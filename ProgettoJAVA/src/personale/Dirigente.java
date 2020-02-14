@@ -49,5 +49,10 @@ public class Dirigente extends Dipendente implements Responsabile {
 	public Dirigente clone() {
 		return (Dirigente) super.clone();
 	}
+	
+	public String stampa() {
+		
+		return "DIRIGENTE: " + super.stampa() + ", anni di servizio = " + anniDiServizio + "\n";
+	}
 
 }

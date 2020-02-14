@@ -56,5 +56,11 @@ public class Impiegato extends Dipendente {
 	public Impiegato clone() {
 		return (Impiegato) super.clone();
 	}
+	
+	public String stampa() {
+		
+		return "IMPIEGATO: " + super.stampa() + ", ore settimanali  = " + oreSettimanali + "\n";
+	}
+
 
 }
