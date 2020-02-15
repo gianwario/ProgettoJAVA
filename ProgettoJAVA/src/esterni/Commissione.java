@@ -91,5 +91,10 @@ public class Commissione implements Serializable, Cloneable {
 				+ ", prezzoPermessi = " + prezzoPermessi + "\n completamento = " + completamento
 				+ ", ottentimentoPermessi = " + ottenimentoPermessi + "]";
 	}
+	
+	public String stampa() {
+		return "Cliente : " + nominativoCliente + ", introito netto : "+pagamento+", prezzo permessi : "+ prezzoPermessi +", completamento : " + completamento + 
+		", permessi ottenuti : " + ottenimentoPermessi;
+	}
 
 }
