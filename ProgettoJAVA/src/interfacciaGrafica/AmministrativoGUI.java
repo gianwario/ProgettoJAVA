@@ -162,7 +162,7 @@ public class AmministrativoGUI extends JFrame {
 		rb4 = new JCheckBox("Non occupato");
 		rb12 = new JCheckBox("Conducente");
 		rb13 = new JCheckBox("DirettoreCantiere");
-
+		
 		rb5 = new JRadioButton("Crescente");
 		rb6 = new JRadioButton("Decrescente");
 		rb7 = new JRadioButton("Ordine alfabetico");
@@ -174,6 +174,8 @@ public class AmministrativoGUI extends JFrame {
 		ButtonGroup g0 = new ButtonGroup();
 		ButtonGroup g1 = new ButtonGroup();
 		ButtonGroup g3 = new ButtonGroup();
+		ButtonGroup g4 = new ButtonGroup();
+		ButtonGroup g5 = new ButtonGroup();
 
 		g0.add(cb1);
 		g0.add(cb2);
@@ -188,7 +190,12 @@ public class AmministrativoGUI extends JFrame {
 		g1.add(rb11);
 
 		g3.add(rb5);
-		g3.add(rb6);
+		g3.add(rb6);		
+		
+		g4.add(rb2);
+		g4.add(rb1);
+		g5.add(rb3);
+		g5.add(rb4);
 
 		cb1.setSelected(true);
 		rb5.setSelected(true);
@@ -244,7 +251,7 @@ public class AmministrativoGUI extends JFrame {
 		p.add(b1);
 		p.add(b2);
 
-		/*cb1.addActionListener(new CriteriListener());
+		cb1.addActionListener(new CriteriListener());
 		cb2.addActionListener(new CriteriListener());
 		cb3.addActionListener(new CriteriListener());
 		cb4.addActionListener(new CriteriListener());
@@ -253,12 +260,12 @@ public class AmministrativoGUI extends JFrame {
 
 		b2.addActionListener((e) -> {
 			textArea.setText("");
-		});*/
+		});
 
 		return p;
 	}
 
-	/*private class CriteriListener implements ActionListener {
+	private class CriteriListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 
@@ -347,12 +354,12 @@ public class AmministrativoGUI extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {			
 			
-			Selezionabile s1 = scegliCriterio1();	
-			Selezionabile s2 = scegliCriterio2();
+			Selezionabile s1 = scegliCriterio1();
 			Selezionatore selezione0 = new Selezionatore(azienda.getInterno().listaDipendenti(), s1);
-			Selezionatore selezione = new Selezionatore(selezione0.seleziona(), s2);
+			ArrayList<Dipendente> selezione = filtraSelezione(selezione0.seleziona());
+			
 			Comparabile c = scegliOrdine();
-			Ordinatore risultato = new Ordinatore(selezione.seleziona(), c);
+			Ordinatore risultato = new Ordinatore(selezione, c);
 			
 			if(rb5.isSelected())
 				
@@ -398,13 +405,16 @@ public class AmministrativoGUI extends JFrame {
 		return null;		
 	}
 	
-	private Selezionabile<Dipendente> scegliCriterio2() {
+	private ArrayList<Dipendente> filtraSelezione(ArrayList<Dipendente> list) {
 		
+		ArrayList<Dipendente> res = new ArrayList<Dipendente>();
 		Selezionabile<Dipendente> s;
 		
+		if(true);
 		
 		
-		return s = (d) -> true;
+		return list;
+		
 		
 	}
 	
@@ -439,5 +449,5 @@ public class AmministrativoGUI extends JFrame {
 		
 		return null;
 		
-	}*/
+	}
 }
