@@ -2,6 +2,8 @@ package repartoAmministrativo;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import eccezioni.FondiInsufficientiException;
 import personale.Dipendente;
 
@@ -26,12 +28,13 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 	public void effettuaPagamento() {
 
 		for (Dipendente p : personale) {
-			if (!p.controllaStatoPagamento()) {
+			if (p.controllaStatoPagamento() == false) {
 				try {
 					effettuaSpesa(p.pagaDipendente());
+					p.setDipendentePagato();
 				} catch (FondiInsufficientiException e) {
 
-					System.out.println(e);
+					JOptionPane.showMessageDialog(null, "Fondi insufficienti!", "Errore", JOptionPane.ERROR_MESSAGE, null);
 				}
 			}
 		}

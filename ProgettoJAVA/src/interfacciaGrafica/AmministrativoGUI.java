@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -50,6 +51,10 @@ public class AmministrativoGUI extends JFrame {
 	private JCheckBox rb4;
 	private JCheckBox rb12;
 	private JCheckBox rb13;
+	
+	private JLabel fondi;
+	
+	JComboBox obox;
 
 	private JRadioButton rb5;
 	private JRadioButton rb6;
@@ -82,17 +87,16 @@ public class AmministrativoGUI extends JFrame {
 		JPanel p = new JPanel(); // pannello generico di sx
 		JPanel sp1 = new JPanel(); // pannello del titolo
 		JPanel sp2 = new JPanel(); // pannello dei report
-		JPanel sp3 = new JPanel(); // pannello delle operazioni
-		JLabel title = new JLabel("Gestisci sezione interna");
+		JPanel sp3 = opInterno(); // pannello delle operazioni
+		fondi = new JLabel("Gestisci sezione interna    Fondi: $" + azienda.getFondiInterno());
 
 		p.setBorder(BorderFactory.createLineBorder(Color.black));
 		sp1.setPreferredSize(new Dimension(730, 30));
-		title.setFont(new Font("", Font.BOLD, 15));
-		sp1.add(title, BorderLayout.NORTH);
+		fondi.setFont(new Font("", Font.BOLD, 15));
+		sp1.add(fondi, BorderLayout.NORTH);
 		sp2 = reportInternoPanel();
 
-		sp3.setBackground(new Color(204, 204, 0));
-		sp3.setPreferredSize(new Dimension(760, 300));
+		sp3.setPreferredSize(new Dimension(760, 180));
 		p.add(sp1, BorderLayout.NORTH);
 
 		p.add(sp2);
@@ -104,6 +108,7 @@ public class AmministrativoGUI extends JFrame {
 	private JPanel esterno() {
 
 		JPanel p = new JPanel(); // pannello generico di dx
+		
 		JLabel title = new JLabel("Gestisci sezione esterna");
 
 		p.setLayout(new GridLayout(3, 1));
@@ -124,16 +129,90 @@ public class AmministrativoGUI extends JFrame {
 		JScrollPane bar = new JScrollPane(textArea);
 
 		p.setBorder((new TitledBorder(new EtchedBorder(), "Report")));
-		// p.setBackground(Color.CYAN);
 		p.setPreferredSize(new Dimension(680, 500));
 		tmp.add(bar);
-		// tmp.setBackground(Color.red);
-		sp1.setPreferredSize(new Dimension(500, 450));
+		
+		sp1.setPreferredSize
+		(new Dimension(500, 450));
 		sp1.add(tmp);
 		p.setLayout(new GridLayout(1, 2));
 		p.add(sp1);
 		p.add(criteriPanel());
 
+		return p;
+	}
+	
+	private JPanel opInterno() {
+		
+		JPanel p = new JPanel();
+		JPanel op1 = new JPanel();
+		JPanel op2 = new JPanel();
+		JPanel op3 = new JPanel();
+		JPanel op4 = new JPanel();
+		
+		p.setLayout(new GridLayout(4, 1));
+		p.setBorder((new TitledBorder(new EtchedBorder(), "Operazioni")));
+		
+		JLabel olabel = new JLabel("Dipendente: ");
+		JLabel olabel2 = new JLabel("Scegli un'operazione ");
+		obox = new JComboBox(azienda.getInterno().listaDipendenti().toArray());
+		
+		JButton ob1 = new JButton("Paga tutti");
+		JButton ob2 = new JButton("Resetta stati pagamento");
+		JButton ob3 = new JButton("Assumi dipendente");
+		JButton ob4 = new JButton("Licenzia selezionato");
+		JButton ob5 = new JButton("Paga selezionato");
+		
+		olabel2.setFont(new Font("", Font.BOLD, 12));
+		
+		op1.add(ob1);
+		op1.add(ob2);
+		op1.add(ob3);
+		
+		op2.add(olabel2);
+		
+		op3.add(olabel);
+		op3.add(obox);		
+		op4.add(ob4);
+		op4.add(ob5);
+		
+		p.add(op3);
+		p.add(op4);
+		p.add(op2);
+		p.add(op1);
+		
+		ob1.addActionListener((e) -> {				
+			
+			azienda.getInterno().effettuaPagamento();
+			olabel2.setText("Effettuato pagamento di tutti i dipendenti non pagati");
+			fondi.setText("Gestisci sezione interna    Fondi: $" + azienda.getFondiInterno());
+		});
+		
+		ob2.addActionListener((e) -> {			
+			
+			azienda.getInterno().resettaStatoPagamenti();
+			olabel2.setText("Effettuato reset di tutti gli stati pagamento");
+
+		});
+		ob5.addActionListener((e) -> {			
+			
+			azienda.getInterno().effettuaPagamento((Dipendente)obox.getSelectedItem());
+			olabel2.setText("Effettuato pagamento di " + ((Dipendente)obox.getSelectedItem()).getNome() 
+					+ " " + ((Dipendente)obox.getSelectedItem()).getCognome() + " di $" + 
+					((Dipendente)obox.getSelectedItem()).checkPaga());
+			fondi.setText("Gestisci sezione interna    Fondi: $" + azienda.getFondiInterno());
+		});
+		
+		ob4.addActionListener((e) -> {			
+			
+			azienda.getInterno().licenziaDipendente((Dipendente)obox.getSelectedItem());
+			op3.setVisible(false);
+			olabel2.setText("Effettuato licenziamento di " + ((Dipendente)obox.getSelectedItem()).getNome() 
+					+ " " + ((Dipendente)obox.getSelectedItem()).getCognome());
+			obox.removeItem(obox.getSelectedItem());
+			op3.setVisible(true);
+		});
+		
 		return p;
 	}
 
@@ -173,8 +252,6 @@ public class AmministrativoGUI extends JFrame {
 		ButtonGroup g0 = new ButtonGroup();
 		ButtonGroup g1 = new ButtonGroup();
 		ButtonGroup g3 = new ButtonGroup();
-		ButtonGroup g4 = new ButtonGroup();
-		ButtonGroup g5 = new ButtonGroup();
 
 		g0.add(cb1);
 		g0.add(cb2);
@@ -191,11 +268,6 @@ public class AmministrativoGUI extends JFrame {
 		g3.add(rb5);
 		g3.add(rb6);
 
-		/*
-		 * g4.add(rb2); g4.add(rb1); g5.add(rb3); g5.add(rb4);
-		 */
-
-		rb1.setSelected(true);
 		cb1.setSelected(true);
 		rb5.setSelected(true);
 		rb7.setSelected(true);
@@ -205,7 +277,6 @@ public class AmministrativoGUI extends JFrame {
 		rb13.setEnabled(false);
 
 		p.setPreferredSize(new Dimension(220, 950));
-		// p.setBackground(Color.yellow);
 
 		jp1.setBorder((new TitledBorder(new EtchedBorder(), "Tipo")));
 		jp2.setBorder((new TitledBorder(new EtchedBorder(), "Stato")));
