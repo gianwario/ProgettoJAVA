@@ -22,6 +22,10 @@ public class Quadro extends Dipendente implements Responsabile {
 		setDipendentePagato();
 		return !isDirigente ? STIPENDIO_BASE : STIPENDIO_BASE + BONUS_DIRIGENZA;
 	}
+	
+	public double checkPaga() {
+		return !isDirigente ? STIPENDIO_BASE : STIPENDIO_BASE + BONUS_DIRIGENZA;
+	}
 
 	public boolean isDirigente() {
 		return isDirigente;

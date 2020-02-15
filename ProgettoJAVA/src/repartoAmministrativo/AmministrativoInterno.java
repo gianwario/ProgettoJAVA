@@ -43,14 +43,9 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 	 * @param d dipendente a cui pagare lo stipendio
 	 */
 	public void effettuaPagamento(Dipendente d) {
-		for (Dipendente p : personale) {
-			if ((p.getNome().equals(d.getNome())) && (p.getCognome().equals(d.getCognome()))) {
-				if (!p.controllaStatoPagamento()) {
-					effettuaSpesa(p.pagaDipendente());
+		if(personale.contains(d) && !d.controllaStatoPagamento())
+					effettuaSpesa(d.pagaDipendente());
 
-				}
-			}
-		}
 	}
 
 	/**

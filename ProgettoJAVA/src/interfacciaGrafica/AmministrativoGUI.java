@@ -65,7 +65,7 @@ public class AmministrativoGUI extends JFrame {
 
 		setTitle("Gestisci Reparto Amministrativo");
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize((int)dim.getWidth(),(int)dim.getHeight()-100);
+		setSize((int) dim.getWidth(), (int) dim.getHeight() - 100);
 		setResizable(false);
 		setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
@@ -128,9 +128,9 @@ public class AmministrativoGUI extends JFrame {
 		p.setPreferredSize(new Dimension(680, 500));
 		tmp.add(bar);
 		// tmp.setBackground(Color.red);
-		sp1.setPreferredSize(new Dimension(500,450));
+		sp1.setPreferredSize(new Dimension(500, 450));
 		sp1.add(tmp);
-		p.setLayout(new GridLayout(1, 2 ));
+		p.setLayout(new GridLayout(1, 2));
 		p.add(sp1);
 		p.add(criteriPanel());
 
@@ -161,7 +161,7 @@ public class AmministrativoGUI extends JFrame {
 		rb4 = new JCheckBox("Non occupato");
 		rb12 = new JCheckBox("Conducente");
 		rb13 = new JCheckBox("DirettoreCantiere");
-		
+
 		rb5 = new JRadioButton("Crescente");
 		rb6 = new JRadioButton("Decrescente");
 		rb7 = new JRadioButton("Ordine alfabetico");
@@ -189,13 +189,13 @@ public class AmministrativoGUI extends JFrame {
 		g1.add(rb11);
 
 		g3.add(rb5);
-		g3.add(rb6);		
-		
-		g4.add(rb2);
-		g4.add(rb1);
-		g5.add(rb3);
-		g5.add(rb4);
+		g3.add(rb6);
 
+		/*
+		 * g4.add(rb2); g4.add(rb1); g5.add(rb3); g5.add(rb4);
+		 */
+
+		rb1.setSelected(true);
 		cb1.setSelected(true);
 		rb5.setSelected(true);
 		rb7.setSelected(true);
@@ -285,7 +285,7 @@ public class AmministrativoGUI extends JFrame {
 				jp4.setVisible(true);
 			}
 
-			if (cb3.isSelected() || cb4.isSelected()) { // DIRIGENTE || QUADRO - DIRIGE CANTIERE
+			if (cb3.isSelected() ) { // DIRIGENTE || QUADRO - DIRIGE CANTIERE
 
 				jp4.setVisible(false);
 				rb13.setEnabled(true);
@@ -351,102 +351,202 @@ public class AmministrativoGUI extends JFrame {
 
 	private class ReportGenerator implements ActionListener {
 
-		public void actionPerformed(ActionEvent e) {			
-			
+		public void actionPerformed(ActionEvent e) {
+
 			Selezionabile s1 = scegliCriterio1();
 			Selezionatore selezione0 = new Selezionatore(azienda.getInterno().listaDipendenti(), s1);
 			ArrayList<Dipendente> selezione = filtraSelezione(selezione0.seleziona());
-			
+
 			Comparabile c = scegliOrdine();
 			Ordinatore risultato = new Ordinatore(selezione, c);
-			
-			if(rb5.isSelected())
-				
-				for(int i = 0; i < risultato.ordina().size(); i++)					
-					textArea.append(((Dipendente)risultato.ordina().get(i)).stampa());			
-			
-			if(rb6.isSelected())
-				for(int i = risultato.ordina().size()-1; i >= 0; i--)					
-				textArea.append(((Dipendente)risultato.ordina().get(i)).stampa());				
-			
+
+			if (rb5.isSelected())
+
+				for (int i = 0; i < risultato.ordina().size(); i++)
+					textArea.append(((Dipendente) risultato.ordina().get(i)).stampa());
+
+			if (rb6.isSelected())
+				for (int i = risultato.ordina().size() - 1; i >= 0; i--)
+					textArea.append(((Dipendente) risultato.ordina().get(i)).stampa());
+
 		}
 	}
-	
+
 	private Selezionabile<Dipendente> scegliCriterio1() {
-		
+
 		Selezionabile<Dipendente> s;
-		
-		if(cb1.isSelected()) {
+
+		if (cb1.isSelected()) {
 			s = (d) -> d.getClass().getSimpleName().equals("Impiegato");
 			return s;
 		}
-		
-		if(cb2.isSelected()) {
+
+		if (cb2.isSelected()) {
 			s = (d) -> d.getClass().getSimpleName().equals("Operaio");
 			return s;
 		}
-		
-		if(cb3.isSelected()) {
+
+		if (cb3.isSelected()) {
 			s = (d) -> d.getClass().getSimpleName().equals("Quadro");
 			return s;
 		}
-		
-		if(cb4.isSelected()) {
+
+		if (cb4.isSelected()) {
 			s = (d) -> d.getClass().getSimpleName().equals("Dirigente");
 			return s;
 		}
-		
-		if(cb5.isSelected()) {
+
+		if (cb5.isSelected()) {
 			s = (d) -> true;
 			return s;
 		}
-		
-		return null;		
+
+		return null;
 	}
-	
+
 	private ArrayList<Dipendente> filtraSelezione(ArrayList<Dipendente> list) {
-		
+
 		ArrayList<Dipendente> res = new ArrayList<Dipendente>();
+		ArrayList<Dipendente> res1 = new ArrayList<Dipendente>();
+		ArrayList<Dipendente> res2 = new ArrayList<Dipendente>();
+
 		Selezionabile<Dipendente> s;
+
+		if (rb1.isSelected() && !rb2.isSelected()) { // PAGATO
+
+			s = (d) -> d.controllaStatoPagamento();
+
+			for (Dipendente h : list) {
+
+				if (s.seleziona(h) && !res.contains(h)) {
+					res.add(h);
+				}
+			}
+		}
+
+		if (rb2.isSelected() && !rb1.isSelected()) { // NON PAGATO
+
+			s = (d) -> !d.controllaStatoPagamento();
+
+			for (Dipendente h : list) {
+
+				if (s.seleziona(h) && !res.contains(h)) {
+					res.add(h);
+				}
+			}
+		}
+
+		if ((rb2.isSelected() && rb1.isSelected()) || (!rb2.isSelected() && !rb1.isSelected())) { // PAGATO E NON
+
+			s = (d) -> true;
+
+			for (Dipendente h : list) {
+
+				if (s.seleziona(h) && !res.contains(h)) {
+					res.add(h);
+				}
+			}
+		}
+
+		if (rb3.isSelected() && !rb4.isSelected()) { // OCCUPATO
+
+			s = (d) -> d.controllaStatoDipendente();
+
+			for (Dipendente h : list) {
+
+				if (s.seleziona(h) && !res1.contains(h)) {
+					res1.add(h);
+				}
+			}
+		}
+
+		if (rb4.isSelected() && !rb3.isSelected()) { // NON OCCUPATO
+
+			s = (d) -> !d.controllaStatoDipendente();
+
+			for (Dipendente h : list) {
+
+				if (s.seleziona(h) && !res1.contains(h)) {
+					res1.add(h);
+				}
+			}
+		}
+
+		if ((rb3.isSelected() && rb4.isSelected()) || (!rb3.isSelected() && !rb4.isSelected())) { // OCCUPATO E NON
+
+			s = (d) -> true;
+
+			for (Dipendente h : list) {
+
+				if (s.seleziona(h) && !res1.contains(h)) {
+					res1.add(h);
+				}
+			}
+		}
+
+		if (rb12.isSelected()) {
+
+			s = (o) -> ((Operaio) o).isConducente();
+
+			for (Dipendente h : list) {
+
+				if (s.seleziona(h) && !res2.contains(h)) {
+					res2.add(h);
+				}
+
+			}
+			res1.retainAll(res2);
+		}
 		
-		if(true);
+		if (rb13.isSelected()) {
+
+			s = (o) -> ((Quadro) o).isDirigente();
+
+			for (Dipendente h : list) {
+
+				if (s.seleziona(h) && !res2.contains(h)) {
+					res2.add(h);
+				}
+
+			}
+			res1.retainAll(res2);
+		}
 		
-		
-		return list;
-		
-		
+		res.retainAll(res1);
+		return res;
+
 	}
-	
+
 	private Comparabile<Dipendente> scegliOrdine() {
-		
+
 		Comparabile<Dipendente> c;
-		
-		if(rb7.isSelected()) {
+
+		if (rb7.isSelected()) {
 			c = (d1, d2) -> d1.getCognome().compareTo(d2.getCognome());
 			return c;
 		}
-		
-		if(rb8.isSelected()) {
-			c = (d1, d2) -> d1.pagaDipendente() - d2.pagaDipendente();
+
+		if (rb8.isSelected()) {
+			c = (d1, d2) -> d1.checkPaga() - d2.checkPaga();
 			return c;
 		}
-		
-		if(rb9.isSelected()) {			
-			c = (d1, d2) -> ((Dirigente)d1).controllaAnniDiServizio() - ((Dirigente)d2).controllaAnniDiServizio();
+
+		if (rb9.isSelected()) {
+			c = (d1, d2) -> ((Dirigente) d1).controllaAnniDiServizio() - ((Dirigente) d2).controllaAnniDiServizio();
 			return c;
 		}
-		
-		if(rb10.isSelected()) {			
-			c = (d1, d2) -> ((Impiegato)d1).getOreSettimanali() - ((Impiegato)d2).getOreSettimanali();
+
+		if (rb10.isSelected()) {
+			c = (d1, d2) -> ((Impiegato) d1).getOreSettimanali() - ((Impiegato) d2).getOreSettimanali();
 			return c;
 		}
-		
-		if(rb11.isSelected()) {			
-			c = (d1, d2) -> ((Operaio)d1).getPatente().compareTo(((Operaio)d2).getPatente());
+
+		if (rb11.isSelected()) {
+			c = (d1, d2) -> ((Operaio) d1).getPatente().compareTo(((Operaio) d2).getPatente());
 			return c;
 		}
-		
+
 		return null;
-		
+
 	}
 }

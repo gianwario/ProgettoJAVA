@@ -26,17 +26,30 @@ public class Operaio extends Dipendente {
 	 * @return l'importo da pagare al dipendente
 	 */
 	public double pagaDipendente() {
-		double stipendio = STIPENDIO_BASE;
+		
 		setDipendentePagato();
 		if (conducente) {
 			if (patente == "B")
-				stipendio = stipendio + ((stipendio * PERCENTUALE_PATENTE_B) / 100);
-			else if (patente == "C")
-				stipendio = stipendio + ((stipendio * PERCENTUALE_PATENTE_C) / 100);
-			else if (patente == "D")
-				stipendio = stipendio + ((stipendio * PERCENTUALE_PATENTE_D) / 100);
+				return STIPENDIO_BASE + ((STIPENDIO_BASE * PERCENTUALE_PATENTE_B) / 100);
+			if (patente == "C")
+				return STIPENDIO_BASE + ((STIPENDIO_BASE * PERCENTUALE_PATENTE_C) / 100);
+			if (patente == "D")
+				return STIPENDIO_BASE + ((STIPENDIO_BASE * PERCENTUALE_PATENTE_D) / 100);
 		}
-		return stipendio;
+		return STIPENDIO_BASE;
+	}
+	
+	public double checkPaga() {
+		
+		if (conducente) {
+			if (patente == "B")
+				return STIPENDIO_BASE + ((STIPENDIO_BASE * PERCENTUALE_PATENTE_B) / 100);
+			if (patente == "C")
+				return STIPENDIO_BASE + ((STIPENDIO_BASE * PERCENTUALE_PATENTE_C) / 100);
+			if (patente == "D")
+				return STIPENDIO_BASE + ((STIPENDIO_BASE * PERCENTUALE_PATENTE_D) / 100);
+		}
+		return STIPENDIO_BASE;
 	}
 
 	public String getPatente() {

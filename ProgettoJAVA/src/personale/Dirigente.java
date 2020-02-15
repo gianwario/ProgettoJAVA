@@ -23,6 +23,11 @@ public class Dirigente extends Dipendente implements Responsabile {
 		setDipendentePagato();
 		return STIPENDIO_BASE + ((STIPENDIO_BASE * anniDiServizio) / 100);
 	}
+	
+	public double checkPaga() {
+		
+		return STIPENDIO_BASE + ((STIPENDIO_BASE * anniDiServizio) / 100);
+	}
 
 	public int controllaAnniDiServizio() {
 		return anniDiServizio;

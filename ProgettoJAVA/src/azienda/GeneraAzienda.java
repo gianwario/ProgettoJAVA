@@ -29,6 +29,8 @@ public class GeneraAzienda {
 		RepartoOperativo op = a.getOperativo();
 		// Magazzino m =a.getMagazzino();
 
+		System.out.println("SOLDOS : " + es.controllaFondi() + "   " + in.controllaFondi() + "\n");
+
 		// SALVATAGGIO REPARTO INTERNO
 		Impiegato i1 = new Impiegato("Gianmario", "Voria", 28);
 		Impiegato i2 = new Impiegato("Viviana", "Pentangelo", 34);
@@ -50,7 +52,7 @@ public class GeneraAzienda {
 		Operaio o9 = new Operaio("Milly", "Carducci", "D");
 		Operaio o10 = new Operaio("Emma", "Marrone", "B");
 		Operaio o11 = new Operaio("Cristiano", "Malgioglio", "C");
-		Operaio o12 = new Operaio("Ezio", "Greggio", "D");		
+		Operaio o12 = new Operaio("Ezio", "Greggio", "D");
 		Operaio o13 = new Operaio("Silvia", "Toffanin", "B");
 		Operaio o14 = new Operaio("Simona", "Ventura", "C");
 		Operaio o15 = new Operaio("Claudio", "Bisio", "D");
@@ -240,62 +242,65 @@ public class GeneraAzienda {
 			list3.add(m3);
 			list3.add(m4);
 		}
-		
+
 		try {
 			op.apriCantiere(30000, q1, list1, c1);
 			op.apriCantiere(560000, d1, list2, c2);
 			op.apriCantiere(100000, q2, list3, c3);
-		} 
-		catch (AperturaCantiereInvalidaException e) {			
+		} catch (AperturaCantiereInvalidaException e) {
 			e.printStackTrace();
 		}
-		
+
 		ArrayList<Operaio> team1 = new ArrayList<Operaio>();
 		ArrayList<Operaio> team2 = new ArrayList<Operaio>();
 		ArrayList<Operaio> team3 = new ArrayList<Operaio>();
 		ArrayList<Operaio> team4 = new ArrayList<Operaio>();
 		ArrayList<Operaio> team5 = new ArrayList<Operaio>();
-		
+
 		team1.add(o1);
 		team1.add(o2);
-		team1.add(o3);		
-		
+		team1.add(o3);
+
 		team2.add(o4);
 		team2.add(o5);
-		
+
 		team3.add(o6);
 		team3.add(o7);
 		team3.add(o8);
-		
+
 		team4.add(o9);
 		team4.add(o10);
 		team4.add(o11);
-		
+
 		team5.add(o12);
 		team5.add(o13);
-		
-		op.assegnaConducente(m5, o1, op.getCantiere(0));
-		op.assegnaConducente(m1, o8, op.getCantiere(1));
-		op.assegnaConducente(m2, o7, op.getCantiere(1));
-		op.assegnaConducente(m4, o10, op.getCantiere(2));
-		
+
 		Squadra s1 = new Squadra(q3, team1);
 		Squadra s2 = new Squadra(q4, team2);
 		Squadra s3 = new Squadra(q5, team3);
 		Squadra s4 = new Squadra(q6, team4);
 		Squadra s5 = new Squadra(q7, team5);
-		
+
 		op.getCantiere(0).aggiungiSquadra(s1);
 		op.getCantiere(0).aggiungiSquadra(s2);
 		op.getCantiere(1).aggiungiSquadra(s3);
 		op.getCantiere(2).aggiungiSquadra(s4);
 		op.getCantiere(2).aggiungiSquadra(s5);
 
+		op.getCantiere(0).assegnaConducente(m5, o1);
+		op.getCantiere(1).assegnaConducente(m1, o8);
+		op.getCantiere(1).assegnaConducente(m2, o7);
+		op.getCantiere(2).assegnaConducente(m4, o10);
+
+		System.out.println(o1.checkPaga() +" "+ o7.checkPaga()+" "+ o8.checkPaga()+" "+ o10.checkPaga());
+
 		LeggiScriviAzienda lsa = new LeggiScriviAzienda();
 		lsa.setAzienda(a);
 		lsa.scriviAzienda("azienda.dat");
-		
+
 		System.out.println(lsa.getAzienda());
+
+		System.out.println("SOLDOS : " + es.controllaFondi() + "   " + in.controllaFondi() + "\n");
 	}
 
 }

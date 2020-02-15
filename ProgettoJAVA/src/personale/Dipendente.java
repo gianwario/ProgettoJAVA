@@ -27,6 +27,8 @@ public abstract class Dipendente implements Serializable, Cloneable {
 	 * specializzazioni di dipendente.
 	 */
 	public abstract double pagaDipendente();
+	
+	public abstract double checkPaga();
 
 	public void setDipendentePagato() {
 		pagato = true;
@@ -90,7 +92,7 @@ public abstract class Dipendente implements Serializable, Cloneable {
 	
 	public String stampa() {
 		
-		return cognome + " " + nome + ",  pagato = " + pagato + ", stipendio: $" + pagaDipendente() + ",   occupato =  " + occupato;
+		return cognome + " " + nome + ",  pagato = " + pagato + ", stipendio: $" + checkPaga() + ",   occupato =  " + occupato;
 	}
 	
 

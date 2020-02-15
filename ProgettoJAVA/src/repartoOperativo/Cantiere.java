@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 import esterni.Commissione;
 import repartoOperativo.Squadra;
+import risorse.Macchinario;
 import risorse.Prodotto;
 import personale.Dipendente;
+import personale.Operaio;
 import personale.Quadro;
 import personale.Responsabile;
 
@@ -47,6 +49,7 @@ public class Cantiere implements Cloneable, Serializable {
 		}
 		else	
 			this.responsabile = responsabile;
+		d.occupaDipendente();
 
 	}
 
@@ -57,6 +60,29 @@ public class Cantiere implements Cloneable, Serializable {
 	public void aggiungiSquadra(Squadra squadra) {
 		squadra.occupaSquadra();
 		squadre.add(squadra);
+	}
+	
+	/**
+	 * Setta a true lo stato di conducente di un operaio se non lo è già, se fa
+	 * parte di una squadra di quel cantiere e se ha la patente necessaria 
+	 * per guidarlo
+	 * 
+	 * @param m macchinario da guidare
+	 * @param o operaio da assegnare al macchinario	 * 
+	 * @return restituisce true se l'operazione va a buon fine, false altrimenti
+	 */
+	public boolean assegnaConducente(Macchinario m, Operaio o) {
+
+		if(m == null | o == null || o.isConducente() == true)
+			return false;
+
+		for (Squadra s : squadre) {
+			if(s.getOperai().contains(o) && o.getPatente().equals(m.getTipoPatente())) {					
+				o.setConducente(true);
+				return true;
+			}	
+		}		
+		return false;
 	}
 
 	public Commissione getCommissione() {

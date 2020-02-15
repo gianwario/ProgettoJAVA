@@ -44,8 +44,10 @@ public class RepartoOperativo implements Serializable {
 	public void apriCantiere(int valore, Responsabile responsabile, ArrayList<Prodotto> materiale,
 			Commissione commissione) throws AperturaCantiereInvalidaException {
 
-		if (commissione.getOttenimentoPermessi())
+		if (commissione.getOttenimentoPermessi()) {
 			cantieri.add(new Cantiere(responsabile, valore, commissione, scaricaDaMagazzino(materiale)));
+			
+		}
 
 		else
 			throw new AperturaCantiereInvalidaException("Permessi non validi per aprire il cantiere!");
@@ -112,30 +114,6 @@ public class RepartoOperativo implements Serializable {
 		return num;
 	}
 
-	/**
-	 * Setta a true lo stato di conducente di un operaio se non lo è già, se fa
-	 * parte di una squadra di quel cantiere e se ha la patente necessaria 
-	 * per guidarlo
-	 * 
-	 * @param m macchinario da guidare
-	 * @param o operaio da assegnare al macchinario
-	 * @param c cantiere che ha fra i suoi prodotti in uso il macchinario
-	 * @return restituisce true se l'operazione va a buon fine, false altrimenti
-	 */
-	public boolean assegnaConducente(Macchinario m, Operaio o, Cantiere c) {
-
-		if(c == null || m == null | o == null || !c.getMateriali().contains(m) || o.isConducente() == true)
-			return false;
-
-		for (Squadra s : c.getSquadre()) {
-			for (int i = 0; i < s.getOperai().size(); i++) 
-				if (s.getOperai().contains(o) && o.getPatente().equals(m.getTipoPatente())) {
-					o.setConducente(true);
-					return true;
-				}	
-		}		
-		return false;
-	}
 
 	public String toString() {
 

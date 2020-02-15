@@ -12,6 +12,7 @@ public class Impiegato extends Dipendente {
 	public Impiegato(String nome, String cognome, int ore) {
 		super(nome, cognome);
 		oreSettimanali = ore;
+		this.occupaDipendente();
 	}
 
 	/**
@@ -26,6 +27,17 @@ public class Impiegato extends Dipendente {
 	public double pagaDipendente() {
 		double stipendio;
 		setDipendentePagato();
+		if (oreSettimanali <= 30)
+			stipendio = oreSettimanali * ORARIO_BASE;
+		else
+			stipendio = (30 * ORARIO_BASE) + ((oreSettimanali - 30) * ORARIO_BONUS);
+
+		return stipendio;
+	}
+	
+	public double checkPaga() {
+		double stipendio;
+		
 		if (oreSettimanali <= 30)
 			stipendio = oreSettimanali * ORARIO_BASE;
 		else
