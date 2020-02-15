@@ -40,8 +40,8 @@ public class UtilsTester {
 
 		System.out.println("\nSeleziono tutte le commissioni con prezzo del pagamento" + "compreso fra 1000 e 4000");
 
-		selezione = (s2) -> s2.getPagamento() >= 1000 && s2.getPagamento() <= 4000;
-		s = new Selezionatore(reparto.getListaCommissioni(), selezione);
+		
+		s = new Selezionatore(reparto.getListaCommissioni(), (Selezionabile<Commissione>)(s2) -> s2.getPagamento() >= 1000 && s2.getPagamento() <= 4000);
 
 		System.out.println("\nRISULTATO SELEZIONE: \n" + s.seleziona());
 

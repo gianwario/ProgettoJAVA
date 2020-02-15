@@ -64,9 +64,9 @@ public class AmministrativoGUI extends JFrame {
 		this.azienda = azienda;
 
 		setTitle("Gestisci Reparto Amministrativo");
-		setSize(1520, 790);
-		setResizable(false);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize((int)dim.getWidth(),(int)dim.getHeight()-100);
+		setResizable(false);
 		setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
 		setLayout(new GridLayout(1, 2));
@@ -95,7 +95,7 @@ public class AmministrativoGUI extends JFrame {
 		sp3.setPreferredSize(new Dimension(760, 300));
 		p.add(sp1, BorderLayout.NORTH);
 
-		p.add(sp2, BorderLayout.CENTER);
+		p.add(sp2);
 		p.add(sp3, BorderLayout.SOUTH);
 
 		return p;
@@ -120,20 +120,19 @@ public class AmministrativoGUI extends JFrame {
 		JPanel sp1 = new JPanel(); // pannello text area
 		JPanel tmp = new JPanel();
 
-		textArea = new JTextArea(30, 50);
+		textArea = new JTextArea(25, 30);
 		JScrollPane bar = new JScrollPane(textArea);
 
-		sp1.setLayout(new GridLayout(2, 1));
 		p.setBorder((new TitledBorder(new EtchedBorder(), "Report")));
 		// p.setBackground(Color.CYAN);
-		p.setPreferredSize(new Dimension(770, 530));
+		p.setPreferredSize(new Dimension(680, 500));
 		tmp.add(bar);
 		// tmp.setBackground(Color.red);
-
-		sp1.add(tmp, BorderLayout.WEST);
-
-		p.add(sp1, BorderLayout.WEST);
-		p.add(criteriPanel(), BorderLayout.CENTER);
+		sp1.setPreferredSize(new Dimension(500,450));
+		sp1.add(tmp);
+		p.setLayout(new GridLayout(1, 2 ));
+		p.add(sp1);
+		p.add(criteriPanel());
 
 		return p;
 	}
@@ -244,7 +243,7 @@ public class AmministrativoGUI extends JFrame {
 		p.add(b1);
 		p.add(b2);
 
-		/*cb1.addActionListener(new CriteriListener());
+		cb1.addActionListener(new CriteriListener());
 		cb2.addActionListener(new CriteriListener());
 		cb3.addActionListener(new CriteriListener());
 		cb4.addActionListener(new CriteriListener());
@@ -253,12 +252,12 @@ public class AmministrativoGUI extends JFrame {
 
 		b2.addActionListener((e) -> {
 			textArea.setText("");
-		});*/
+		});
 
 		return p;
 	}
 
-	/*private class CriteriListener implements ActionListener {
+	private class CriteriListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 
@@ -439,5 +438,5 @@ public class AmministrativoGUI extends JFrame {
 		
 		return null;
 		
-	}*/
+	}
 }

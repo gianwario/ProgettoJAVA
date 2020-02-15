@@ -203,13 +203,19 @@ public class InitGUI extends JFrame {
 				p2.setVisible(true);
 			}
 			
-			b1.addActionListener((e2) -> {				
+			b1.addActionListener((e1) -> {				
 				
 				new AmministrativoGUI(az);				
 
 			});
 
-			b4.addActionListener((e2) -> {				
+			b2.addActionListener((e2) -> {				
+				
+				new OperativoGUI(az);				
+
+			});
+			
+			b4.addActionListener((e4) -> {				
 				
 				a.scriviAzienda(filename);
 				this.setVisible(false);				
