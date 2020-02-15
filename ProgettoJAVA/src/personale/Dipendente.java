@@ -69,7 +69,7 @@ public abstract class Dipendente implements Serializable, Cloneable {
 	}
 
 	public String toString() {
-		return getClass().getName() + "[Nome : " + nome + ", cognome : " + cognome + ", pagato : " + pagato
+		return getClass().getSimpleName() + "[Nome : " + nome + ", cognome : " + cognome + ", pagato : " + pagato
 				+ ", occupato : " + occupato + "]";
 	}
 

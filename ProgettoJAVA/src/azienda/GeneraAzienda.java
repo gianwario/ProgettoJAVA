@@ -72,6 +72,21 @@ public class GeneraAzienda {
 		Dirigente d1 = new Dirigente("Gigi", "D'Alessio");
 		Dirigente d2 = new Dirigente("Antonino", "Cannavacciuolo");
 		Dirigente d3 = new Dirigente("Pamela", "Prati");
+		
+		d1.nuovoAnnoDiServizio();
+		d1.nuovoAnnoDiServizio();
+		d1.nuovoAnnoDiServizio();
+		d1.nuovoAnnoDiServizio();
+		d1.nuovoAnnoDiServizio();
+		d1.nuovoAnnoDiServizio();
+		d1.nuovoAnnoDiServizio();
+		d1.nuovoAnnoDiServizio();
+		d2.nuovoAnnoDiServizio();
+		d2.nuovoAnnoDiServizio();
+		d2.nuovoAnnoDiServizio();
+		d2.nuovoAnnoDiServizio();
+		d3.nuovoAnnoDiServizio();
+		d3.nuovoAnnoDiServizio();	
 
 		in.assumiDipendente(i1);
 		in.assumiDipendente(i2);
