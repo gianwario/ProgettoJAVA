@@ -75,7 +75,7 @@ public abstract class Prodotto implements Serializable, Cloneable {
 
 	public String toString() {
 
-		return getClass().getName() + "[nome = " + nome + ", prezzo = $" + prezzo + ", volume = " + volume + "]";
+		return getClass().getSimpleName() + "[nome = " + nome + ", prezzo = $" + prezzo + ", volume = " + volume + "]";
 	}
 
 }
