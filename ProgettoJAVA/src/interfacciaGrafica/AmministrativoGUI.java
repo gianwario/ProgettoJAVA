@@ -79,7 +79,7 @@ public class AmministrativoGUI extends JFrame {
 
 		setTitle("Gestisci Reparto Amministrativo");
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize((int) dim.getWidth(), (int) dim.getHeight() );
+		setSize((int) dim.getWidth(), (int) dim.getHeight() - 100);
 		setResizable(false);
 		setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
@@ -105,7 +105,7 @@ public class AmministrativoGUI extends JFrame {
 		sp1.add(fondi, BorderLayout.NORTH);
 		sp2 = reportInternoPanel();
 
-		sp3.setPreferredSize(new Dimension(670, 210));
+		sp3.setPreferredSize(new Dimension(760, 180));
 		p.add(sp1, BorderLayout.NORTH);
 
 		p.add(sp2);
