@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
@@ -39,11 +40,17 @@ public class AmministrativoGUI extends JFrame {
 	private JPanel jp4;
 
 	private JTextArea textArea;
+	private JTextArea textArea2;
 	private JRadioButton cb1;
 	private JRadioButton cb2;
 	private JRadioButton cb3;
 	private JRadioButton cb4;
 	private JRadioButton cb5;
+	private JRadioButton scb1;
+	private JRadioButton scb2;
+	private JRadioButton scb3;
+	private JRadioButton scb4;
+	private JRadioButton scb5;
 
 	private JCheckBox rb1;
 	private JCheckBox rb2;
@@ -51,9 +58,11 @@ public class AmministrativoGUI extends JFrame {
 	private JCheckBox rb4;
 	private JCheckBox rb12;
 	private JCheckBox rb13;
-	
+
 	private JLabel fondi;
-	
+	private JLabel fondi2;
+	private JLabel cap;
+
 	JComboBox obox;
 
 	private JRadioButton rb5;
@@ -108,13 +117,32 @@ public class AmministrativoGUI extends JFrame {
 	private JPanel esterno() {
 
 		JPanel p = new JPanel(); // pannello generico di dx
+		JPanel sp1 = new JPanel();
+		JPanel sp2 = new JPanel();
+		JPanel sp3 = opEsterno(); 
 		
-		JLabel title = new JLabel("Gestisci sezione esterna");
+		sp1.setPreferredSize(new Dimension(500, 30));
+		sp1.setLayout(new GridLayout(2, 1));
+		
+		fondi = new JLabel("Gestisci sezione esterna    Fondi: $" + (int)azienda.getFondiEsterno());
+		cap = new JLabel("Capcita occupata del magazzino: " + (int)azienda.getMagazzino().getCapacitaOccupata()
+				+ " / " + (int)azienda.getMagazzino().getCapacitaMax()+" m^3");
 
-		p.setLayout(new GridLayout(3, 1));
+		//p.setLayout(new GridLayout(3, 1));
 		p.setBorder(BorderFactory.createLineBorder(Color.black));
-		title.setFont(new Font("", Font.BOLD, 15));
-		p.add(title);
+		fondi.setFont(new Font("", Font.BOLD, 15));
+		cap.setFont(new Font("", Font.BOLD, 13));
+		sp1.add(fondi);
+		sp1.add(cap);
+		p.add(sp1, BorderLayout.NORTH);
+		
+		sp2 = reportEsternoPanel();
+
+		sp3.setPreferredSize(new Dimension(760, 210));
+		p.add(sp1, BorderLayout.NORTH);
+
+		p.add(sp2);
+		p.add(sp3, BorderLayout.SOUTH);
 
 		return p;
 	}
@@ -130,10 +158,10 @@ public class AmministrativoGUI extends JFrame {
 
 		p.setBorder((new TitledBorder(new EtchedBorder(), "Report")));
 		p.setPreferredSize(new Dimension(680, 500));
+		textArea.setEditable(false);
 		tmp.add(bar);
-		
-		sp1.setPreferredSize
-		(new Dimension(500, 450));
+
+		sp1.setPreferredSize(new Dimension(500, 450));
 		sp1.add(tmp);
 		p.setLayout(new GridLayout(1, 2));
 		p.add(sp1);
@@ -143,79 +171,288 @@ public class AmministrativoGUI extends JFrame {
 	}
 	
 	private JPanel opInterno() {
-		
+
 		JPanel p = new JPanel();
 		JPanel op1 = new JPanel();
 		JPanel op2 = new JPanel();
 		JPanel op3 = new JPanel();
 		JPanel op4 = new JPanel();
-		
+
 		p.setLayout(new GridLayout(4, 1));
-		p.setBorder((new TitledBorder(new EtchedBorder(), "Operazioni")));
-		
+		p.setBorder((new TitledBorder(new EtchedBorder(), "Gestisci personale")));
+
 		JLabel olabel = new JLabel("Dipendente: ");
 		JLabel olabel2 = new JLabel("Scegli un'operazione ");
 		obox = new JComboBox(azienda.getInterno().listaDipendenti().toArray());
-		
+
 		JButton ob1 = new JButton("Paga tutti");
 		JButton ob2 = new JButton("Resetta stati pagamento");
 		JButton ob3 = new JButton("Assumi dipendente");
 		JButton ob4 = new JButton("Licenzia selezionato");
 		JButton ob5 = new JButton("Paga selezionato");
-		
+		JButton ob6 = new JButton("Registra nuovo anno di servizio");
+		JButton ob7 = new JButton("Resetta stato pagamento per selezionato");
+
 		olabel2.setFont(new Font("", Font.BOLD, 12));
-		
+
 		op1.add(ob1);
 		op1.add(ob2);
 		op1.add(ob3);
-		
+		op1.add(ob6);
+
 		op2.add(olabel2);
-		
+
 		op3.add(olabel);
-		op3.add(obox);		
+		op3.add(obox);
 		op4.add(ob4);
 		op4.add(ob5);
-		
+		op4.add(ob7);
+
 		p.add(op3);
 		p.add(op4);
 		p.add(op2);
 		p.add(op1);
-		
-		ob1.addActionListener((e) -> {				
-			
+
+		ob1.addActionListener((e) -> {
+
+			ArrayList<Dipendente> list = new ArrayList<Dipendente>();
+
+			for (Dipendente d : azienda.getInterno().listaDipendenti())
+				if (!d.controllaStatoPagamento())
+					list.add(d);
 			azienda.getInterno().effettuaPagamento();
 			olabel2.setText("Effettuato pagamento di tutti i dipendenti non pagati");
 			fondi.setText("Gestisci sezione interna    Fondi: $" + azienda.getFondiInterno());
+			textArea.setText("PAGATI: \n\n");
+			for (Dipendente d : list)
+				textArea.append(d.stampa());
 		});
-		
-		ob2.addActionListener((e) -> {			
-			
+
+		ob2.addActionListener((e) -> {
+
 			azienda.getInterno().resettaStatoPagamenti();
+			textArea.setText("");
 			olabel2.setText("Effettuato reset di tutti gli stati pagamento");
 
 		});
-		ob5.addActionListener((e) -> {			
-			
-			azienda.getInterno().effettuaPagamento((Dipendente)obox.getSelectedItem());
-			olabel2.setText("Effettuato pagamento di " + ((Dipendente)obox.getSelectedItem()).getNome() 
-					+ " " + ((Dipendente)obox.getSelectedItem()).getCognome() + " di $" + 
-					((Dipendente)obox.getSelectedItem()).checkPaga());
+		ob5.addActionListener((e) -> {
+
+			if (((Dipendente) obox.getSelectedItem()).controllaStatoPagamento() == true) {
+				olabel2.setText(((Dipendente) obox.getSelectedItem()).getNome() + " "
+						+ ((Dipendente) obox.getSelectedItem()).getCognome() + " già pagato!");
+				return;
+			}
+
+			azienda.getInterno().effettuaPagamento((Dipendente) obox.getSelectedItem());
+
+			olabel2.setText("Effettuato pagamento di " + ((Dipendente) obox.getSelectedItem()).getNome() + " "
+					+ ((Dipendente) obox.getSelectedItem()).getCognome() + " di $"
+					+ ((Dipendente) obox.getSelectedItem()).checkPaga());
+
 			fondi.setText("Gestisci sezione interna    Fondi: $" + azienda.getFondiInterno());
 		});
-		
-		ob4.addActionListener((e) -> {			
-			
-			azienda.getInterno().licenziaDipendente((Dipendente)obox.getSelectedItem());
+
+		ob4.addActionListener((e) -> {
+
+			azienda.getInterno().licenziaDipendente((Dipendente) obox.getSelectedItem());
 			op3.setVisible(false);
-			olabel2.setText("Effettuato licenziamento di " + ((Dipendente)obox.getSelectedItem()).getNome() 
-					+ " " + ((Dipendente)obox.getSelectedItem()).getCognome());
+			olabel2.setText("Effettuato licenziamento di " + ((Dipendente) obox.getSelectedItem()).getNome() + " "
+					+ ((Dipendente) obox.getSelectedItem()).getCognome());
 			obox.removeItem(obox.getSelectedItem());
 			op3.setVisible(true);
 		});
-		
+
+		ob6.addActionListener((e) -> {
+
+			ArrayList<Dipendente> list = new ArrayList<Dipendente>();
+
+			for (Dipendente d : azienda.getInterno().listaDipendenti())
+				if (d instanceof Dirigente) {
+					list.add(d);
+					((Dirigente) d).nuovoAnnoDiServizio();
+				}
+			olabel2.setText("Inizio nuovo anno di servizio registrato per tutti i dirigenti");
+			textArea.setText("MODIFICATI: \n\n");
+			for (Dipendente d : list)
+				textArea.append(d.stampa());
+		});
+
+		ob3.addActionListener((e) -> {
+
+			new AssumiDipendente();
+
+		});
+
+		ob7.addActionListener((e) -> {
+
+			if (((Dipendente) obox.getSelectedItem()).controllaStatoPagamento() == false) {
+				olabel2.setText(((Dipendente) obox.getSelectedItem()).getNome() + " "
+						+ ((Dipendente) obox.getSelectedItem()).getCognome() + " non è stato ancora pagato!");
+				return;
+			}
+
+			((Dipendente) obox.getSelectedItem()).resettaStatoPagamento();
+
+			olabel2.setText("Effettuato reset di pagamento di " + ((Dipendente) obox.getSelectedItem()).getNome() + " "
+					+ ((Dipendente) obox.getSelectedItem()).getCognome());
+		});
+
 		return p;
 	}
+	
+	private JPanel reportEsternoPanel() {
 
+		JPanel p = new JPanel();
+		JPanel sp1 = new JPanel(); // pannello text area
+		JPanel tmp = new JPanel();
+
+		textArea2 = new JTextArea(25, 30);
+		JScrollPane bar = new JScrollPane(textArea2);
+
+		p.setBorder((new TitledBorder(new EtchedBorder(), "Report")));
+		p.setPreferredSize(new Dimension(680, 470));
+		textArea2.setEditable(false);
+		tmp.add(bar);
+
+		sp1.setPreferredSize(new Dimension(500, 450));
+		sp1.add(tmp);
+		p.setLayout(new GridLayout(1, 2));
+		p.add(sp1);
+		p.add(criteriPanel2());
+
+		return p;
+	}
+	
+	private JPanel opEsterno() {
+
+		JPanel p = new JPanel();
+		JPanel op1 = new JPanel();
+		JPanel op2 = new JPanel();
+		JPanel op3 = new JPanel();
+		JPanel op4 = new JPanel();
+
+		p.setLayout(new GridLayout(4, 1));
+		p.setBorder((new TitledBorder(new EtchedBorder(), "Gestisci personale")));
+
+		JLabel olabel = new JLabel("Commissioni: ");
+		JLabel olabel2 = new JLabel("Scegli un'operazione ");
+		obox = new JComboBox(azienda.getInterno().listaDipendenti().toArray());
+
+		JButton ob1 = new JButton("Paga tutti");
+		JButton ob2 = new JButton("Resetta stati pagamento");
+		JButton ob3 = new JButton("Assumi dipendente");
+		JButton ob4 = new JButton("Licenzia selezionato");
+		JButton ob5 = new JButton("Paga selezionato");
+		JButton ob6 = new JButton("Registra nuovo anno di servizio");
+		JButton ob7 = new JButton("Resetta stato pagamento per selezionato");
+
+		olabel2.setFont(new Font("", Font.BOLD, 12));
+
+		op1.add(ob1);
+		op1.add(ob2);
+		op1.add(ob3);
+		op1.add(ob6);
+
+		op2.add(olabel2);
+
+		op3.add(olabel);
+		op3.add(obox);
+		op4.add(ob4);
+		op4.add(ob5);
+		op4.add(ob7);
+
+		p.add(op3);
+		p.add(op4);
+		p.add(op2);
+		p.add(op1);
+
+		ob1.addActionListener((e) -> {
+
+			ArrayList<Dipendente> list = new ArrayList<Dipendente>();
+
+			for (Dipendente d : azienda.getInterno().listaDipendenti())
+				if (!d.controllaStatoPagamento())
+					list.add(d);
+			azienda.getInterno().effettuaPagamento();
+			olabel2.setText("Effettuato pagamento di tutti i dipendenti non pagati");
+			fondi.setText("Gestisci sezione interna    Fondi: $" + azienda.getFondiInterno());
+			textArea.setText("PAGATI: \n\n");
+			for (Dipendente d : list)
+				textArea.append(d.stampa());
+		});
+
+		ob2.addActionListener((e) -> {
+
+			azienda.getInterno().resettaStatoPagamenti();
+			textArea.setText("");
+			olabel2.setText("Effettuato reset di tutti gli stati pagamento");
+
+		});
+		ob5.addActionListener((e) -> {
+
+			if (((Dipendente) obox.getSelectedItem()).controllaStatoPagamento() == true) {
+				olabel2.setText(((Dipendente) obox.getSelectedItem()).getNome() + " "
+						+ ((Dipendente) obox.getSelectedItem()).getCognome() + " già pagato!");
+				return;
+			}
+
+			azienda.getInterno().effettuaPagamento((Dipendente) obox.getSelectedItem());
+
+			olabel2.setText("Effettuato pagamento di " + ((Dipendente) obox.getSelectedItem()).getNome() + " "
+					+ ((Dipendente) obox.getSelectedItem()).getCognome() + " di $"
+					+ ((Dipendente) obox.getSelectedItem()).checkPaga());
+
+			fondi.setText("Gestisci sezione interna    Fondi: $" + azienda.getFondiInterno());
+		});
+
+		ob4.addActionListener((e) -> {
+
+			azienda.getInterno().licenziaDipendente((Dipendente) obox.getSelectedItem());
+			op3.setVisible(false);
+			olabel2.setText("Effettuato licenziamento di " + ((Dipendente) obox.getSelectedItem()).getNome() + " "
+					+ ((Dipendente) obox.getSelectedItem()).getCognome());
+			obox.removeItem(obox.getSelectedItem());
+			op3.setVisible(true);
+		});
+
+		ob6.addActionListener((e) -> {
+
+			ArrayList<Dipendente> list = new ArrayList<Dipendente>();
+
+			for (Dipendente d : azienda.getInterno().listaDipendenti())
+				if (d instanceof Dirigente) {
+					list.add(d);
+					((Dirigente) d).nuovoAnnoDiServizio();
+				}
+			olabel2.setText("Inizio nuovo anno di servizio registrato per tutti i dirigenti");
+			textArea.setText("MODIFICATI: \n\n");
+			for (Dipendente d : list)
+				textArea.append(d.stampa());
+		});
+
+		ob3.addActionListener((e) -> {
+
+			new AssumiDipendente();
+
+		});
+
+		ob7.addActionListener((e) -> {
+
+			if (((Dipendente) obox.getSelectedItem()).controllaStatoPagamento() == false) {
+				olabel2.setText(((Dipendente) obox.getSelectedItem()).getNome() + " "
+						+ ((Dipendente) obox.getSelectedItem()).getCognome() + " non è stato ancora pagato!");
+				return;
+			}
+
+			((Dipendente) obox.getSelectedItem()).resettaStatoPagamento();
+
+			olabel2.setText("Effettuato reset di pagamento di " + ((Dipendente) obox.getSelectedItem()).getNome() + " "
+					+ ((Dipendente) obox.getSelectedItem()).getCognome());
+		});
+
+		return p;
+	}
+	
 	private JPanel criteriPanel() {
 
 		JPanel p = new JPanel();
@@ -334,6 +571,56 @@ public class AmministrativoGUI extends JFrame {
 
 		return p;
 	}
+	
+	private JPanel criteriPanel2() {
+		
+
+		JPanel p = new JPanel();
+		jp0 = new JPanel();
+		jp1 = new JPanel();
+		jp2 = new JPanel();
+		jp3 = new JPanel();
+		jp4 = new JPanel();
+
+		JButton b1 = new JButton("Genera report");
+		JButton b2 = new JButton("Cancella");
+		
+
+		p.setPreferredSize(new Dimension(220, 880));
+
+		jp1.setBorder((new TitledBorder(new EtchedBorder(), "Commissioni")));
+		jp2.setBorder((new TitledBorder(new EtchedBorder(), "Fornitori")));
+		jp3.setBorder((new TitledBorder(new EtchedBorder(), "Ordina per")));
+		jp4.setBorder((new TitledBorder(new EtchedBorder(), "Commissioni")));
+		jp0.setPreferredSize(new Dimension(200, 30));
+		jp1.setPreferredSize(new Dimension(220, 100));
+		jp2.setPreferredSize(new Dimension(220, 100));
+		jp4.setPreferredSize(new Dimension(220, 100));
+		jp3.setPreferredSize(new Dimension(220, 50));
+
+		jp1.setLayout(new GridLayout(5, 1));
+
+
+		jp2.setLayout(new GridLayout(4, 2));
+
+
+		jp4.setLayout(new GridLayout(5, 1));
+
+		p.add(jp1);
+		p.add(jp2);
+		p.add(jp4);
+		p.add(jp3);
+		p.add(b1);
+		p.add(b2);
+
+
+		b2.addActionListener((e) -> {
+			textArea.setText("");
+		});
+
+		return p;
+	
+	}
 
 	private class CriteriListener implements ActionListener {
 
@@ -356,7 +643,7 @@ public class AmministrativoGUI extends JFrame {
 				jp4.setVisible(true);
 			}
 
-			if (cb3.isSelected() ) { // DIRIGENTE || QUADRO - DIRIGE CANTIERE
+			if (cb3.isSelected()) { // DIRIGENTE || QUADRO - DIRIGE CANTIERE
 
 				jp4.setVisible(false);
 				rb13.setEnabled(true);
@@ -568,7 +855,7 @@ public class AmministrativoGUI extends JFrame {
 			}
 			res1.retainAll(res2);
 		}
-		
+
 		if (rb13.isSelected()) {
 
 			s = (o) -> ((Quadro) o).isDirigente();
@@ -582,7 +869,7 @@ public class AmministrativoGUI extends JFrame {
 			}
 			res1.retainAll(res2);
 		}
-		
+
 		res.retainAll(res1);
 		return res;
 
@@ -618,6 +905,200 @@ public class AmministrativoGUI extends JFrame {
 		}
 
 		return null;
+
+	}
+
+	private class AssumiDipendente extends JFrame {
+
+		public AssumiDipendente() {
+
+			setTitle("Assumi nuovo dipendente");
+
+			setSize(350, 340);
+			setVisible(true);
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+			setResizable(false);
+
+			JPanel p = new JPanel();
+			JPanel p1 = new JPanel();
+			JPanel p2 = new JPanel();
+			JPanel p3 = new JPanel();
+			JPanel p4 = new JPanel();
+			JPanel p5 = new JPanel();
+			JPanel p6 = new JPanel();
+			JPanel p7 = new JPanel();
+
+			JRadioButton r1 = new JRadioButton("B");
+			JRadioButton r2 = new JRadioButton("C");
+			JRadioButton r3 = new JRadioButton("D");
+
+			ButtonGroup group = new ButtonGroup();
+			group.add(r1);
+			group.add(r2);
+			group.add(r3);
+
+			r1.setEnabled(false);
+			r2.setEnabled(false);
+			r3.setEnabled(false);
+
+			p1.setPreferredSize(new Dimension(380, 50));
+			p2.setPreferredSize(new Dimension(380, 30));
+			p3.setPreferredSize(new Dimension(380, 30));
+			p4.setPreferredSize(new Dimension(380, 30));
+			p5.setPreferredSize(new Dimension(380, 30));
+			p6.setPreferredSize(new Dimension(380, 30));
+
+			String[] tipo = { "Impiegato", "Operaio", "Quadro", "Dirigente" };
+
+			JLabel message = new JLabel("Inserisci informazioni per l'assunzione");
+			message.setFont(new Font("", Font.BOLD, 15));
+
+			JLabel i1 = new JLabel("Nome: ");
+			JLabel i2 = new JLabel("Cognome: ");
+			JLabel i3 = new JLabel("Categoria: ");
+			JLabel i4 = new JLabel("Tipo patente: ");
+			JLabel i5 = new JLabel("Ore settimanali: ");
+
+			JTextField t1 = new JTextField(10);
+			JTextField t2 = new JTextField(10);
+			JComboBox t3 = new JComboBox(tipo);
+			JTextField t5 = new JTextField(6);
+
+			JButton ok = new JButton("Assumi");
+
+			t3.addActionListener((e) -> {
+
+				if (t3.getSelectedItem().equals("Operaio")) {
+
+					r1.setEnabled(true);
+					r2.setEnabled(true);
+					r3.setEnabled(true);
+
+					r1.setSelected(true);
+					t5.setEditable(false);
+					t5.setText("");
+
+				}
+
+				else if (t3.getSelectedItem().equals("Impiegato")) {
+
+					r1.setEnabled(false);
+					r2.setEnabled(false);
+					r3.setEnabled(false);
+
+					t5.setEditable(true);
+				}
+
+				else if (t3.getSelectedItem().equals("Quadro")) {
+
+					r1.setEnabled(false);
+					r2.setEnabled(false);
+					r3.setEnabled(false);
+
+					t5.setEditable(false);
+					t5.setText("");
+				}
+
+				else if (t3.getSelectedItem().equals("Dirigente")) {
+
+					r1.setEnabled(false);
+					r2.setEnabled(false);
+					r3.setEnabled(false);
+
+					t5.setEditable(false);
+					t5.setText("");
+				}
+
+			});
+
+			ok.addActionListener((e) -> {
+
+				if (t3.getSelectedItem().equals("Impiegato")) {
+
+					Impiegato im = new Impiegato(t1.getText(), t2.getText(), Integer.parseInt(t5.getText()));
+
+					azienda.getInterno().assumiDipendente(im);
+					textArea.setText("ASSUNZIONE EFFETTUATA \n Dettagli assunzione: \n" + im.stampa());
+					obox.setVisible(false);
+					obox.addItem(im);
+					obox.setVisible(true);
+				}
+
+				if (t3.getSelectedItem().equals("Operaio")) {
+
+					String patente = "";
+
+					if (r1.isSelected())
+						patente = "B";
+					if (r2.isSelected())
+						patente = "C";
+					if (r3.isSelected())
+						patente = "D";
+
+					Operaio op = new Operaio(t1.getText(), t2.getText(), patente);
+
+					azienda.getInterno().assumiDipendente(op);
+					textArea.setText("ASSUNZIONE EFFETTUATA \n Dettagli assunzione: \n" + op.stampa());
+					obox.setVisible(false);
+					obox.addItem(op);
+					obox.setVisible(true);
+				}
+
+				if (t3.getSelectedItem().equals("Quadro")) {
+
+					Quadro qu = new Quadro(t1.getText(), t2.getText());
+
+					azienda.getInterno().assumiDipendente(qu);
+					textArea.setText("ASSUNZIONE EFFETTUATA \n Dettagli assunzione: \n" + qu.stampa());
+					obox.setVisible(false);
+					obox.addItem(qu);
+					obox.setVisible(true);
+				}
+
+				if (t3.getSelectedItem().equals("Dirigente")) {
+
+					Dirigente di = new Dirigente(t1.getText(), t2.getText());
+
+					azienda.getInterno().assumiDipendente(di);
+					textArea.setText("ASSUNZIONE EFFETTUATA \n Dettagli assunzione: \n" + di.stampa());
+					obox.setVisible(false);
+					obox.addItem(di);
+					obox.setVisible(true);
+				}
+
+				setVisible(false);
+
+			});
+
+			p1.add(message);
+			p2.add(i1);
+			p2.add(t1);
+			p3.add(i2);
+			p3.add(t2);
+			p4.add(i3);
+			p4.add(t3);
+
+			p5.add(i4);
+			p5.add(r1);
+			p5.add(r2);
+			p5.add(r3);
+
+			p6.add(i5);
+			p6.add(t5);
+			p7.add(ok);
+
+			p.add(p1);
+			p.add(p2);
+			p.add(p3);
+			p.add(p4);
+			p.add(p5);
+			p.add(p6);
+			p.add(p7);
+
+			add(p);
+
+		}
 
 	}
 }
