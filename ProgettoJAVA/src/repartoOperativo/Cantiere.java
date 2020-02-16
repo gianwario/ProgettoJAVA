@@ -23,10 +23,9 @@ public class Cantiere implements Cloneable, Serializable {
 	/**
 	 * La classe che rappresenta il concetto di cantiere, all'interno del quale
 	 * vengono svolti i lavori per completare una commissione di cui si hanno i
-	 * permessi di costruzione. Ha delle squadre di operai che vi lavorano e
-	 * un solo dipendente che ricopre il ruolo di
-	 * responsabile, il quale è scelto tra i quadri se il valore del cantiere è <
-	 * 500000, tra un dirigente altrimenti
+	 * permessi di costruzione. Ha delle squadre di operai che vi lavorano e un solo
+	 * dipendente che ricopre il ruolo di responsabile, il quale è scelto tra i
+	 * quadri se il valore del cantiere è < 500000, tra un dirigente altrimenti
 	 * 
 	 * @param responsabile dipendente responsabile del cantiere
 	 * @param valore       fondi del cantiere
@@ -42,12 +41,11 @@ public class Cantiere implements Cloneable, Serializable {
 		if (d instanceof Quadro && valore >= 500000)
 			throw new IllegalArgumentException(
 					"Il responsabile di un cantiere con valore maggiore di 500k deve essere un dirigente");
-		if(d instanceof Quadro) {
-			Quadro q = (Quadro)d;
+		if (d instanceof Quadro) {
+			Quadro q = (Quadro) d;
 			q.setDirigente(true);
-			this.responsabile=q;
-		}
-		else	
+			this.responsabile = q;
+		} else
 			this.responsabile = responsabile;
 		d.occupaDipendente();
 
@@ -61,27 +59,27 @@ public class Cantiere implements Cloneable, Serializable {
 		squadra.occupaSquadra();
 		squadre.add(squadra);
 	}
-	
+
 	/**
 	 * Setta a true lo stato di conducente di un operaio se non lo è già, se fa
-	 * parte di una squadra di quel cantiere e se ha la patente necessaria 
-	 * per guidarlo
+	 * parte di una squadra di quel cantiere e se ha la patente necessaria per
+	 * guidarlo
 	 * 
 	 * @param m macchinario da guidare
-	 * @param o operaio da assegnare al macchinario	 * 
+	 * @param o operaio da assegnare al macchinario *
 	 * @return restituisce true se l'operazione va a buon fine, false altrimenti
 	 */
 	public boolean assegnaConducente(Macchinario m, Operaio o) {
 
-		if(m == null | o == null || o.isConducente() == true)
+		if (m == null | o == null || o.isConducente() == true)
 			return false;
 
 		for (Squadra s : squadre) {
-			if(s.getOperai().contains(o) && o.getPatente().equals(m.getTipoPatente())) {					
+			if (s.getOperai().contains(o) && o.getPatente().equals(m.getTipoPatente())) {
 				o.setConducente(true);
 				return true;
-			}	
-		}		
+			}
+		}
 		return false;
 	}
 
@@ -104,10 +102,38 @@ public class Cantiere implements Cloneable, Serializable {
 	public boolean getStatoCantiere() {
 		return commissione.getCompletamento();
 	}
-	
+
 	public String toString() {
-		
+
 		return getClass().getName() + "[Valore = " + valore + ", commissione = " + commissione + ", responsabile = "
 				+ responsabile + "\nSquadre = " + squadre + "\nLista materiali: \n" + materiali + "\n";
 	}
+
+	public String stampaCommissione() {
+		return "Cliente : " + getCommissione().getNominativoCliente() + ", introito netto : "
+				+ getCommissione().getPagamento() + "\n        prezzo permessi : " + getCommissione().getPrezzoPermessi()
+				+ ", completamento : " + getCommissione().getCompletamento() + ", permessi ottenuti : "
+				+ getCommissione().getOttenimentoPermessi()+"\n";
+	}
+
+	public String stampaSquadre() {
+		String r = "";
+		for (Squadra s : getSquadre()) {
+			r = r + "Caposquadra : " + s.getCaposquadra().getNome() + " " + s.getCaposquadra().getCognome() + "\n";
+			for (Operaio o : s.getOperai()) {
+				r = r + "Operaio : " + o.getNome() + " " + o.getCognome() + ", patente : " + o.getPatente()
+						+ ", conducente : " + o.isConducente() + "\n";
+			}
+		}
+		return r+"\n";
+	}
+	
+	public String stampaMateriali () {
+		String r="Prodotti utilizzati dal cantiere : \n";
+		for(Prodotto p : getMateriali()) {
+			r = r + p.getNome() + ", prezzo : "+p.getPrezzo()+", volume : "+p.getVolume()+"\n";
+		}
+		return r+"\n";
+	}
+
 }
