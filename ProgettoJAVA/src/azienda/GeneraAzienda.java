@@ -228,6 +228,7 @@ public class GeneraAzienda {
 		es.pagaPermessi(c1);
 		es.pagaPermessi(c2);
 		es.pagaPermessi(c3);
+		es.pagaPermessi(c4);
 
 		ArrayList<Prodotto> list1 = new ArrayList<Prodotto>();
 		ArrayList<Prodotto> list2 = new ArrayList<Prodotto>();
