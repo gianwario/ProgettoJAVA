@@ -26,8 +26,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import azienda.Azienda;
+import esterni.Fornitore;
 import personale.*;
 import utils.*;
+import esterni.Commissione;
 
 public class AmministrativoGUI extends JFrame {
 
@@ -46,11 +48,11 @@ public class AmministrativoGUI extends JFrame {
 	private JRadioButton cb3;
 	private JRadioButton cb4;
 	private JRadioButton cb5;
-	private JRadioButton scb1;
-	private JRadioButton scb2;
-	private JRadioButton scb3;
-	private JRadioButton scb4;
-	private JRadioButton scb5;
+	private JRadioButton es1;
+	private JRadioButton es2;
+	private JRadioButton es3;
+	private JRadioButton es4;
+	private JRadioButton es5;
 
 	private JCheckBox rb1;
 	private JCheckBox rb2;
@@ -62,8 +64,11 @@ public class AmministrativoGUI extends JFrame {
 	private JLabel fondi;
 	private JLabel fondi2;
 	private JLabel cap;
+	private JTextField nomeF;
 
 	JComboBox obox;
+	JComboBox obox2;
+	JComboBox obox3;
 
 	private JRadioButton rb5;
 	private JRadioButton rb6;
@@ -138,7 +143,7 @@ public class AmministrativoGUI extends JFrame {
 		
 		sp2 = reportEsternoPanel();
 
-		sp3.setPreferredSize(new Dimension(760, 210));
+		sp3.setPreferredSize(new Dimension(760, 220));
 		p.add(sp1, BorderLayout.NORTH);
 
 		p.add(sp2);
@@ -156,7 +161,7 @@ public class AmministrativoGUI extends JFrame {
 		textArea = new JTextArea(25, 30);
 		JScrollPane bar = new JScrollPane(textArea);
 
-		p.setBorder((new TitledBorder(new EtchedBorder(), "Report")));
+		p.setBorder((new TitledBorder(new EtchedBorder(), "Report personale")));
 		p.setPreferredSize(new Dimension(680, 500));
 		textArea.setEditable(false);
 		tmp.add(bar);
@@ -309,7 +314,7 @@ public class AmministrativoGUI extends JFrame {
 		textArea2 = new JTextArea(25, 30);
 		JScrollPane bar = new JScrollPane(textArea2);
 
-		p.setBorder((new TitledBorder(new EtchedBorder(), "Report")));
+		p.setBorder((new TitledBorder(new EtchedBorder(), "Report magazzino")));
 		p.setPreferredSize(new Dimension(680, 470));
 		textArea2.setEditable(false);
 		tmp.add(bar);
@@ -332,125 +337,70 @@ public class AmministrativoGUI extends JFrame {
 		JPanel op4 = new JPanel();
 
 		p.setLayout(new GridLayout(4, 1));
-		p.setBorder((new TitledBorder(new EtchedBorder(), "Gestisci personale")));
+		p.setBorder((new TitledBorder(new EtchedBorder(), "Gestisci esterni")));
 
 		JLabel olabel = new JLabel("Commissioni: ");
+		JLabel olabel1 = new JLabel("Fornitori: ");
 		JLabel olabel2 = new JLabel("Scegli un'operazione ");
-		obox = new JComboBox(azienda.getInterno().listaDipendenti().toArray());
+		obox2 = new JComboBox(azienda.getEsterno().getListaCommissioni().toArray());
+		ArrayList<String> nomi = new ArrayList<String>();
+		for(Fornitore f : azienda.getEsterno().getListaFornitori())
+			nomi.add(f.getNome());
+		obox3 = new JComboBox(nomi.toArray());
 
-		JButton ob1 = new JButton("Paga tutti");
-		JButton ob2 = new JButton("Resetta stati pagamento");
-		JButton ob3 = new JButton("Assumi dipendente");
-		JButton ob4 = new JButton("Licenzia selezionato");
-		JButton ob5 = new JButton("Paga selezionato");
-		JButton ob6 = new JButton("Registra nuovo anno di servizio");
-		JButton ob7 = new JButton("Resetta stato pagamento per selezionato");
+		JButton ob1 = new JButton("Paga permessi ente ");
+		JButton ob2 = new JButton("Chiudi commissione");
+		JButton ob3 = new JButton("Registra nuova commissione");
+		JButton ob4 = new JButton("Visualizza catalogo");
+		JButton ob5 = new JButton("Rimuovi selezionato");
+		JButton ob6 = new JButton("Aggiungi nuovo fornitore");
+		
+		ob1.setEnabled(false);
+		ob2.setEnabled(false);	
 
 		olabel2.setFont(new Font("", Font.BOLD, 12));
-
-		op1.add(ob1);
-		op1.add(ob2);
-		op1.add(ob3);
-		op1.add(ob6);
-
-		op2.add(olabel2);
-
-		op3.add(olabel);
-		op3.add(obox);
+		
+		obox2.addActionListener((e) -> {
+			
+			if(!((Commissione)obox2.getSelectedItem()).getOttenimentoPermessi()) {				
+				ob1.setEnabled(true);
+				ob2.setEnabled(false);
+			}
+			
+			if(((Commissione)obox2.getSelectedItem()).getCompletamento()) {				
+				ob1.setEnabled(false);
+				ob2.setEnabled(true);
+			}
+			
+			if(!((Commissione)obox2.getSelectedItem()).getCompletamento() && ((Commissione)obox2.getSelectedItem()).getOttenimentoPermessi()) {				
+				ob1.setEnabled(false);
+				ob2.setEnabled(false);
+			}
+			
+		});
+		
+		op1.add(olabel);
+		op1.add(obox2);
+		op2.add(ob1);
+		op2.add(ob2);
+		op2.add(ob3);
+		
+		op3.add(olabel1);
+		op3.add(obox3);
+		
 		op4.add(ob4);
 		op4.add(ob5);
-		op4.add(ob7);
+		op4.add(ob6);
 
+		p.add(op1);
+		p.add(op2);
 		p.add(op3);
 		p.add(op4);
-		p.add(op2);
-		p.add(op1);
-
-		ob1.addActionListener((e) -> {
-
-			ArrayList<Dipendente> list = new ArrayList<Dipendente>();
-
-			for (Dipendente d : azienda.getInterno().listaDipendenti())
-				if (!d.controllaStatoPagamento())
-					list.add(d);
-			azienda.getInterno().effettuaPagamento();
-			olabel2.setText("Effettuato pagamento di tutti i dipendenti non pagati");
-			fondi.setText("Gestisci sezione interna    Fondi: $" + azienda.getFondiInterno());
-			textArea.setText("PAGATI: \n\n");
-			for (Dipendente d : list)
-				textArea.append(d.stampa());
-		});
-
-		ob2.addActionListener((e) -> {
-
-			azienda.getInterno().resettaStatoPagamenti();
-			textArea.setText("");
-			olabel2.setText("Effettuato reset di tutti gli stati pagamento");
-
-		});
-		ob5.addActionListener((e) -> {
-
-			if (((Dipendente) obox.getSelectedItem()).controllaStatoPagamento() == true) {
-				olabel2.setText(((Dipendente) obox.getSelectedItem()).getNome() + " "
-						+ ((Dipendente) obox.getSelectedItem()).getCognome() + " già pagato!");
-				return;
-			}
-
-			azienda.getInterno().effettuaPagamento((Dipendente) obox.getSelectedItem());
-
-			olabel2.setText("Effettuato pagamento di " + ((Dipendente) obox.getSelectedItem()).getNome() + " "
-					+ ((Dipendente) obox.getSelectedItem()).getCognome() + " di $"
-					+ ((Dipendente) obox.getSelectedItem()).checkPaga());
-
-			fondi.setText("Gestisci sezione interna    Fondi: $" + azienda.getFondiInterno());
-		});
-
-		ob4.addActionListener((e) -> {
-
-			azienda.getInterno().licenziaDipendente((Dipendente) obox.getSelectedItem());
-			op3.setVisible(false);
-			olabel2.setText("Effettuato licenziamento di " + ((Dipendente) obox.getSelectedItem()).getNome() + " "
-					+ ((Dipendente) obox.getSelectedItem()).getCognome());
-			obox.removeItem(obox.getSelectedItem());
-			op3.setVisible(true);
-		});
-
-		ob6.addActionListener((e) -> {
-
-			ArrayList<Dipendente> list = new ArrayList<Dipendente>();
-
-			for (Dipendente d : azienda.getInterno().listaDipendenti())
-				if (d instanceof Dirigente) {
-					list.add(d);
-					((Dirigente) d).nuovoAnnoDiServizio();
-				}
-			olabel2.setText("Inizio nuovo anno di servizio registrato per tutti i dirigenti");
-			textArea.setText("MODIFICATI: \n\n");
-			for (Dipendente d : list)
-				textArea.append(d.stampa());
-		});
-
-		ob3.addActionListener((e) -> {
-
-			new AssumiDipendente();
-
-		});
-
-		ob7.addActionListener((e) -> {
-
-			if (((Dipendente) obox.getSelectedItem()).controllaStatoPagamento() == false) {
-				olabel2.setText(((Dipendente) obox.getSelectedItem()).getNome() + " "
-						+ ((Dipendente) obox.getSelectedItem()).getCognome() + " non è stato ancora pagato!");
-				return;
-			}
-
-			((Dipendente) obox.getSelectedItem()).resettaStatoPagamento();
-
-			olabel2.setText("Effettuato reset di pagamento di " + ((Dipendente) obox.getSelectedItem()).getNome() + " "
-					+ ((Dipendente) obox.getSelectedItem()).getCognome());
-		});
-
+		
 		return p;
+		
+
+
 	}
 	
 	private JPanel criteriPanel() {
@@ -572,8 +522,7 @@ public class AmministrativoGUI extends JFrame {
 		return p;
 	}
 	
-	private JPanel criteriPanel2() {
-		
+	private JPanel criteriPanel2() {		
 
 		JPanel p = new JPanel();
 		jp0 = new JPanel();
@@ -581,38 +530,32 @@ public class AmministrativoGUI extends JFrame {
 		jp2 = new JPanel();
 		jp3 = new JPanel();
 		jp4 = new JPanel();
+		
+		JPanel jjp1 = new JPanel();
 
 		JButton b1 = new JButton("Genera report");
 		JButton b2 = new JButton("Cancella");
+		JButton b3 = new JButton("Visualizza stato magazzino");
+		JButton b4 = new JButton("Acquista nuovi prodotti");		
+
+		es1 = new JRadioButton("Nome prodotto");
+		es2 = new JRadioButton("Genera report su prodotti");
+		JLabel nome = new JLabel("Nome: ");
+		nomeF = new JTextField(10);		
 		
-
-		p.setPreferredSize(new Dimension(220, 880));
-
-		jp1.setBorder((new TitledBorder(new EtchedBorder(), "Commissioni")));
-		jp2.setBorder((new TitledBorder(new EtchedBorder(), "Fornitori")));
-		jp3.setBorder((new TitledBorder(new EtchedBorder(), "Ordina per")));
-		jp4.setBorder((new TitledBorder(new EtchedBorder(), "Commissioni")));
-		jp0.setPreferredSize(new Dimension(200, 30));
-		jp1.setPreferredSize(new Dimension(220, 100));
-		jp2.setPreferredSize(new Dimension(220, 100));
-		jp4.setPreferredSize(new Dimension(220, 100));
-		jp3.setPreferredSize(new Dimension(220, 50));
-
+		p.setPreferredSize(new Dimension(300, 900));
+		jp0.setPreferredSize(new Dimension(270, 200));
+		jp1.setPreferredSize(new Dimension(270, 250));
+		jp2.setPreferredSize(new Dimension(270, 25));		
+		jp3.setPreferredSize(new Dimension(270, 150));
+		jp4.setPreferredSize(new Dimension(270, 150));
+		jp1.setBorder((new TitledBorder(new EtchedBorder(), "Cerca per")));
+		
 		jp1.setLayout(new GridLayout(5, 1));
-
-
-		jp2.setLayout(new GridLayout(4, 2));
-
-
-		jp4.setLayout(new GridLayout(5, 1));
+		jjp1.add(nome, nomeF);
+		jp1.add(jjp1);
 
 		p.add(jp1);
-		p.add(jp2);
-		p.add(jp4);
-		p.add(jp3);
-		p.add(b1);
-		p.add(b2);
-
 
 		b2.addActionListener((e) -> {
 			textArea.setText("");
