@@ -40,6 +40,12 @@ public class AmministrativoGUI extends JFrame {
 	private JPanel jp2;
 	private JPanel jp3;
 	private JPanel jp4;
+	
+	private JPanel jjp0;
+	private JPanel jjp1;
+	private JPanel jjp2;
+	private JPanel jjp3;
+	private JPanel jjp4;
 
 	private JTextArea textArea;
 	private JTextArea textArea2;
@@ -48,11 +54,14 @@ public class AmministrativoGUI extends JFrame {
 	private JRadioButton cb3;
 	private JRadioButton cb4;
 	private JRadioButton cb5;
+	private JRadioButton es0;
 	private JRadioButton es1;
 	private JRadioButton es2;
 	private JRadioButton es3;
 	private JRadioButton es4;
 	private JRadioButton es5;
+	private JRadioButton es6;
+	private JRadioButton es7;
 
 	private JCheckBox rb1;
 	private JCheckBox rb2;
@@ -65,6 +74,9 @@ public class AmministrativoGUI extends JFrame {
 	private JLabel fondi2;
 	private JLabel cap;
 	private JTextField nomeF;
+	private JTextField mat;
+	private JTextField min;
+	private JTextField max;
 
 	JComboBox obox;
 	JComboBox obox2;
@@ -129,15 +141,15 @@ public class AmministrativoGUI extends JFrame {
 		sp1.setPreferredSize(new Dimension(500, 30));
 		sp1.setLayout(new GridLayout(2, 1));
 		
-		fondi = new JLabel("Gestisci sezione esterna    Fondi: $" + (int)azienda.getFondiEsterno());
+		fondi2 = new JLabel("Gestisci sezione esterna    Fondi: $" + (int)azienda.getFondiEsterno());
 		cap = new JLabel("Capcita occupata del magazzino: " + (int)azienda.getMagazzino().getCapacitaOccupata()
 				+ " / " + (int)azienda.getMagazzino().getCapacitaMax()+" m^3");
 
 		//p.setLayout(new GridLayout(3, 1));
 		p.setBorder(BorderFactory.createLineBorder(Color.black));
-		fondi.setFont(new Font("", Font.BOLD, 15));
+		fondi2.setFont(new Font("", Font.BOLD, 15));
 		cap.setFont(new Font("", Font.BOLD, 13));
-		sp1.add(fondi);
+		sp1.add(fondi2);
 		sp1.add(cap);
 		p.add(sp1, BorderLayout.NORTH);
 		
@@ -525,37 +537,71 @@ public class AmministrativoGUI extends JFrame {
 	private JPanel criteriPanel2() {		
 
 		JPanel p = new JPanel();
-		jp0 = new JPanel();
-		jp1 = new JPanel();
-		jp2 = new JPanel();
-		jp3 = new JPanel();
-		jp4 = new JPanel();
-		
-		JPanel jjp1 = new JPanel();
+		jjp0 = new JPanel();
+		jjp1 = new JPanel();
+		jjp2 = new JPanel();
+		jjp3 = new JPanel();
+		jjp4 = new JPanel();
 
 		JButton b1 = new JButton("Genera report");
 		JButton b2 = new JButton("Cancella");
 		JButton b3 = new JButton("Visualizza stato magazzino");
-		JButton b4 = new JButton("Acquista nuovi prodotti");		
-
-		es1 = new JRadioButton("Nome prodotto");
-		es2 = new JRadioButton("Genera report su prodotti");
-		JLabel nome = new JLabel("Nome: ");
-		nomeF = new JTextField(10);		
+		JButton b4 = new JButton("Acquista nuovi prodotti");	
 		
-		p.setPreferredSize(new Dimension(300, 900));
-		jp0.setPreferredSize(new Dimension(270, 200));
-		jp1.setPreferredSize(new Dimension(270, 250));
-		jp2.setPreferredSize(new Dimension(270, 25));		
-		jp3.setPreferredSize(new Dimension(270, 150));
-		jp4.setPreferredSize(new Dimension(270, 150));
-		jp1.setBorder((new TitledBorder(new EtchedBorder(), "Cerca per")));
+		JLabel minl = new JLabel("                Min");
+		JLabel maxl = new JLabel("              Max");
 		
-		jp1.setLayout(new GridLayout(5, 1));
-		jjp1.add(nome, nomeF);
-		jp1.add(jjp1);
+		nomeF = new JTextField(10);	
+		min = new JTextField(6);
+		max = new JTextField(6);
+		mat = new JTextField(10);		
+		
+		es0 = new JRadioButton("Tutti");
+		es1 = new JRadioButton("Nome prodotto: ");
+		es2 = new JRadioButton("Range");
+		es3 = new JRadioButton("Prezzo");
+		es4 = new JRadioButton("Volume");
+		es5 = new JRadioButton("Magazzino");
+		es6 = new JRadioButton("Catalogo fornitore");
+		es7 = new JRadioButton("Materiale");
+			
+		
+		p.setPreferredSize(new Dimension(220, 900));
+		jjp1.setPreferredSize(new Dimension(250, 200));
+		jjp2.setPreferredSize(new Dimension(270, 60));		
+		jjp3.setPreferredSize(new Dimension(270, 150));
+		jjp4.setPreferredSize(new Dimension(270, 150));
+		jjp1.setBorder((new TitledBorder(new EtchedBorder(), "Cerca per")));
+		jjp2.setBorder((new TitledBorder(new EtchedBorder(), "Cerca in")));
+		
+		jjp1.setLayout(new GridLayout(8, 2));
+		
+		jjp1.add(es0);
+		jjp1.add(new JPanel());
+		jjp1.add(es1);
+		jjp1.add(nomeF);
+		jjp1.add(es7);
+		jjp1.add(mat);
+		jjp1.add(es2);
+		jjp1.add(new JPanel());
+		jjp1.add(new JPanel());
+		jjp1.add(new JPanel());
+		jjp1.add(es3);
+		jjp1.add(es4);
+		jjp1.add(minl);
+		jjp1.add(maxl);
+		jjp1.add(min);
+		jjp1.add(max);		
+		
+		jjp2.add(es5);
+		jjp2.add(es6);
+		
+		jjp3.add(b1);
+		jjp3.add(b2);
 
-		p.add(jp1);
+		p.add(jjp1);
+		p.add(jjp2);
+		p.add(jjp3);
 
 		b2.addActionListener((e) -> {
 			textArea.setText("");
