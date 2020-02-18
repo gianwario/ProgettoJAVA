@@ -430,6 +430,10 @@ public class AmministrativoGUI extends JFrame {
 			obox2.setVisible(true);
 		});
 		
+		ob3.addActionListener((e)->{
+			new AggiungiCommissione();
+		});
+		
 		ob4.addActionListener((e) -> {			
 			
 			String s = (String)obox3.getSelectedItem();			
@@ -1561,6 +1565,68 @@ public class AmministrativoGUI extends JFrame {
 
 		}
 
+	}
+
+	private class AggiungiCommissione extends JFrame{
+		
+		public AggiungiCommissione() {
+			setTitle("Richiesta nuova commissione");
+
+			setSize(350, 340);
+			setVisible(true);
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+			setResizable(false);
+
+			JPanel p = new JPanel();
+			JPanel p1 = new JPanel();
+			JPanel p2 = new JPanel();
+			JPanel p3 = new JPanel();
+			JPanel p4 = new JPanel();
+			JPanel p5 = new JPanel();
+			JPanel p6 = new JPanel();
+			JPanel p7 = new JPanel();
+			/*p1.setPreferredSize(new Dimension(380, 50));
+			p2.setPreferredSize(new Dimension(380, 30));
+			p3.setPreferredSize(new Dimension(380, 30));
+			p4.setPreferredSize(new Dimension(380, 30));
+			p5.setPreferredSize(new Dimension(380, 30));
+			p6.setPreferredSize(new Dimension(380, 30));*/
+
+			JLabel nome = new JLabel("Nominativo cliente");
+			JTextField tnome = new JTextField(15);
+			JLabel pagamento = new JLabel("Importo commissione");
+			JTextField tpagamento = new JTextField(15);
+			JLabel prezzop = new JLabel("Prezzo dei permessi");
+			JTextField tprezzop = new JTextField(15);
+			JButton conf = new JButton("Conferma");
+			
+			conf.addActionListener((e)->{
+				Commissione c = new Commissione(tnome.getText(),Double.parseDouble(tpagamento.getText()),Double.parseDouble(tprezzop.getText()));
+				azienda.getEsterno().riceviCommissione(c);
+				obox2.setVisible(false);
+				obox2.addItem(c);
+				obox2.setVisible(true);
+				setVisible(false);
+			});
+			
+			p1.add(nome);
+			p2.add(tnome);
+			p3.add(pagamento);
+			p4.add(tpagamento);
+			p5.add(prezzop);
+			p6.add(tprezzop);
+			p7.add(conf);
+			p.setLayout(new GridLayout(7,1));
+			p.add(p1);
+			p.add(p2);
+			p.add(p3);
+			p.add(p4);
+			p.add(p5);
+			p.add(p6);
+			p.add(p7);
+			add(p);
+		}
 	}
 	
 	private class AggiungiFornitore extends JFrame {
