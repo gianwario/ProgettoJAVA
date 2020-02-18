@@ -60,5 +60,10 @@ public class Macchinario extends Prodotto {
 
 		return super.toString() + "tipo patente = " + tipoPatente + "]";
 	}
+	
+	public String stampa() {
+		
+		return super.stampa() + ", pantente: " + tipoPatente;
+	}
 
 }

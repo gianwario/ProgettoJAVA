@@ -77,5 +77,10 @@ public abstract class Prodotto implements Serializable, Cloneable {
 
 		return getClass().getSimpleName() + "[nome = " + nome + ", prezzo = $" + prezzo + ", volume = " + volume + "]";
 	}
+	
+	public String stampa() {
+		
+		return getClass().getSimpleName() + ": " + nome + ", $" + prezzo + ", di volume " + volume + "m^3";
+	}
 
 }

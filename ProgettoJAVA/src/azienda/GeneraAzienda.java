@@ -216,6 +216,7 @@ public class GeneraAzienda {
 		Commissione c5 = new Commissione("Maria De Filippi", 90230, 430);
 		Commissione c6 = new Commissione("Rudy Zerbi", 16650, 96);
 		Commissione c7 = new Commissione("Adriano Celentano", 9010, 170);
+		Commissione c8 = new Commissione("Tina Cipollari", 14510, 200);
 
 		es.riceviCommissione(c1);
 		es.riceviCommissione(c2);
@@ -224,11 +225,15 @@ public class GeneraAzienda {
 		es.riceviCommissione(c5);
 		es.riceviCommissione(c6);
 		es.riceviCommissione(c7);
+		es.riceviCommissione(c8);
 
 		es.pagaPermessi(c1);
 		es.pagaPermessi(c2);
 		es.pagaPermessi(c3);
 		es.pagaPermessi(c4);
+		es.pagaPermessi(c8);
+		
+		c8.setCompletamento(true);
 
 		ArrayList<Prodotto> list1 = new ArrayList<Prodotto>();
 		ArrayList<Prodotto> list2 = new ArrayList<Prodotto>();
