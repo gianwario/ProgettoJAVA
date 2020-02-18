@@ -17,6 +17,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -26,8 +27,12 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import azienda.Azienda;
+import eccezioni.CapacitaInsufficienteException;
 import esterni.Fornitore;
 import personale.*;
+import risorse.Attrezzo;
+import risorse.Macchinario;
+import risorse.Prodotto;
 import utils.*;
 import esterni.Commissione;
 
@@ -40,7 +45,7 @@ public class AmministrativoGUI extends JFrame {
 	private JPanel jp2;
 	private JPanel jp3;
 	private JPanel jp4;
-	
+
 	private JPanel jjp0;
 	private JPanel jjp1;
 	private JPanel jjp2;
@@ -62,6 +67,21 @@ public class AmministrativoGUI extends JFrame {
 	private JRadioButton es5;
 	private JRadioButton es6;
 	private JRadioButton es7;
+	private JRadioButton es8;
+	private JRadioButton es9;
+	private JRadioButton es10;
+	private JRadioButton es11;
+	private JRadioButton es12;
+	private JRadioButton es13;
+	private JRadioButton es14;
+
+	private JRadioButton rb5;
+	private JRadioButton rb6;
+	private JRadioButton rb7;
+	private JRadioButton rb8;
+	private JRadioButton rb9;
+	private JRadioButton rb10;
+	private JRadioButton rb11;
 
 	private JCheckBox rb1;
 	private JCheckBox rb2;
@@ -81,14 +101,6 @@ public class AmministrativoGUI extends JFrame {
 	JComboBox obox;
 	JComboBox obox2;
 	JComboBox obox3;
-
-	private JRadioButton rb5;
-	private JRadioButton rb6;
-	private JRadioButton rb7;
-	private JRadioButton rb8;
-	private JRadioButton rb9;
-	private JRadioButton rb10;
-	private JRadioButton rb11;
 
 	public AmministrativoGUI(Azienda azienda) {
 
@@ -136,23 +148,23 @@ public class AmministrativoGUI extends JFrame {
 		JPanel p = new JPanel(); // pannello generico di dx
 		JPanel sp1 = new JPanel();
 		JPanel sp2 = new JPanel();
-		JPanel sp3 = opEsterno(); 
-		
+		JPanel sp3 = opEsterno();
+
 		sp1.setPreferredSize(new Dimension(500, 30));
 		sp1.setLayout(new GridLayout(2, 1));
-		
-		fondi2 = new JLabel("Gestisci sezione esterna    Fondi: $" + (int)azienda.getFondiEsterno());
-		cap = new JLabel("Capcita occupata del magazzino: " + (int)azienda.getMagazzino().getCapacitaOccupata()
-				+ " / " + (int)azienda.getMagazzino().getCapacitaMax()+" m^3");
 
-		//p.setLayout(new GridLayout(3, 1));
+		fondi2 = new JLabel("Gestisci sezione esterna    Fondi: $" + (int) azienda.getFondiEsterno());
+		cap = new JLabel("Capcita occupata del magazzino: " + (int) azienda.getMagazzino().getCapacitaOccupata() + " / "
+				+ (int) azienda.getMagazzino().getCapacitaMax() + " m^3");
+
+		// p.setLayout(new GridLayout(3, 1));
 		p.setBorder(BorderFactory.createLineBorder(Color.black));
 		fondi2.setFont(new Font("", Font.BOLD, 15));
 		cap.setFont(new Font("", Font.BOLD, 13));
 		sp1.add(fondi2);
 		sp1.add(cap);
 		p.add(sp1, BorderLayout.NORTH);
-		
+
 		sp2 = reportEsternoPanel();
 
 		sp3.setPreferredSize(new Dimension(760, 220));
@@ -186,7 +198,7 @@ public class AmministrativoGUI extends JFrame {
 
 		return p;
 	}
-	
+
 	private JPanel opInterno() {
 
 		JPanel p = new JPanel();
@@ -316,7 +328,7 @@ public class AmministrativoGUI extends JFrame {
 
 		return p;
 	}
-	
+
 	private JPanel reportEsternoPanel() {
 
 		JPanel p = new JPanel();
@@ -324,12 +336,12 @@ public class AmministrativoGUI extends JFrame {
 		JPanel tmp = new JPanel();
 
 		textArea2 = new JTextArea(25, 30);
-		JScrollPane bar = new JScrollPane(textArea2);
+		JScrollPane bar2 = new JScrollPane(textArea2);
 
 		p.setBorder((new TitledBorder(new EtchedBorder(), "Report magazzino")));
 		p.setPreferredSize(new Dimension(680, 470));
 		textArea2.setEditable(false);
-		tmp.add(bar);
+		tmp.add(bar2);
 
 		sp1.setPreferredSize(new Dimension(500, 450));
 		sp1.add(tmp);
@@ -339,7 +351,7 @@ public class AmministrativoGUI extends JFrame {
 
 		return p;
 	}
-	
+
 	private JPanel opEsterno() {
 
 		JPanel p = new JPanel();
@@ -356,7 +368,7 @@ public class AmministrativoGUI extends JFrame {
 		JLabel olabel2 = new JLabel("Scegli un'operazione ");
 		obox2 = new JComboBox(azienda.getEsterno().getListaCommissioni().toArray());
 		ArrayList<String> nomi = new ArrayList<String>();
-		for(Fornitore f : azienda.getEsterno().getListaFornitori())
+		for (Fornitore f : azienda.getEsterno().getListaFornitori())
 			nomi.add(f.getNome());
 		obox3 = new JComboBox(nomi.toArray());
 
@@ -366,40 +378,99 @@ public class AmministrativoGUI extends JFrame {
 		JButton ob4 = new JButton("Visualizza catalogo");
 		JButton ob5 = new JButton("Rimuovi selezionato");
 		JButton ob6 = new JButton("Aggiungi nuovo fornitore");
-		
-		ob1.setEnabled(false);
-		ob2.setEnabled(false);	
 
-		olabel2.setFont(new Font("", Font.BOLD, 12));
+		ob1.setEnabled(false);
+		ob2.setEnabled(false);
+
+		olabel2.setFont(new Font("", Font.BOLD, 12));		
 		
-		obox2.addActionListener((e) -> {
+		class ButtonListener implements ActionListener {
 			
-			if(!((Commissione)obox2.getSelectedItem()).getOttenimentoPermessi()) {				
-				ob1.setEnabled(true);
-				ob2.setEnabled(false);
+			public void actionPerformed(ActionEvent e) {
+				
+				if (!((Commissione) obox2.getSelectedItem()).getOttenimentoPermessi()) {
+					ob1.setEnabled(true);
+					ob2.setEnabled(false);
+				}
+
+				if (((Commissione) obox2.getSelectedItem()).getCompletamento()) {
+					ob1.setEnabled(false);
+					ob2.setEnabled(true);
+				}
+
+				if (!((Commissione) obox2.getSelectedItem()).getCompletamento()
+						&& ((Commissione) obox2.getSelectedItem()).getOttenimentoPermessi()) {
+					ob1.setEnabled(false);
+					ob2.setEnabled(false);
+				}
+				
 			}
+		}
+		
+		obox2.addActionListener(new ButtonListener());
+		ob1.addActionListener(new ButtonListener());
+		ob2.addActionListener(new ButtonListener());
+		
+		ob1.addActionListener((e) -> {			
 			
-			if(((Commissione)obox2.getSelectedItem()).getCompletamento()) {				
-				ob1.setEnabled(false);
-				ob2.setEnabled(true);
-			}
-			
-			if(!((Commissione)obox2.getSelectedItem()).getCompletamento() && ((Commissione)obox2.getSelectedItem()).getOttenimentoPermessi()) {				
-				ob1.setEnabled(false);
-				ob2.setEnabled(false);
-			}
-			
+			obox2.setVisible(false);
+			Commissione c = (Commissione)obox2.getSelectedItem();
+			azienda.getEsterno().pagaPermessi(c);
+			fondi2.setText("Gestisci sezione esterna    Fondi: $" + (int) azienda.getFondiEsterno());
+			obox2.setVisible(true);
 		});
 		
+		ob2.addActionListener((e) -> {			
+			
+			obox2.setVisible(false);
+			Commissione c = (Commissione)obox2.getSelectedItem();
+			azienda.getEsterno().chiudiCommissioni(c);
+			fondi2.setText("Gestisci sezione esterna    Fondi: $" + (int) azienda.getFondiEsterno());
+			obox2.removeItem(c);
+			obox2.setVisible(true);
+		});
+		
+		ob4.addActionListener((e) -> {			
+			
+			String s = (String)obox3.getSelectedItem();			
+			
+			for(Fornitore f : azienda.getEsterno().getListaFornitori())				
+				if(f.getNome().equals(s)) {
+					textArea2.setText("Catalogo di " + f.getNome() + ": \n");
+					for(Prodotto p2 : f.getCatalogo())
+						textArea2.append(p2.stampa() + "\n");
+				}
+		});
+		
+		ob5.addActionListener((e) -> {			
+			
+			String s = (String)obox3.getSelectedItem();			
+			Fornitore dar = new Fornitore(null);
+			for(Fornitore f : azienda.getEsterno().getListaFornitori())				
+				if(f.getNome().equals(s)) {
+					dar=f;
+				}
+			
+			obox3.setVisible(false);
+			obox3.removeItem(obox3.getSelectedItem());
+			azienda.getEsterno().rimuoviFornitore(dar);
+			obox3.setVisible(true);
+		});
+		
+		ob6.addActionListener((e) -> {
+			
+			new AggiungiFornitore();
+		});
+
 		op1.add(olabel);
 		op1.add(obox2);
 		op2.add(ob1);
 		op2.add(ob2);
 		op2.add(ob3);
-		
+
 		op3.add(olabel1);
 		op3.add(obox3);
-		
+
 		op4.add(ob4);
 		op4.add(ob5);
 		op4.add(ob6);
@@ -408,13 +479,11 @@ public class AmministrativoGUI extends JFrame {
 		p.add(op2);
 		p.add(op3);
 		p.add(op4);
-		
-		return p;
-		
 
+		return p;
 
 	}
-	
+
 	private JPanel criteriPanel() {
 
 		JPanel p = new JPanel();
@@ -533,8 +602,8 @@ public class AmministrativoGUI extends JFrame {
 
 		return p;
 	}
-	
-	private JPanel criteriPanel2() {		
+
+	private JPanel criteriPanel2() {
 
 		JPanel p = new JPanel();
 		jjp0 = new JPanel();
@@ -545,17 +614,16 @@ public class AmministrativoGUI extends JFrame {
 
 		JButton b1 = new JButton("Genera report");
 		JButton b2 = new JButton("Cancella");
-		JButton b3 = new JButton("Visualizza stato magazzino");
-		JButton b4 = new JButton("Acquista nuovi prodotti");	
-		
+		JButton b3 = new JButton("Acquista nuovi prodotti");
+
 		JLabel minl = new JLabel("                Min");
 		JLabel maxl = new JLabel("              Max");
-		
-		nomeF = new JTextField(10);	
+
+		nomeF = new JTextField(10);
 		min = new JTextField(6);
 		max = new JTextField(6);
-		mat = new JTextField(10);		
-		
+		mat = new JTextField(10);
+
 		es0 = new JRadioButton("Tutti");
 		es1 = new JRadioButton("Nome prodotto: ");
 		es2 = new JRadioButton("Range");
@@ -563,52 +631,132 @@ public class AmministrativoGUI extends JFrame {
 		es4 = new JRadioButton("Volume");
 		es5 = new JRadioButton("Magazzino");
 		es6 = new JRadioButton("Catalogo fornitore");
-		es7 = new JRadioButton("Materiale");
-			
+		es7 = new JRadioButton("Materiale:");
+		es8 = new JRadioButton("Attrezzo");
+		es9 = new JRadioButton("Macchinario");
+		es10 = new JRadioButton("B");
+		es11 = new JRadioButton("C");
+		es12 = new JRadioButton("D");
+		es13 = new JRadioButton("Patente");
+		es14 = new JRadioButton("Tutto");
+
+		ButtonGroup g1 = new ButtonGroup();
+		ButtonGroup g2 = new ButtonGroup();
+		ButtonGroup g3 = new ButtonGroup();
+		ButtonGroup g4 = new ButtonGroup();
+		ButtonGroup g5 = new ButtonGroup();
+
+		g1.add(es0);
+		g1.add(es1);
+		g1.add(es2);
+		g1.add(es7);
+		g1.add(es13);
+
+		g2.add(es3);
+		g2.add(es4);
+
+		g3.add(es5);
+		g3.add(es6);
+
+		g4.add(es10);
+		g4.add(es11);
+		g4.add(es12);
+
+		g5.add(es8);
+		g5.add(es9);
+		g5.add(es14);
+
+		es14.setSelected(true);
+		es5.setSelected(true);
+		es4.setEnabled(false);
+		es3.setEnabled(false);
+		es7.setEnabled(false);
+		es13.setEnabled(false);
+		es10.setEnabled(false);
+		es11.setEnabled(false);
+		es12.setEnabled(false);
+		nomeF.setEditable(false);
+		mat.setEditable(false);
+		min.setEditable(false);
+		max.setEditable(false);
+
+		es0.addActionListener(new CriteriListener2());
+		es1.addActionListener(new CriteriListener2());
+		es2.addActionListener(new CriteriListener2());
+		es3.addActionListener(new CriteriListener2());
+		es4.addActionListener(new CriteriListener2());
+		es5.addActionListener(new CriteriListener2());
+		es6.addActionListener(new CriteriListener2());
+		es7.addActionListener(new CriteriListener2());
+		es8.addActionListener(new CriteriListener2());
+		es9.addActionListener(new CriteriListener2());
+		es10.addActionListener(new CriteriListener2());
+		es11.addActionListener(new CriteriListener2());
+		es12.addActionListener(new CriteriListener2());
+		es13.addActionListener(new CriteriListener2());
+		es14.addActionListener(new CriteriListener2());		
 		
-		p.setPreferredSize(new Dimension(220, 900));
-		jjp1.setPreferredSize(new Dimension(250, 200));
-		jjp2.setPreferredSize(new Dimension(270, 60));		
-		jjp3.setPreferredSize(new Dimension(270, 150));
-		jjp4.setPreferredSize(new Dimension(270, 150));
+		b3.addActionListener((e) -> {			
+			
+			new AcquistoFrame();
+		});
+
+		p.setPreferredSize(new Dimension(220, 910));
+		jjp0.setPreferredSize(new Dimension(250, 20));
+		jjp1.setPreferredSize(new Dimension(250, 210));
+		jjp2.setPreferredSize(new Dimension(270, 60));
+		jjp3.setPreferredSize(new Dimension(270, 40));
+		jjp4.setPreferredSize(new Dimension(275, 55));
 		jjp1.setBorder((new TitledBorder(new EtchedBorder(), "Cerca per")));
 		jjp2.setBorder((new TitledBorder(new EtchedBorder(), "Cerca in")));
-		
+		jjp4.setBorder((new TitledBorder(new EtchedBorder(), "Tipo")));
+
 		jjp1.setLayout(new GridLayout(8, 2));
-		
+
 		jjp1.add(es0);
 		jjp1.add(new JPanel());
 		jjp1.add(es1);
 		jjp1.add(nomeF);
 		jjp1.add(es7);
 		jjp1.add(mat);
+		jjp1.add(es13);
+		jjp1.add(jjp0);
 		jjp1.add(es2);
-		jjp1.add(new JPanel());
-		jjp1.add(new JPanel());
-		jjp1.add(new JPanel());
+		jjp1.add(new JLabel(""));
 		jjp1.add(es3);
 		jjp1.add(es4);
 		jjp1.add(minl);
 		jjp1.add(maxl);
 		jjp1.add(min);
-		jjp1.add(max);		
-		
+		jjp1.add(max);
+
 		jjp2.add(es5);
 		jjp2.add(es6);
-		
+
+		jjp0.add(es10);
+		jjp0.add(es11);
+		jjp0.add(es12);
+
 		jjp3.add(b1);
 		jjp3.add(b2);
 
+		jjp4.add(es8);
+		jjp4.add(es9);
+		jjp4.add(es14);
+
+		p.add(jjp4);
 		p.add(jjp1);
 		p.add(jjp2);
 		p.add(jjp3);
+		p.add(b3);
 
+		b1.addActionListener(new ReportGenerator2());
 		b2.addActionListener((e) -> {
-			textArea.setText("");
+			textArea2.setText("");
 		});
 
 		return p;
-	
+
 	}
 
 	private class CriteriListener implements ActionListener {
@@ -696,6 +844,128 @@ public class AmministrativoGUI extends JFrame {
 		}
 	}
 
+	private class CriteriListener2 implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+
+			if (es8.isSelected()) {
+
+				es0.setEnabled(true);
+				es1.setEnabled(true);
+				es2.setEnabled(true);
+				es7.setEnabled(true);
+				es13.setEnabled(false);
+
+			}
+
+			if (es9.isSelected()) {
+
+				es0.setEnabled(true);
+				es1.setEnabled(true);
+				es2.setEnabled(true);
+				es7.setEnabled(false);
+				es13.setEnabled(true);
+
+			}
+
+			if (es14.isSelected()) {
+
+				es0.setEnabled(true);
+				es1.setEnabled(true);
+				es2.setEnabled(true);
+				es7.setEnabled(false);
+				es10.setEnabled(false);
+				es11.setEnabled(false);
+				es12.setEnabled(false);
+				es13.setEnabled(false);
+			}
+
+			if (!es13.isSelected()) {
+
+				es10.setEnabled(false);
+				es11.setEnabled(false);
+				es12.setEnabled(false);
+			}
+
+			if (es8.isSelected() && es9.isSelected()) {
+
+				es0.setEnabled(true);
+				es1.setEnabled(true);
+				es2.setEnabled(true);
+				es7.setEnabled(false);
+				es10.setEnabled(false);
+				es13.setEnabled(false);
+
+			}
+
+			if (es0.isSelected()) {
+
+				es4.setEnabled(false);
+				es3.setEnabled(false);
+				nomeF.setEditable(false);
+				mat.setEditable(false);
+				min.setEditable(false);
+				max.setEditable(false);
+				es10.setEnabled(false);
+				es11.setEnabled(false);
+				es12.setEnabled(false);
+			}
+
+			if (es1.isSelected()) {
+
+				es4.setEnabled(false);
+				es3.setEnabled(false);
+				nomeF.setEditable(true);
+				mat.setEditable(false);
+				min.setEditable(false);
+				max.setEditable(false);
+				es10.setEnabled(false);
+				es11.setEnabled(false);
+				es12.setEnabled(false);
+			}
+
+			if (es2.isSelected()) {
+
+				es3.setEnabled(true);
+				es4.setEnabled(true);
+				nomeF.setEditable(false);
+				mat.setEditable(false);
+				min.setEditable(true);
+				max.setEditable(true);
+				es10.setEnabled(false);
+				es11.setEnabled(false);
+				es12.setEnabled(false);
+			}
+
+			if (es7.isSelected()) {
+
+				es4.setEnabled(false);
+				es3.setEnabled(false);
+				nomeF.setEditable(false);
+				mat.setEditable(true);
+				min.setEditable(false);
+				max.setEditable(false);
+				es10.setEnabled(false);
+				es11.setEnabled(false);
+				es12.setEnabled(false);
+			}
+
+			if (es13.isSelected()) {
+
+				es10.setEnabled(true);
+				es11.setEnabled(true);
+				es12.setEnabled(true);
+				min.setEditable(false);
+				max.setEditable(false);
+				nomeF.setEditable(false);
+				mat.setEditable(false);
+				es4.setEnabled(false);
+				es3.setEnabled(false);
+
+			}
+		}
+	}
+
 	private class ReportGenerator implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -716,6 +986,60 @@ public class AmministrativoGUI extends JFrame {
 				for (int i = risultato.ordina().size() - 1; i >= 0; i--)
 					textArea.append(((Dipendente) risultato.ordina().get(i)).stampa());
 
+		}
+	}
+
+	private class ReportGenerator2 implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+
+			if (es5.isSelected())
+				new ReportGeneratorMagazzino().actionPerformed(e);
+
+			else if (es6.isSelected())
+				new ReportGeneratorFornitore().actionPerformed(e);
+			
+			
+			nomeF.setText("");
+			min.setText("");
+			max.setText("");
+			mat.setText("");
+		}
+	}
+
+	private class ReportGeneratorMagazzino implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+
+			Selezionabile<Prodotto> s = scegliCriterio2();
+			Selezionatore<Prodotto> selezione = new Selezionatore<Prodotto>(azienda.getMagazzino().getListaProdotti(),
+					s);
+
+			textArea2.setText("TROVATI IN MAGAZZINO: \n\n");
+			for (Prodotto p : selezione.seleziona())
+				textArea2.append(p.stampa() + "\n");
+
+		}
+	}
+
+	private class ReportGeneratorFornitore implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			
+			Selezionatore<Prodotto> selezione;
+			Selezionabile<Prodotto> s = scegliCriterio2();
+			textArea2.setText("TROVATI IN CATALOGHI: \n\n");
+			
+			for(Fornitore f : azienda.getEsterno().getListaFornitori()) {
+				
+				selezione = new Selezionatore<Prodotto>(f.getCatalogo(), s);
+				if(selezione.seleziona().size() > 0) {
+					textArea2.append("Catalogo di " + f.getNome() + ":\n");
+					for(Prodotto p : selezione.seleziona())
+						textArea2.append(p.stampa() + "\n");
+					textArea2.append("\n");					
+				}				
+			}
 		}
 	}
 
@@ -749,6 +1073,154 @@ public class AmministrativoGUI extends JFrame {
 		}
 
 		return null;
+	}
+
+	private Selezionabile<Prodotto> scegliCriterio2() {
+
+		Selezionabile<Prodotto> s = null;
+
+		if (es0.isSelected()) {
+
+			if (es8.isSelected()) {
+				s = (p) -> {
+					if (p instanceof Attrezzo)
+						return true;
+					else
+						return false;
+				};
+			}
+
+			if (es9.isSelected()) {
+				s = (p) -> {
+					if (p instanceof Macchinario)
+						return true;
+					else
+						return false;
+				};
+			}
+
+			if (es14.isSelected()) {
+				s = (p) -> true;
+			}
+		}
+
+		if (es1.isSelected()) {
+
+			if (es8.isSelected()) {
+				s = (p) -> {
+					if (p instanceof Attrezzo)
+						return p.getNome().equalsIgnoreCase(nomeF.getText());
+					else
+						return false;
+				};
+			}
+
+			if (es9.isSelected()) {
+				s = (p) -> {
+					if (p instanceof Macchinario)
+						return p.getNome().equalsIgnoreCase(nomeF.getText());
+					else
+						return false;
+				};
+			}
+
+			if (es14.isSelected()) {
+				s = (p) -> p.getNome().equalsIgnoreCase(nomeF.getText());
+			}
+		}
+
+		if (es7.isSelected()) {
+			s = (p) -> {
+				if (p instanceof Attrezzo)
+					return ((Attrezzo) p).getMateriale().equals(mat.getText());
+				else
+					return false;
+			};
+		}
+
+		if (es13.isSelected()) {
+
+			if (es10.isSelected()) {
+				s = (p) -> {
+					if (p instanceof Macchinario)
+						return ((Macchinario) p).getTipoPatente().equals("B");
+					else
+						return false;
+				};
+
+			}
+
+			if (es11.isSelected()) {
+				s = (p) -> {
+					if (p instanceof Macchinario)
+						return ((Macchinario) p).getTipoPatente().equals("C");
+					else
+						return false;
+				};
+
+			}
+
+			if (es12.isSelected()) {
+				s = (p) -> {
+					if (p instanceof Macchinario)
+						return ((Macchinario) p).getTipoPatente().equals("D");
+					else
+						return false;
+				};
+
+			}
+
+		}
+
+		if (es2.isSelected()) {
+
+			if (es8.isSelected()) {
+
+				s = (p) -> {
+					if (p instanceof Attrezzo) {
+						if (es3.isSelected())
+							return (p.getPrezzo() >= Double.parseDouble(min.getText()))
+									&& (p.getPrezzo() <= Double.parseDouble(max.getText()));
+						if (es4.isSelected())
+							return (p.getVolume() >= Double.parseDouble(min.getText()))
+									&& (p.getVolume() <= Double.parseDouble(max.getText()));
+						return false;
+					} else
+						return false;
+				};
+			}
+
+			if (es9.isSelected()) {
+
+				s = (p) -> {
+					if (p instanceof Macchinario) {
+						if (es3.isSelected())
+							return (p.getPrezzo() >= Double.parseDouble(min.getText()))
+									&& (p.getPrezzo() <= Double.parseDouble(max.getText()));
+						if (es4.isSelected())
+							return (p.getVolume() >= Double.parseDouble(min.getText()))
+									&& (p.getVolume() <= Double.parseDouble(max.getText()));
+						return false;
+					} else
+						return false;
+				};
+			}
+
+			if (es14.isSelected()) {
+
+				s = (p) -> {
+					if (es3.isSelected())
+						return (p.getPrezzo() >= Double.parseDouble(min.getText()))
+								&& (p.getPrezzo() <= Double.parseDouble(max.getText()));
+					if (es4.isSelected())
+						return (p.getVolume() >= Double.parseDouble(min.getText()))
+								&& (p.getVolume() <= Double.parseDouble(max.getText()));
+					return false;
+				};
+			}
+		}
+
+		return s;
 	}
 
 	private ArrayList<Dipendente> filtraSelezione(ArrayList<Dipendente> list) {
@@ -1089,5 +1561,241 @@ public class AmministrativoGUI extends JFrame {
 
 		}
 
+	}
+	
+	private class AggiungiFornitore extends JFrame {
+		
+		public AggiungiFornitore() {
+			
+			setTitle("Registra nuovo fornitore");
+			setSize(860, 500);			
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+			setResizable(false);			
+			setVisible(true);
+			
+			JTextArea area = new JTextArea();
+			JPanel p1 = new JPanel();
+			JPanel p2 = new JPanel();
+			JPanel p3 = new JPanel();
+			JPanel p4 = new JPanel();
+			JPanel p5 = new JPanel();
+			JPanel p6 = new JPanel();
+			JPanel p7 = new JPanel();
+			JPanel p8 = new JPanel();
+			JPanel p9 = new JPanel();
+			JPanel p10 = new JPanel();
+			JPanel p11 = new JPanel();
+			
+			JTextField nomeP = new JTextField(10);
+			JTextField costo = new JTextField(8);
+			JTextField volume = new JTextField(8);
+			JTextField materiale = new JTextField(8);
+			JTextField nomeF = new JTextField(10);
+			
+			JRadioButton att = new JRadioButton("Attrezzo");
+			JRadioButton macc = new JRadioButton("Macchinario");
+			
+			JButton aggiungi = new JButton("Aggiungi prodotto al catalogo");
+			
+			ButtonGroup g = new ButtonGroup();
+			g.add(att);
+			g.add(macc);
+			
+			String[] patenti = {"B", "C", "D"};
+			JComboBox box = new JComboBox(patenti);
+			
+			p1.setPreferredSize(new Dimension(330, 140));
+			p2.setPreferredSize(new Dimension(700, 130));	
+			p1.setLayout(new GridLayout(9, 1));
+			area.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
+			
+			box.setEnabled(false);
+			materiale.setEditable(false);
+			
+			class Buttons implements ActionListener {
+				
+				public void actionPerformed(ActionEvent e) {
+					
+					if(att.isSelected()) {
+						materiale.setEditable(true);
+						box.setEnabled(false);
+					}
+					
+					if(macc.isSelected()) {
+						materiale.setEditable(false);
+						box.setEnabled(true);
+					}					
+				}
+			}
+			
+			att.addActionListener(new Buttons());
+			macc.addActionListener(new Buttons());
+			
+			p3.add(new JLabel("Inserisci prodotto al catalogo"));
+			p4.add(new JLabel("Nome: "));
+			p4.add(nomeP);
+			p5.add(new JLabel("Costo: $"));
+			p5.add(costo);
+			p6.add(new JLabel("Volume: "));
+			p6.add(volume);
+			p7.add(new JLabel("Materiale: "));
+			p7.add(materiale);
+			p8.add(new JLabel("Patente richiesta: "));
+			p8.add(box);
+			p9.add(att);
+			p9.add(macc);
+			p10.add(aggiungi);
+			
+			p1.add(new JPanel());
+			p1.add(p3);
+			p1.add(p4);
+			p1.add(p5);
+			p1.add(p6);
+			p1.add(p9);
+			p1.add(p7);
+			p1.add(p8);			
+			p1.add(p10);
+			
+			
+			add(area);			
+			add(p2, BorderLayout.SOUTH);
+			add(p1, BorderLayout.WEST);
+		}
+		
+	}
+	
+	private class AcquistoFrame extends JFrame {
+		
+		double saldo;
+		double capa;
+		
+		public AcquistoFrame() {
+			
+			saldo = 0;
+			capa = azienda.getMagazzino().getCapacitaMax() - azienda.getMagazzino().getCapacitaOccupata();
+			setTitle("Acquista materiali per il magazzino");
+			setSize(700, 440);			
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+			setResizable(false);			
+			setVisible(true);
+			
+			JPanel p1 = new JPanel();
+			JPanel p2 = new JPanel();
+			JPanel p3 = new JPanel();
+			JPanel p4 = new JPanel();
+			JPanel p5 = new JPanel();
+			JLabel sald = new JLabel("Totale: $" + saldo + "  Capacità rimasta: " + capa);
+
+			JTextArea area = new JTextArea("CARRELLO: \n");
+			JScrollPane bar = new JScrollPane(area);
+			JButton b1 = new JButton("Aggiungi al carrello");
+			JButton b2 = new JButton("Completa acquisto");
+			JButton b3 = new JButton("Svuota carrello");
+			
+			
+			ArrayList<String> nomiF = new ArrayList<String>();
+			
+			ArrayList<Prodotto> carrello = new ArrayList<Prodotto>();
+			for(Fornitore f : azienda.getEsterno().getListaFornitori())
+				nomiF.add(f.getNome());
+			area.setEditable(false);
+			b1.setEnabled(false);
+			JComboBox box1 = new JComboBox(nomiF.toArray());
+			JComboBox box2 = new JComboBox();
+			
+			box1.addActionListener((e) -> {
+				
+				String s = (String)box1.getSelectedItem();
+				b1.setEnabled(true);
+				for(Fornitore f : azienda.getEsterno().getListaFornitori())
+					if(f.getNome().equals(s)) {						
+						
+						box2.removeAllItems();
+						for(Prodotto p : f.getCatalogo())
+							box2.addItem(p);
+					}
+				
+				box2.setVisible(false);
+				box2.setVisible(true);
+				
+				
+			});
+			
+			b1.addActionListener((e) -> {
+				
+				Prodotto p = (Prodotto)box2.getSelectedItem();
+				carrello.add(p);
+				saldo += p.getPrezzo();
+				capa -= p.getVolume();
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
+				area.append(p.stampa() + "\n");				
+				
+			});
+			
+			b2.addActionListener((e) -> {
+				
+				if(carrello.size() > 0)
+					azienda.getEsterno().pagaProdotti(carrello);				
+				
+				for(Prodotto p : carrello) {
+					try {
+						azienda.getMagazzino().aggiungiProdotto(p);
+					} catch (CapacitaInsufficienteException e1) {
+						
+						JOptionPane.showMessageDialog(null, "Capacità magazzino insufficiente!", "CapacitaInsufficienteException", JOptionPane.ERROR_MESSAGE,
+							     null);
+					}
+				}				
+				carrello.removeAll(carrello);					
+				saldo = 0;
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
+				area.setText("CARRELLO: \n");
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
+				fondi2.setText("Gestisci sezione esterna    Fondi: $" + (int) azienda.getFondiEsterno());
+				
+				cap.setText("Capcita occupata del magazzino: " + (int) azienda.getMagazzino().getCapacitaOccupata() + " / "
+						+ (int) azienda.getMagazzino().getCapacitaMax() + " m^3");
+				
+				
+			});
+			
+			b3.addActionListener((e) -> {
+				
+				for(Prodotto p : carrello)
+					capa += p.getVolume();				
+				carrello.removeAll(carrello);			
+				saldo = 0;
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
+				area.setText("CARRELLO: \n");
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);			
+				
+			});
+			
+			p1.setPreferredSize(new Dimension(700, 150));				
+			p1.setBorder((new TitledBorder(new EtchedBorder(), "Scegli prodotti")));			
+			p1.setLayout(new GridLayout(4, 1));
+			
+			p4.add(b1);
+			p4.add(b2);
+			p4.add(b3);
+			
+			p2.add(new JLabel("Fornitore: "));
+			p2.add(box1);
+			p3.add(new JLabel("Prodotti: "));	
+			p3.add(box2);
+			
+			p5.add(sald);
+			
+			p1.add(p2);
+			p1.add(p3);
+			p1.add(p5);	
+			p1.add(p4);		
+			
+			
+			add(bar);
+			add(p1, BorderLayout.SOUTH);
+		}
 	}
 }

@@ -50,5 +50,10 @@ public class Attrezzo extends Prodotto {
 
 		return super.toString() + ", materiale = " + materiale + "]";
 	}
+	
+	public String stampa() {
+		
+		return super.stampa() + ", di " + materiale;
+	}
 
 }
