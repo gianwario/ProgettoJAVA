@@ -113,7 +113,7 @@ public class Cantiere implements Cloneable, Serializable {
 		return "Cliente : " + getCommissione().getNominativoCliente() + ", introito netto : "
 				+ getCommissione().getPagamento() + "\n        prezzo permessi : " + getCommissione().getPrezzoPermessi()
 				+ ", completamento : " + getCommissione().getCompletamento() + ", permessi ottenuti : "
-				+ getCommissione().getOttenimentoPermessi()+"\n";
+				+ getCommissione().getOttenimentoPermessi()+"\n\n";
 	}
 
 	public String stampaSquadre() {

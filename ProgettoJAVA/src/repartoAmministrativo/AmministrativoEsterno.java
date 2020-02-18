@@ -89,7 +89,7 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 		for (Commissione c : listaCommissioni) {
 
 			if (c.getCompletamento() == true) {
-				aggiungiFondi(c.getPagamento() / 2);
+				aggiungiFondi(c.getPagamento());
 				listaCommissioni.remove(c);
 			}
 		}

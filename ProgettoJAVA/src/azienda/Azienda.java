@@ -39,6 +39,14 @@ public class Azienda implements Serializable{
 		return interno.controllaFondi();
 	}
 
+	public void equilibriaFondi(){
+		double f = esterno.controllaFondi()+interno.controllaFondi();	
+		esterno.effettuaSpesa(getFondiEsterno());
+		interno.effettuaSpesa(getFondiInterno());
+		esterno.aggiungiFondi(f/2);
+		interno.aggiungiFondi(f/2);
+	}
+	
 	public AmministrativoInterno getInterno() {
 		return interno;
 	}

@@ -29,7 +29,7 @@ public class GeneraAzienda {
 		RepartoOperativo op = a.getOperativo();
 		// Magazzino m =a.getMagazzino();
 
-		System.out.println("SOLDOS : " + es.controllaFondi() + "   " + in.controllaFondi() + "\n");
+		System.out.println("Fondi : esterno " + es.controllaFondi() + "   interno " + in.controllaFondi() + "\n");
 
 		// SALVATAGGIO REPARTO INTERNO
 		Impiegato i1 = new Impiegato("Gianmario", "Voria", 28);
@@ -308,15 +308,16 @@ public class GeneraAzienda {
 		op.getCantiere(1).assegnaConducente(m2, o7);
 		op.getCantiere(2).assegnaConducente(m4, o10);
 
-		System.out.println(o1.checkPaga() +" "+ o7.checkPaga()+" "+ o8.checkPaga()+" "+ o10.checkPaga());
-
+		
+		a.equilibriaFondi();
+		
+		
 		LeggiScriviAzienda lsa = new LeggiScriviAzienda();
 		lsa.setAzienda(a);
 		lsa.scriviAzienda("azienda.dat");
 
 		System.out.println(lsa.getAzienda());
 
-		System.out.println("SOLDOS : " + es.controllaFondi() + "   " + in.controllaFondi() + "\n");
 	}
 
 }

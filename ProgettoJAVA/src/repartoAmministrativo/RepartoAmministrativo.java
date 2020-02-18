@@ -40,7 +40,7 @@ public abstract class RepartoAmministrativo implements Serializable {
 	 */
 	public void effettuaSpesa(double importo) {
 		if (importo > 0) {
-			if ((this.fondi - importo) > 0) {
+			if ((this.fondi - importo) >= 0) {
 				this.fondi -= importo;
 			} else {
 				throw new FondiInsufficientiException("Impossibile effettuare la transazione, fondi non disponibili\n");

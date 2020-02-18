@@ -5,13 +5,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -28,11 +34,34 @@ import personale.Quadro;
 import personale.Responsabile;
 import repartoOperativo.Cantiere;
 import repartoOperativo.Squadra;
+import risorse.Macchinario;
 import risorse.Prodotto;
 import utils.Selezionabile;
 import utils.Selezionatore;
 
 public class OperativoGUI extends JFrame {
+
+	private JRadioButton rb1;
+	private JPanel val;
+	private JTextField jt1;
+	private JTextField jt2;
+
+	private JRadioButton rb2;
+	private JPanel mat;
+	private JTextField jt3;
+
+	private JRadioButton rb3;
+	private JPanel squa;
+	private JTextField jt4;
+
+	private JRadioButton rb4;
+	private JPanel resp;
+	private JTextField jt5;
+
+	private JRadioButton rb5;
+	private JPanel com;
+	private JTextField jt6;
+	private JTextField jt7;
 
 	private Azienda azienda;
 
@@ -41,9 +70,9 @@ public class OperativoGUI extends JFrame {
 	public OperativoGUI(Azienda azienda) {
 		this.azienda = azienda;
 
-		setTitle("Gestisci Reparto Amministrativo");
+		setTitle("Gestione Reparto Operativo");
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize((int) dim.getWidth(), (int) dim.getHeight() - 100);
+		setSize(1150, 600);
 		setResizable(false);
 		setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 		setVisible(true);
@@ -56,11 +85,11 @@ public class OperativoGUI extends JFrame {
 		add(bigp);
 	}
 
-	public JPanel leftPanel() {
+	private JPanel leftPanel() {
 		JPanel pleft = new JPanel();
 		pleft.setBorder((new TitledBorder(new EtchedBorder(), "Gestione singolo cantiere")));
-		pleft.setPreferredSize(new Dimension(300, 600));
-		pleft.setLayout(new GridLayout(8, 1));
+		pleft.setPreferredSize(new Dimension(250, 550));
+		pleft.setLayout(new GridLayout(9, 1));
 
 		// BOTTONI
 		JButton com = new JButton("Visualizza commissione");
@@ -68,7 +97,15 @@ public class OperativoGUI extends JFrame {
 		JButton mat = new JButton("Visualizza materili");
 		JButton cancella = new JButton("Pulisci report");
 		JButton newsq = new JButton("Aggiungi squadra");
+		JButton macc = new JButton("Gestisci macchinari");
 		JButton chiudi = new JButton("Chiudi cantiere");
+		com.setPreferredSize(new Dimension(205, 30));
+		sq.setPreferredSize(new Dimension(205, 30));
+		mat.setPreferredSize(new Dimension(205, 30));
+		macc.setPreferredSize(new Dimension(205, 30));
+		cancella.setPreferredSize(new Dimension(205, 30));
+		newsq.setPreferredSize(new Dimension(205, 30));
+		chiudi.setPreferredSize(new Dimension(205, 30));
 
 		// GENERAZIONE E AGGIUNTA LISTA
 		ArrayList<String> al = new ArrayList<String>();
@@ -81,12 +118,15 @@ public class OperativoGUI extends JFrame {
 			tarea.setText("Cantiere commissionato da  "
 					+ azienda.getOperativo().getCantiere(list.getSelectedIndex()).getCommissione()
 							.getNominativoCliente()
-					+ " con valore di $" + azienda.getOperativo().getCantiere(list.getSelectedIndex()).getValore());
+					+ " con valore di $" + azienda.getOperativo().getCantiere(list.getSelectedIndex()).getValore()+"\n"
+					+"Responsabile : "+azienda.getOperativo().getCantiere(list.getSelectedIndex()).getResponsabile().getCognome()+" "
+					+azienda.getOperativo().getCantiere(list.getSelectedIndex()).getResponsabile().getCognome());
 			com.setEnabled(true);
 			sq.setEnabled(true);
 			mat.setEnabled(true);
 			chiudi.setEnabled(true);
 			newsq.setEnabled(true);
+			macc.setEnabled(true);
 		});
 		tmplist.add(list);
 		pleft.add(tmplist);
@@ -127,6 +167,7 @@ public class OperativoGUI extends JFrame {
 			mat.setEnabled(false);
 			chiudi.setEnabled(false);
 			newsq.setEnabled(false);
+			macc.setEnabled(false);
 		});
 
 		// BOTTONE AGGIUNGI SQUADRA
@@ -152,20 +193,30 @@ public class OperativoGUI extends JFrame {
 			newsq.setEnabled(false);
 		});
 
+		// BOTTONE GESTIONE MACCHINARI
+		JPanel tmpmac = new JPanel();
+		macc.setEnabled(false);
+		macc.addActionListener((e) -> {
+			new GestisciMacchinariGUI(azienda.getOperativo().getCantiere(list.getSelectedIndex()));
+		});
+		tmpmac.add(macc);
+
+		pleft.add(new JPanel());
 		pleft.add(tmpcom);
 		pleft.add(tmpsq);
 		pleft.add(tmpmat);
 		pleft.add(tmpnsq);
+		pleft.add(tmpmac);
 		pleft.add(tmpclose);
 		pleft.add(can);
 
 		return pleft;
 	}
 
-	public JPanel rightPanel() {
+	private JPanel rightPanel() {
 		JPanel pright = new JPanel();
 		pright.setBorder((new TitledBorder(new EtchedBorder(), "Gestione intero reparto")));
-		pright.setPreferredSize(new Dimension(300, 600));
+		pright.setPreferredSize(new Dimension(250, 550));
 		JPanel p1 = new JPanel();
 		JPanel p2 = new JPanel();
 		JPanel p3 = new JPanel();
@@ -174,19 +225,241 @@ public class OperativoGUI extends JFrame {
 
 		// BOTTONE CREA
 		JButton crea = new JButton("Nuovo cantiere");
+		crea.setPreferredSize(new Dimension(200, 30));
 		crea.addActionListener((e) -> {
 			new NuovoCantiereGUI();
 		});
 		p1.add(crea);
 
+		JPanel vc = new JPanel();
+		vc.setBorder((new TitledBorder(new EtchedBorder(), "Cerca per")));
+		vc.setLayout(new GridLayout(5, 1));
+		vc.setPreferredSize(new Dimension(200, 150));
+		rb1 = new JRadioButton("Valore");
+		rb2 = new JRadioButton("Materiali");
+		rb3 = new JRadioButton("Squadre");
+		rb4 = new JRadioButton("Responsabile");
+		rb5 = new JRadioButton("Commissione");
+
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(rb1);
+		bg.add(rb2);
+		bg.add(rb3);
+		bg.add(rb4);
+		bg.add(rb5);
+		vc.add(rb1);
+		vc.add(rb2);
+		vc.add(rb3);
+		vc.add(rb4);
+		vc.add(rb5);
+		rb1.setSelected(true);
+
+		JPanel criteri = new JPanel();
+		criteri.setLayout(new GridLayout(5, 1));
+		criteri.setPreferredSize(new Dimension(200, 260));
+		criteri.setBorder((new TitledBorder(new EtchedBorder(), "Criteri")));
+		val = new JPanel();
+		mat = new JPanel();
+		squa = new JPanel();
+		resp = new JPanel();
+		com = new JPanel();
+
+		// VALORE
+		val.setLayout(new GridLayout(1, 2));
+		val.setBorder((new TitledBorder(new EtchedBorder(), "Range valore cantiere")));
+		jt1 = new JTextField(10);
+		jt2 = new JTextField(10);
+		val.add(jt1);
+		val.add(jt2);
+
+		// MATERIALI
+		mat.setLayout(new GridLayout(1, 1));
+		mat.setBorder((new TitledBorder(new EtchedBorder(), "Cantiere che usa il prodotto")));
+		jt3 = new JTextField(10);
+		mat.add(jt3);
+
+		// SQUADRE
+		squa.setLayout(new GridLayout(1, 1));
+		squa.setBorder((new TitledBorder(new EtchedBorder(), "Nome dipendente del cantiere")));
+		jt4 = new JTextField(10);
+		squa.add(jt4);
+
+		// RESPONSABILE
+		resp.setLayout(new GridLayout(1, 1));
+		resp.setBorder((new TitledBorder(new EtchedBorder(), "Nome responsabile")));
+		jt5 = new JTextField(10);
+		resp.add(jt5);
+
+		// COMMISSIONE
+		com.setLayout(new GridLayout(1, 2));
+		com.setBorder((new TitledBorder(new EtchedBorder(), "Range importo commissione")));
+		jt6 = new JTextField(10);
+		jt7 = new JTextField(10);
+		com.add(jt6);
+		com.add(jt7);
+
+		JButton conf = new JButton("Genera report");
+		conf.setPreferredSize(new Dimension(200, 30));
+		conf.addActionListener((e) -> {
+			Selezionabile<Cantiere> s = getCriterio();
+			Selezionatore s1 = new Selezionatore(azienda.getOperativo().getCantieri(), s);
+			ArrayList<Cantiere> selected = s1.seleziona();
+			tarea.setText("Cantieri selezionati :  " + selected.size() + " \n\n\n");
+			int i = 1;
+			for (Cantiere c : selected) {
+				tarea.append("Cantiere " + i + "\n");
+				tarea.append("Valore : " + c.getValore() + "\n");
+				tarea.append("Nome responsabile : " + c.getResponsabile().getNome() + " "
+						+ c.getResponsabile().getCognome() + "\n");
+				tarea.append("Commissione : \n" + c.stampaCommissione());
+				tarea.append("Squadre : \n" + c.stampaSquadre());
+				tarea.append("Materiali : \n" + c.stampaMateriali() + "\n\n\n");
+				i++;
+			}
+		});
+
+		rb1.addActionListener(new CriterioGUIListener());
+		rb2.addActionListener(new CriterioGUIListener());
+		rb3.addActionListener(new CriterioGUIListener());
+		rb4.addActionListener(new CriterioGUIListener());
+		rb5.addActionListener(new CriterioGUIListener());
+
+		criteri.add(val);
+		criteri.add(mat);
+		criteri.add(squa);
+		criteri.add(resp);
+		criteri.add(com);
+
 		pright.add(p1);
+		pright.add(vc);
+		pright.add(criteri);
+		pright.add(conf);
 		return pright;
 	}
 
-	public JPanel reportPanel() {
+	private Selezionabile<Cantiere> getCriterio() {
+
+		Selezionabile<Cantiere> s = null;
+		if (rb1.isSelected()) {
+			s = (c) -> c.getValore() >= Integer.parseInt(jt1.getText())
+					&& c.getValore() <= Integer.parseInt(jt2.getText());
+		} else if (rb2.isSelected()) {
+
+			s = (c) -> {
+				for (Prodotto pr : c.getMateriali())
+					if (pr.getNome().equalsIgnoreCase(jt3.getText()))
+						return true;
+				return false;
+			};
+		} else if (rb3.isSelected()) {
+			s = (c) -> {
+				for (Squadra sq : c.getSquadre()) {
+					if ((sq.getCaposquadra().getCognome() + " " + sq.getCaposquadra().getNome())
+							.equalsIgnoreCase(jt4.getText())
+							|| (sq.getCaposquadra().getNome() + " " + sq.getCaposquadra().getCognome())
+									.equalsIgnoreCase(jt4.getText()))
+						return true;
+					else
+						for (Operaio o : sq.getOperai()) {
+							if ((o.getCognome() + " " + o.getNome()).equalsIgnoreCase(jt4.getText())
+									|| (o.getNome() + " " + o.getCognome()).equalsIgnoreCase(jt4.getText()))
+								return true;
+						}
+				}
+				return false;
+			};
+
+		} else if (rb4.isSelected()) {
+			s = (c) -> (c.getResponsabile().getNome() + " " + c.getResponsabile().getCognome())
+					.equalsIgnoreCase(jt5.getText())
+					|| (c.getResponsabile().getCognome() + " " + c.getResponsabile().getNome())
+							.equalsIgnoreCase(jt5.getText());
+		} else if (rb5.isSelected()) {
+
+			s = (c) -> c.getCommissione().getPagamento()>=Integer.parseInt(jt6.getText()) &&
+					c.getCommissione().getPagamento()<=Integer.parseInt(jt7.getText());
+		}
+
+		return s;
+
+	}
+
+	private class CriterioGUIListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (rb1.isSelected()) {
+				val.setEnabled(true);
+				mat.setEnabled(false);
+				squa.setEnabled(false);
+				resp.setEnabled(false);
+				com.setEnabled(false);
+				jt1.setEnabled(true);
+				jt2.setEnabled(true);
+				jt3.setEnabled(false);
+				jt4.setEnabled(false);
+				jt5.setEnabled(false);
+				jt6.setEnabled(false);
+				jt7.setEnabled(false);
+			} else if (rb2.isSelected()) {
+				mat.setEnabled(true);
+				val.setEnabled(false);
+				squa.setEnabled(false);
+				resp.setEnabled(false);
+				com.setEnabled(false);
+				jt1.setEnabled(false);
+				jt2.setEnabled(false);
+				jt3.setEnabled(true);
+				jt4.setEnabled(false);
+				jt5.setEnabled(false);
+				jt6.setEnabled(false);
+				jt7.setEnabled(false);
+			} else if (rb3.isSelected()) {
+				squa.setEnabled(true);
+				val.setEnabled(false);
+				mat.setEnabled(false);
+				resp.setEnabled(false);
+				com.setEnabled(false);
+				jt1.setEnabled(false);
+				jt2.setEnabled(false);
+				jt3.setEnabled(false);
+				jt4.setEnabled(true);
+				jt5.setEnabled(false);
+				jt6.setEnabled(false);
+				jt7.setEnabled(false);
+			} else if (rb4.isSelected()) {
+				resp.setEnabled(true);
+				val.setEnabled(false);
+				mat.setEnabled(false);
+				squa.setEnabled(false);
+				com.setEnabled(false);
+				jt1.setEnabled(false);
+				jt2.setEnabled(false);
+				jt3.setEnabled(false);
+				jt4.setEnabled(false);
+				jt5.setEnabled(true);
+				jt6.setEnabled(false);
+				jt7.setEnabled(false);
+			} else if (rb5.isSelected()) {
+				com.setEnabled(true);
+				val.setEnabled(false);
+				mat.setEnabled(false);
+				squa.setEnabled(false);
+				resp.setEnabled(false);
+				jt1.setEnabled(false);
+				jt2.setEnabled(false);
+				jt3.setEnabled(false);
+				jt4.setEnabled(false);
+				jt5.setEnabled(false);
+				jt6.setEnabled(true);
+				jt7.setEnabled(true);
+			}
+
+		}
+	}
+
+	private JPanel reportPanel() {
 		JPanel preport = new JPanel();
-		preport.setPreferredSize(new Dimension(600, 600));
-		tarea = new JTextArea(35, 50);
+		preport.setPreferredSize(new Dimension(600, 550));
+		tarea = new JTextArea(30, 50);
 		JScrollPane areapane = new JScrollPane(tarea);
 		preport.add(areapane, BorderLayout.CENTER);
 
@@ -311,7 +584,7 @@ public class OperativoGUI extends JFrame {
 			// SCELTA COMMISSIONE
 			ArrayList<Commissione> lc = azienda.getEsterno().getListaCommissioni();
 			ArrayList<Commissione> ac = new ArrayList<Commissione>();
-			for(Cantiere c : azienda.getOperativo().getCantieri()) {
+			for (Cantiere c : azienda.getOperativo().getCantieri()) {
 				ac.add(c.getCommissione());
 			}
 			lc.removeAll(ac);
@@ -320,7 +593,7 @@ public class OperativoGUI extends JFrame {
 			ArrayList<Commissione> resc = sc1.seleziona();
 			ArrayList<String> st = new ArrayList<String>();
 			for (Commissione c : resc) {
-					st.add("Cliente : " + c.getNominativoCliente() + ", prezzo : " + c.getPagamento() + ", permessi : "
+				st.add("Cliente : " + c.getNominativoCliente() + ", prezzo : " + c.getPagamento() + ", permessi : "
 						+ c.getOttenimentoPermessi());
 			}
 			JComboBox cm = new JComboBox(st.toArray());
@@ -339,7 +612,7 @@ public class OperativoGUI extends JFrame {
 			pan3.add(l);
 			pan3.add(jt);
 			JPanel pan1 = new JPanel();
-			
+
 			// CREA
 			JButton crea = new JButton("Crea cantiere");
 			crea.addActionListener((e) -> {
@@ -351,7 +624,7 @@ public class OperativoGUI extends JFrame {
 				}
 				setVisible(false);
 			});
-			
+
 			// CONFERMA
 			JButton jb = new JButton("Conferma");
 			JPanel pan4 = new JPanel();
@@ -379,11 +652,9 @@ public class OperativoGUI extends JFrame {
 				});
 				pan1.add(rs);
 				pan5.add(crea);
-				
+
 			});
 			pan4.add(jb);
-
-
 
 			p1.add(pan2);
 			p1.add(pan3);
@@ -400,4 +671,78 @@ public class OperativoGUI extends JFrame {
 		}
 	}
 
+	private class GestisciMacchinariGUI extends JFrame {
+
+		Cantiere c;
+
+		public GestisciMacchinariGUI(Cantiere c) {
+			this.c = c;
+			setVisible(true);
+			setSize(750, 400);
+			setTitle("Gestisci Reparto Amministrativo");
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			setResizable(false);
+			setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+
+			JPanel bigpanel = new JPanel();
+
+			Selezionabile<Prodotto> s = (m) -> m.getClass().getSimpleName().equals("Macchinario");
+			Selezionatore s1 = new Selezionatore(c.getMateriali(), s);
+			ArrayList<Prodotto> list = s1.seleziona();
+
+			JLabel lb = new JLabel("Seleziona il macchinario");
+			JComboBox combo = new JComboBox(list.toArray());
+			JComboBox op = new JComboBox();
+			JPanel bp = new JPanel();
+			JButton but = new JButton("Conferma");
+			bp.add(but);
+			but.setEnabled(false);
+
+			combo.addActionListener((e) -> {
+				op.setVisible(true);
+				op.setEnabled(true);
+				op.removeAllItems();
+				ArrayList<Operaio> lo = new ArrayList<Operaio>();
+				for (Squadra sq : c.getSquadre()) {
+					lo.addAll(sq.getOperai());
+				}
+
+				Macchinario m = (Macchinario) combo.getSelectedItem();
+
+				Selezionabile<Operaio> sel = (o) -> o.getPatente().equals(m.getTipoPatente()) && !o.isConducente();
+				Selezionatore sel1 = new Selezionatore(lo, sel);
+
+				ArrayList<Operaio> lop = sel1.seleziona();
+				if (lop.size() != 0)
+					for (Operaio oper : lop) {
+						op.addItem(oper);
+					}
+				else {
+					op.addItem("Nessun operaio disponibile");
+					op.setEnabled(false);
+				}
+				but.setEnabled(true);
+			});
+
+			but.addActionListener((e) -> {
+				c.assegnaConducente((Macchinario) combo.getSelectedItem(), (Operaio) op.getSelectedItem());
+				setVisible(false);
+			});
+
+			bigpanel.setLayout(new GridLayout(4, 1));
+			JPanel lbp = new JPanel();
+			lbp.add(lb);
+			bigpanel.add(lbp);
+			JPanel combop = new JPanel();
+			combop.add(combo);
+			bigpanel.add(combop);
+			JPanel opp = new JPanel();
+			opp.add(op);
+			bigpanel.add(opp);
+			op.setVisible(false);
+			bigpanel.add(bp);
+			add(bigpanel, BorderLayout.CENTER);
+
+		}
+	}
 }
