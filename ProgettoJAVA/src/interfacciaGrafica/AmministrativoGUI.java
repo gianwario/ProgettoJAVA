@@ -382,12 +382,12 @@ public class AmministrativoGUI extends JFrame {
 		ob1.setEnabled(false);
 		ob2.setEnabled(false);
 
-		olabel2.setFont(new Font("", Font.BOLD, 12));		
-		
+		olabel2.setFont(new Font("", Font.BOLD, 12));
+
 		class ButtonListener implements ActionListener {
-			
+
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (!((Commissione) obox2.getSelectedItem()).getOttenimentoPermessi()) {
 					ob1.setEnabled(true);
 					ob2.setEnabled(false);
@@ -403,62 +403,62 @@ public class AmministrativoGUI extends JFrame {
 					ob1.setEnabled(false);
 					ob2.setEnabled(false);
 				}
-				
+
 			}
 		}
-		
+
 		obox2.addActionListener(new ButtonListener());
 		ob1.addActionListener(new ButtonListener());
 		ob2.addActionListener(new ButtonListener());
-		
-		ob1.addActionListener((e) -> {			
-			
+
+		ob1.addActionListener((e) -> {
+
 			obox2.setVisible(false);
-			Commissione c = (Commissione)obox2.getSelectedItem();
+			Commissione c = (Commissione) obox2.getSelectedItem();
 			azienda.getEsterno().pagaPermessi(c);
 			fondi2.setText("Gestisci sezione esterna    Fondi: $" + (int) azienda.getFondiEsterno());
 			obox2.setVisible(true);
 		});
-		
-		ob2.addActionListener((e) -> {			
-			
+
+		ob2.addActionListener((e) -> {
+
 			obox2.setVisible(false);
-			Commissione c = (Commissione)obox2.getSelectedItem();
+			Commissione c = (Commissione) obox2.getSelectedItem();
 			azienda.getEsterno().chiudiCommissioni(c);
 			fondi2.setText("Gestisci sezione esterna    Fondi: $" + (int) azienda.getFondiEsterno());
 			obox2.removeItem(c);
 			obox2.setVisible(true);
 		});
-		
-		ob4.addActionListener((e) -> {			
-			
-			String s = (String)obox3.getSelectedItem();			
-			
-			for(Fornitore f : azienda.getEsterno().getListaFornitori())				
-				if(f.getNome().equals(s)) {
+
+		ob4.addActionListener((e) -> {
+
+			String s = (String) obox3.getSelectedItem();
+
+			for (Fornitore f : azienda.getEsterno().getListaFornitori())
+				if (f.getNome().equals(s)) {
 					textArea2.setText("Catalogo di " + f.getNome() + ": \n");
-					for(Prodotto p2 : f.getCatalogo())
+					for (Prodotto p2 : f.getCatalogo())
 						textArea2.append(p2.stampa() + "\n");
 				}
 		});
-		
-		ob5.addActionListener((e) -> {			
-			
-			String s = (String)obox3.getSelectedItem();			
+
+		ob5.addActionListener((e) -> {
+
+			String s = (String) obox3.getSelectedItem();
 			Fornitore dar = new Fornitore(null);
-			for(Fornitore f : azienda.getEsterno().getListaFornitori())				
-				if(f.getNome().equals(s)) {
-					dar=f;
+			for (Fornitore f : azienda.getEsterno().getListaFornitori())
+				if (f.getNome().equals(s)) {
+					dar = f;
 				}
-			
+
 			obox3.setVisible(false);
 			obox3.removeItem(obox3.getSelectedItem());
 			azienda.getEsterno().rimuoviFornitore(dar);
 			obox3.setVisible(true);
 		});
-		
+
 		ob6.addActionListener((e) -> {
-			
+
 			new AggiungiFornitore();
 		});
 
@@ -694,10 +694,10 @@ public class AmministrativoGUI extends JFrame {
 		es11.addActionListener(new CriteriListener2());
 		es12.addActionListener(new CriteriListener2());
 		es13.addActionListener(new CriteriListener2());
-		es14.addActionListener(new CriteriListener2());		
-		
-		b3.addActionListener((e) -> {			
-			
+		es14.addActionListener(new CriteriListener2());
+
+		b3.addActionListener((e) -> {
+
 			new AcquistoFrame();
 		});
 
@@ -998,8 +998,7 @@ public class AmministrativoGUI extends JFrame {
 
 			else if (es6.isSelected())
 				new ReportGeneratorFornitore().actionPerformed(e);
-			
-			
+
 			nomeF.setText("");
 			min.setText("");
 			max.setText("");
@@ -1025,20 +1024,22 @@ public class AmministrativoGUI extends JFrame {
 	private class ReportGeneratorFornitore implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			
+
 			Selezionatore<Prodotto> selezione;
 			Selezionabile<Prodotto> s = scegliCriterio2();
+			ArrayList<Prodotto> res = new ArrayList<Prodotto>();
 			textArea2.setText("TROVATI IN CATALOGHI: \n\n");
-			
-			for(Fornitore f : azienda.getEsterno().getListaFornitori()) {
-				
+
+			for (Fornitore f : azienda.getEsterno().getListaFornitori()) {
+
 				selezione = new Selezionatore<Prodotto>(f.getCatalogo(), s);
-				if(selezione.seleziona().size() > 0) {
+				res = selezione.seleziona();
+				if (res.size() > 0) {
 					textArea2.append("Catalogo di " + f.getNome() + ":\n");
-					for(Prodotto p : selezione.seleziona())
+					for (Prodotto p : res)
 						textArea2.append(p.stampa() + "\n");
-					textArea2.append("\n");					
-				}				
+					textArea2.append("\n");
+				}
 			}
 		}
 	}
@@ -1562,19 +1563,20 @@ public class AmministrativoGUI extends JFrame {
 		}
 
 	}
-	
+
 	private class AggiungiFornitore extends JFrame {
-		
+
 		public AggiungiFornitore() {
-			
+
 			setTitle("Registra nuovo fornitore");
-			setSize(860, 500);			
+			setSize(860, 500);
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 			setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-			setResizable(false);			
+			setResizable(false);
 			setVisible(true);
-			
+
 			JTextArea area = new JTextArea();
+			JScrollPane bar = new JScrollPane(area);
 			JPanel p1 = new JPanel();
 			JPanel p2 = new JPanel();
 			JPanel p3 = new JPanel();
@@ -1586,52 +1588,91 @@ public class AmministrativoGUI extends JFrame {
 			JPanel p9 = new JPanel();
 			JPanel p10 = new JPanel();
 			JPanel p11 = new JPanel();
-			
+
 			JTextField nomeP = new JTextField(10);
 			JTextField costo = new JTextField(8);
 			JTextField volume = new JTextField(8);
 			JTextField materiale = new JTextField(8);
 			JTextField nomeF = new JTextField(10);
-			
+
 			JRadioButton att = new JRadioButton("Attrezzo");
 			JRadioButton macc = new JRadioButton("Macchinario");
-			
+
 			JButton aggiungi = new JButton("Aggiungi prodotto al catalogo");
-			
+			JButton registra = new JButton("Registra fornitore");
+
 			ButtonGroup g = new ButtonGroup();
 			g.add(att);
 			g.add(macc);
-			
-			String[] patenti = {"B", "C", "D"};
+
+			String[] patenti = { "B", "C", "D" };
 			JComboBox box = new JComboBox(patenti);
-			
-			p1.setPreferredSize(new Dimension(330, 140));
-			p2.setPreferredSize(new Dimension(700, 130));	
-			p1.setLayout(new GridLayout(9, 1));
+			ArrayList<Prodotto> catalogo = new ArrayList<Prodotto>();
+
+			p1.setPreferredSize(new Dimension(330, 510));
+			p1.setLayout(new GridLayout(10, 1));
 			area.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
-			
+			area.setText("CATALOGO: \n");
+			area.setEditable(false);
+
 			box.setEnabled(false);
 			materiale.setEditable(false);
-			
+
 			class Buttons implements ActionListener {
-				
+
 				public void actionPerformed(ActionEvent e) {
-					
-					if(att.isSelected()) {
+
+					if (att.isSelected()) {
 						materiale.setEditable(true);
 						box.setEnabled(false);
 					}
-					
-					if(macc.isSelected()) {
+
+					if (macc.isSelected()) {
 						materiale.setEditable(false);
 						box.setEnabled(true);
-					}					
+					}
 				}
 			}
-			
+
 			att.addActionListener(new Buttons());
 			macc.addActionListener(new Buttons());
-			
+
+			aggiungi.addActionListener((e) -> {
+
+				if (att.isSelected()) {
+
+					Attrezzo a = new Attrezzo(nomeP.getText(), Double.parseDouble(costo.getText()),
+							Double.parseDouble(volume.getText()), materiale.getText());
+					area.append(a.stampa());
+					catalogo.add(a);
+				}
+
+				else if (macc.isSelected()) {
+
+					Macchinario a = new Macchinario(nomeP.getText(), Double.parseDouble(costo.getText()),
+							Double.parseDouble(volume.getText()), (String) box.getSelectedItem());
+					area.append("\n" + a.stampa());
+					catalogo.add(a);
+				}
+			});
+
+			registra.addActionListener((e) -> {
+
+				Fornitore f = new Fornitore(nomeF.getText());
+
+				for (Prodotto p : catalogo)
+					f.aggiungiProdotto(p);
+
+				obox3.setVisible(false);
+				obox3.addItem(f.getNome());
+				azienda.getEsterno().aggiungiFornitore(f);
+				obox3.setVisible(true);
+
+				setVisible(false);
+			});
+
+			p2.add(new JLabel("Nome fornitore: "));
+			p2.add(nomeF);
 			p3.add(new JLabel("Inserisci prodotto al catalogo"));
 			p4.add(new JLabel("Nome: "));
 			p4.add(nomeP);
@@ -1646,41 +1687,41 @@ public class AmministrativoGUI extends JFrame {
 			p9.add(att);
 			p9.add(macc);
 			p10.add(aggiungi);
-			
-			p1.add(new JPanel());
+			p11.add(registra);
+
+			p1.add(p2);
 			p1.add(p3);
 			p1.add(p4);
 			p1.add(p5);
 			p1.add(p6);
 			p1.add(p9);
 			p1.add(p7);
-			p1.add(p8);			
+			p1.add(p8);
 			p1.add(p10);
-			
-			
-			add(area);			
-			add(p2, BorderLayout.SOUTH);
+			p1.add(p11);
+
+			add(bar);
 			add(p1, BorderLayout.WEST);
 		}
-		
+
 	}
-	
+
 	private class AcquistoFrame extends JFrame {
-		
+
 		double saldo;
 		double capa;
-		
+
 		public AcquistoFrame() {
-			
+
 			saldo = 0;
 			capa = azienda.getMagazzino().getCapacitaMax() - azienda.getMagazzino().getCapacitaOccupata();
 			setTitle("Acquista materiali per il magazzino");
-			setSize(700, 440);			
+			setSize(700, 440);
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 			setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-			setResizable(false);			
+			setResizable(false);
 			setVisible(true);
-			
+
 			JPanel p1 = new JPanel();
 			JPanel p2 = new JPanel();
 			JPanel p3 = new JPanel();
@@ -1693,107 +1734,103 @@ public class AmministrativoGUI extends JFrame {
 			JButton b1 = new JButton("Aggiungi al carrello");
 			JButton b2 = new JButton("Completa acquisto");
 			JButton b3 = new JButton("Svuota carrello");
-			
-			
+
 			ArrayList<String> nomiF = new ArrayList<String>();
-			
+
 			ArrayList<Prodotto> carrello = new ArrayList<Prodotto>();
-			for(Fornitore f : azienda.getEsterno().getListaFornitori())
+			for (Fornitore f : azienda.getEsterno().getListaFornitori())
 				nomiF.add(f.getNome());
 			area.setEditable(false);
 			b1.setEnabled(false);
 			JComboBox box1 = new JComboBox(nomiF.toArray());
 			JComboBox box2 = new JComboBox();
-			
+
 			box1.addActionListener((e) -> {
-				
-				String s = (String)box1.getSelectedItem();
+
+				String s = (String) box1.getSelectedItem();
 				b1.setEnabled(true);
-				for(Fornitore f : azienda.getEsterno().getListaFornitori())
-					if(f.getNome().equals(s)) {						
-						
+				for (Fornitore f : azienda.getEsterno().getListaFornitori())
+					if (f.getNome().equals(s)) {
+
 						box2.removeAllItems();
-						for(Prodotto p : f.getCatalogo())
+						for (Prodotto p : f.getCatalogo())
 							box2.addItem(p);
 					}
-				
+
 				box2.setVisible(false);
 				box2.setVisible(true);
-				
-				
+
 			});
-			
+
 			b1.addActionListener((e) -> {
-				
-				Prodotto p = (Prodotto)box2.getSelectedItem();
+
+				Prodotto p = (Prodotto) box2.getSelectedItem();
 				carrello.add(p);
 				saldo += p.getPrezzo();
 				capa -= p.getVolume();
 				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
-				area.append(p.stampa() + "\n");				
-				
+				area.append(p.stampa() + "\n");
+
 			});
-			
+
 			b2.addActionListener((e) -> {
-				
-				if(carrello.size() > 0)
-					azienda.getEsterno().pagaProdotti(carrello);				
-				
-				for(Prodotto p : carrello) {
+
+				if (carrello.size() > 0)
+					azienda.getEsterno().pagaProdotti(carrello);
+
+				for (Prodotto p : carrello) {
 					try {
 						azienda.getMagazzino().aggiungiProdotto(p);
 					} catch (CapacitaInsufficienteException e1) {
-						
-						JOptionPane.showMessageDialog(null, "Capacità magazzino insufficiente!", "CapacitaInsufficienteException", JOptionPane.ERROR_MESSAGE,
-							     null);
+
+						JOptionPane.showMessageDialog(null, "Capacità magazzino insufficiente!",
+								"CapacitaInsufficienteException", JOptionPane.ERROR_MESSAGE, null);
 					}
-				}				
-				carrello.removeAll(carrello);					
+				}
+				carrello.removeAll(carrello);
 				saldo = 0;
 				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
 				area.setText("CARRELLO: \n");
 				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
 				fondi2.setText("Gestisci sezione esterna    Fondi: $" + (int) azienda.getFondiEsterno());
-				
-				cap.setText("Capcita occupata del magazzino: " + (int) azienda.getMagazzino().getCapacitaOccupata() + " / "
-						+ (int) azienda.getMagazzino().getCapacitaMax() + " m^3");
-				
-				
+
+				cap.setText("Capcita occupata del magazzino: " + (int) azienda.getMagazzino().getCapacitaOccupata()
+						+ " / " + (int) azienda.getMagazzino().getCapacitaMax() + " m^3");
+
 			});
-			
+
 			b3.addActionListener((e) -> {
-				
-				for(Prodotto p : carrello)
-					capa += p.getVolume();				
-				carrello.removeAll(carrello);			
+
+				for (Prodotto p : carrello)
+					capa += p.getVolume();
+				carrello.removeAll(carrello);
 				saldo = 0;
 				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
 				area.setText("CARRELLO: \n");
-				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);			
-				
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
+
 			});
-			
-			p1.setPreferredSize(new Dimension(700, 150));				
-			p1.setBorder((new TitledBorder(new EtchedBorder(), "Scegli prodotti")));			
+
+			p1.setPreferredSize(new Dimension(700, 150));
+			p1.setBorder((new TitledBorder(new EtchedBorder(), "Scegli prodotti")));
 			p1.setLayout(new GridLayout(4, 1));
-			
+
 			p4.add(b1);
 			p4.add(b2);
 			p4.add(b3);
-			
+
 			p2.add(new JLabel("Fornitore: "));
 			p2.add(box1);
-			p3.add(new JLabel("Prodotti: "));	
+			p3.add(new JLabel("Prodotti: "));
 			p3.add(box2);
-			
+
 			p5.add(sald);
-			
+
 			p1.add(p2);
 			p1.add(p3);
-			p1.add(p5);	
-			p1.add(p4);		
-			
-			
+			p1.add(p5);
+			p1.add(p4);
+
 			add(bar);
 			add(p1, BorderLayout.SOUTH);
 		}
