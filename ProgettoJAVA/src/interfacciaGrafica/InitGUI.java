@@ -217,6 +217,7 @@ public class InitGUI extends JFrame {
 			
 			b4.addActionListener((e4) -> {				
 				
+				az.equilibriaFondi();
 				a.scriviAzienda(filename);
 				this.setVisible(false);				
 

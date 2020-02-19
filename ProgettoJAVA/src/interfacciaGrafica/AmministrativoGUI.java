@@ -316,7 +316,7 @@ public class AmministrativoGUI extends JFrame {
 
 			if (((Dipendente) obox.getSelectedItem()).controllaStatoPagamento() == false) {
 				olabel2.setText(((Dipendente) obox.getSelectedItem()).getNome() + " "
-						+ ((Dipendente) obox.getSelectedItem()).getCognome() + " non ï¿½ stato ancora pagato!");
+						+ ((Dipendente) obox.getSelectedItem()).getCognome() + " non è stato ancora pagato!");
 				return;
 			}
 
@@ -429,17 +429,10 @@ public class AmministrativoGUI extends JFrame {
 			obox2.removeItem(c);
 			obox2.setVisible(true);
 		});
-		
-		ob3.addActionListener((e)->{
+
+		ob3.addActionListener((e) -> {
 			new AggiungiCommissione();
 		});
-		
-		ob4.addActionListener((e) -> {			
-			
-			String s = (String)obox3.getSelectedItem();			
-			
-			for(Fornitore f : azienda.getEsterno().getListaFornitori())				
-				if(f.getNome().equals(s)) {
 
 		ob4.addActionListener((e) -> {
 
@@ -1575,8 +1568,8 @@ public class AmministrativoGUI extends JFrame {
 
 	}
 
-	private class AggiungiCommissione extends JFrame{
-		
+	private class AggiungiCommissione extends JFrame {
+
 		public AggiungiCommissione() {
 			setTitle("Richiesta nuova commissione");
 
@@ -1594,12 +1587,12 @@ public class AmministrativoGUI extends JFrame {
 			JPanel p5 = new JPanel();
 			JPanel p6 = new JPanel();
 			JPanel p7 = new JPanel();
-			/*p1.setPreferredSize(new Dimension(380, 50));
-			p2.setPreferredSize(new Dimension(380, 30));
-			p3.setPreferredSize(new Dimension(380, 30));
-			p4.setPreferredSize(new Dimension(380, 30));
-			p5.setPreferredSize(new Dimension(380, 30));
-			p6.setPreferredSize(new Dimension(380, 30));*/
+			/*
+			 * p1.setPreferredSize(new Dimension(380, 50)); p2.setPreferredSize(new
+			 * Dimension(380, 30)); p3.setPreferredSize(new Dimension(380, 30));
+			 * p4.setPreferredSize(new Dimension(380, 30)); p5.setPreferredSize(new
+			 * Dimension(380, 30)); p6.setPreferredSize(new Dimension(380, 30));
+			 */
 
 			JLabel nome = new JLabel("Nominativo cliente");
 			JTextField tnome = new JTextField(15);
@@ -1608,16 +1601,17 @@ public class AmministrativoGUI extends JFrame {
 			JLabel prezzop = new JLabel("Prezzo dei permessi");
 			JTextField tprezzop = new JTextField(15);
 			JButton conf = new JButton("Conferma");
-			
-			conf.addActionListener((e)->{
-				Commissione c = new Commissione(tnome.getText(),Double.parseDouble(tpagamento.getText()),Double.parseDouble(tprezzop.getText()));
+
+			conf.addActionListener((e) -> {
+				Commissione c = new Commissione(tnome.getText(), Double.parseDouble(tpagamento.getText()),
+						Double.parseDouble(tprezzop.getText()));
 				azienda.getEsterno().riceviCommissione(c);
 				obox2.setVisible(false);
 				obox2.addItem(c);
 				obox2.setVisible(true);
 				setVisible(false);
 			});
-			
+
 			p1.add(nome);
 			p2.add(tnome);
 			p3.add(pagamento);
@@ -1625,7 +1619,7 @@ public class AmministrativoGUI extends JFrame {
 			p5.add(prezzop);
 			p6.add(tprezzop);
 			p7.add(conf);
-			p.setLayout(new GridLayout(7,1));
+			p.setLayout(new GridLayout(7, 1));
 			p.add(p1);
 			p.add(p2);
 			p.add(p3);
@@ -1636,7 +1630,7 @@ public class AmministrativoGUI extends JFrame {
 			add(p);
 		}
 	}
-	
+
 	private class AggiungiFornitore extends JFrame {
 
 		public AggiungiFornitore() {

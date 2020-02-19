@@ -8,17 +8,16 @@ import java.io.Serializable;
 
 import repartoAmministrativo.AmministrativoEsterno;
 
-public class Azienda implements Serializable{
-	
+public class Azienda implements Serializable {
 
 	AmministrativoInterno interno;
 	AmministrativoEsterno esterno;
 	RepartoOperativo operativo;
 	Magazzino magazzino;
 
-
 	/**
-	 * L'azienda racchiude in se tutti i reparti 
+	 * L'azienda racchiude in se tutti i reparti
+	 * 
 	 * @param capitale il fondo iniziale dell'azienda che verrà diviso fra i due
 	 *                 reparti(esterno e interno)
 	 */
@@ -28,25 +27,27 @@ public class Azienda implements Serializable{
 		esterno = new AmministrativoEsterno(capitale / 2, magazzino);
 		operativo = new RepartoOperativo(magazzino);
 	}
-	
+
 	public double getFondiTotali() {
-		return interno.controllaFondi()+esterno.controllaFondi();
+		return interno.controllaFondi() + esterno.controllaFondi();
 	}
+
 	public double getFondiEsterno() {
 		return esterno.controllaFondi();
 	}
+
 	public double getFondiInterno() {
 		return interno.controllaFondi();
 	}
 
-	public void equilibriaFondi(){
-		double f = esterno.controllaFondi()+interno.controllaFondi();	
+	public void equilibriaFondi() {
+		double f = esterno.controllaFondi() + interno.controllaFondi();
 		esterno.effettuaSpesa(getFondiEsterno());
 		interno.effettuaSpesa(getFondiInterno());
-		esterno.aggiungiFondi(f/2);
-		interno.aggiungiFondi(f/2);
+		esterno.aggiungiFondi(f / 2);
+		interno.aggiungiFondi(f / 2);
 	}
-	
+
 	public AmministrativoInterno getInterno() {
 		return interno;
 	}
@@ -80,6 +81,7 @@ public class Azienda implements Serializable{
 	}
 
 	public String toString() {
-		return getClass().getName()+"\n "+esterno.toString()+"\n "+interno.toString()+"\n "+operativo.toString();
+		return getClass().getName() + "\n " + esterno.toString() + "\n " + interno.toString() + "\n "
+				+ operativo.toString();
 	}
 }
