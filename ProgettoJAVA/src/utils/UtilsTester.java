@@ -12,8 +12,7 @@ public class UtilsTester {
 
 		System.out.println("Istanzio un reparto amministrativo e aggiungo 6 commissioni alla lista");
 
-		Magazzino magazzino = new Magazzino(70.0);
-		AmministrativoEsterno reparto = new AmministrativoEsterno(8000, magazzino);
+		AmministrativoEsterno reparto = new AmministrativoEsterno(8000);
 
 		Commissione c1 = new Commissione("Gianni Morandi", 4000, 120);
 		Commissione c2 = new Commissione("Enzo Paolo Turchi", 1200, 50);

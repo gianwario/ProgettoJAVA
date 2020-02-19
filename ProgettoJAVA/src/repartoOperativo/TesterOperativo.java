@@ -62,7 +62,7 @@ public class TesterOperativo {
 			e.printStackTrace();
 		}
 		
-		RepartoOperativo reparto = new RepartoOperativo(magazzino);
+		RepartoOperativo reparto = new RepartoOperativo();
 		
 		System.out.println("\nReparto attuale: " + reparto);
 		

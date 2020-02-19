@@ -27,7 +27,7 @@ public class GeneraAzienda {
 		AmministrativoEsterno es = a.getEsterno();
 		AmministrativoInterno in = a.getInterno();
 		RepartoOperativo op = a.getOperativo();
-		// Magazzino m =a.getMagazzino();
+		Magazzino m = a.getMagazzino();
 
 		System.out.println("Fondi : esterno " + es.controllaFondi() + "   interno " + in.controllaFondi() + "\n");
 
@@ -183,30 +183,29 @@ public class GeneraAzienda {
 
 		for (int i = 0; i < 3; i++) {
 
-			es.acquistaDaFornitore(f1, a2);
-			es.acquistaDaFornitore(f1, a12);
-			es.acquistaDaFornitore(f1, a10);
-			es.acquistaDaFornitore(f2, a4);
-			es.acquistaDaFornitore(f2, a11);
-			es.acquistaDaFornitore(f3, a8);
-			es.acquistaDaFornitore(f3, a7);
+			es.acquistaDaFornitore(f1, a2, m);
+			es.acquistaDaFornitore(f1, a12, m);
+			es.acquistaDaFornitore(f1, a10, m);
+			es.acquistaDaFornitore(f2, a4, m);
+			es.acquistaDaFornitore(f2, a11, m);
+			es.acquistaDaFornitore(f3, a8, m);
+			es.acquistaDaFornitore(f3, a7, m);
 		}
 
 		for (int i = 0; i < 4; i++) {
 
-			es.acquistaDaFornitore(f1, a13);
-			es.acquistaDaFornitore(f1, a9);
-			es.acquistaDaFornitore(f2, a3);
-			es.acquistaDaFornitore(f2, a5);
-			es.acquistaDaFornitore(f3, a6);
-			es.acquistaDaFornitore(f3, a1);
+			es.acquistaDaFornitore(f1, a13, m);
+			es.acquistaDaFornitore(f1, a9, m);
+			es.acquistaDaFornitore(f2, a3, m);
+			es.acquistaDaFornitore(f2, a5, m);
+			es.acquistaDaFornitore(f3, a6, m);
+			es.acquistaDaFornitore(f3, a1, m);
 
-			es.acquistaDaFornitore(f4, m1);
-			es.acquistaDaFornitore(f4, m2);
-			es.acquistaDaFornitore(f4, m3);
-			es.acquistaDaFornitore(f4, m4);
-			es.acquistaDaFornitore(f4, m5);
-			es.acquistaDaFornitore(f4, m5);
+			es.acquistaDaFornitore(f4, m1, m);
+			es.acquistaDaFornitore(f4, m2, m);
+			es.acquistaDaFornitore(f4, m3, m);
+			es.acquistaDaFornitore(f4, m4, m);
+			es.acquistaDaFornitore(f4, m5, m);
 		}
 
 		Commissione c1 = new Commissione("Gianni Morandi", 42000, 120);
@@ -265,9 +264,9 @@ public class GeneraAzienda {
 		}
 
 		try {
-			op.apriCantiere(30000, q1, list1, c1);
-			op.apriCantiere(560000, d1, list2, c2);
-			op.apriCantiere(100000, q2, list3, c3);
+			op.apriCantiere(30000, q1, list1, c1, m);
+			op.apriCantiere(560000, d1, list2, c2, m);
+			op.apriCantiere(100000, q2, list3, c3, m);
 		} catch (AperturaCantiereInvalidaException e) {
 			e.printStackTrace();
 		}

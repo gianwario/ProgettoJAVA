@@ -974,9 +974,8 @@ public class AmministrativoGUI extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 
-			Selezionabile s1 = scegliCriterio1();
-			Selezionatore selezione0 = new Selezionatore(azienda.getInterno().listaDipendenti(), s1);
-			ArrayList<Dipendente> selezione = filtraSelezione(selezione0.seleziona());
+			Selezionabile<Dipendente> s1 = scegliCriterio1();
+			ArrayList<Dipendente> selezione = filtraSelezione(azienda.getInterno().selezionaDipendenti(s1));
 
 			Comparabile c = scegliOrdine();
 			Ordinatore risultato = new Ordinatore(selezione, c);
@@ -1014,12 +1013,10 @@ public class AmministrativoGUI extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 
-			Selezionabile<Prodotto> s = scegliCriterio2();
-			Selezionatore<Prodotto> selezione = new Selezionatore<Prodotto>(azienda.getMagazzino().getListaProdotti(),
-					s);
+			Selezionabile<Prodotto> s = scegliCriterio2();			
 
 			textArea2.setText("TROVATI IN MAGAZZINO: \n\n");
-			for (Prodotto p : selezione.seleziona())
+			for (Prodotto p : azienda.getEsterno().selezionaDaMagazzino(s, azienda.getMagazzino()))
 				textArea2.append(p.stampa() + "\n");
 
 		}
@@ -1028,16 +1025,13 @@ public class AmministrativoGUI extends JFrame {
 	private class ReportGeneratorFornitore implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-
-			Selezionatore<Prodotto> selezione;
 			Selezionabile<Prodotto> s = scegliCriterio2();
 			ArrayList<Prodotto> res = new ArrayList<Prodotto>();
 			textArea2.setText("TROVATI IN CATALOGHI: \n\n");
 
 			for (Fornitore f : azienda.getEsterno().getListaFornitori()) {
-
-				selezione = new Selezionatore<Prodotto>(f.getCatalogo(), s);
-				res = selezione.seleziona();
+				
+				res = azienda.getEsterno().selezionaDaCatalogoFornitore(s, f);
 				if (res.size() > 0) {
 					textArea2.append("Catalogo di " + f.getNome() + ":\n");
 					for (Prodotto p : res)

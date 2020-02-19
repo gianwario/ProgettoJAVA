@@ -24,8 +24,8 @@ public class Azienda implements Serializable {
 	public Azienda(int capitale, int vol) {
 		interno = new AmministrativoInterno(capitale / 2);
 		magazzino = new Magazzino(vol);
-		esterno = new AmministrativoEsterno(capitale / 2, magazzino);
-		operativo = new RepartoOperativo(magazzino);
+		esterno = new AmministrativoEsterno(capitale / 2);
+		operativo = new RepartoOperativo();
 	}
 
 	public double getFondiTotali() {

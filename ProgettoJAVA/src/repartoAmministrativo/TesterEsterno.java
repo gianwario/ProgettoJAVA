@@ -11,7 +11,7 @@ public class TesterEsterno {
 	public static void main(String[] args) {
 	
 		Magazzino magazzino = new Magazzino(70.0);
-		AmministrativoEsterno reparto = new AmministrativoEsterno(8000, magazzino);
+		AmministrativoEsterno reparto = new AmministrativoEsterno(8000);
 		
 		System.out.println("Istanzio un magazzino vuoto con capacità max 70 e un reparto. \n "
 				+ reparto);
@@ -84,11 +84,11 @@ public class TesterEsterno {
 		
 		System.out.println("\nAcquisto prodotti e fino a superare in volume la capacità disponibile del magazzino: ");
 		
-		reparto.acquistaDaFornitore(f1, a2);		
-		reparto.acquistaDaFornitore(f2, a4);
-		reparto.acquistaDaFornitore(f3, m1);
-		reparto.acquistaDaFornitore(f3, m2);
-		reparto.acquistaDaFornitore(f2, a6);
+		reparto.acquistaDaFornitore(f1, a2, magazzino);		
+		reparto.acquistaDaFornitore(f2, a4, magazzino);
+		reparto.acquistaDaFornitore(f3, m1, magazzino);
+		reparto.acquistaDaFornitore(f3, m2, magazzino);
+		reparto.acquistaDaFornitore(f2, a6, magazzino);
 		
 		System.out.println("\nReparto attuale: \n" + reparto);
 		

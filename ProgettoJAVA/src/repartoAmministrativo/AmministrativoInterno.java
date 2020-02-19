@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 
 import eccezioni.FondiInsufficientiException;
 import personale.Dipendente;
+import utils.Selezionabile;
+import utils.Selezionatore;
 
 public class AmministrativoInterno extends RepartoAmministrativo {
 
@@ -90,6 +92,12 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 		for (Dipendente p : personale) {
 			p.resettaStatoPagamento();
 		}
+	}
+	
+	public ArrayList<Dipendente> selezionaDipendenti(Selezionabile<Dipendente> s) {
+		
+		Selezionatore<Dipendente> selezionatore = new Selezionatore<Dipendente>(personale, s);		
+		return selezionatore.seleziona();
 	}
 
 	public String toString() {

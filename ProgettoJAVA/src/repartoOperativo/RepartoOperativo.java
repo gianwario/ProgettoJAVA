@@ -11,11 +11,12 @@ import personale.Responsabile;
 import risorse.Macchinario;
 import risorse.Magazzino;
 import risorse.Prodotto;
+import utils.Selezionabile;
+import utils.Selezionatore;
 
 public class RepartoOperativo implements Serializable {
 
 	private ArrayList<Cantiere> cantieri;
-	private Magazzino magazzino;
 
 	/**
 	 * La classe che rappresenta il reparto operativo che si occupa dell'apertura e
@@ -25,9 +26,8 @@ public class RepartoOperativo implements Serializable {
 	 *                  lavori
 	 */
 
-	public RepartoOperativo(Magazzino magazzino) {
+	public RepartoOperativo() {
 		cantieri = new ArrayList<Cantiere>();
-		this.magazzino = magazzino;
 	}
 
 	/**
@@ -42,10 +42,10 @@ public class RepartoOperativo implements Serializable {
 	 * @param commissione  la commissione che ha richiesto l'apertura del cantiere
 	 */
 	public void apriCantiere(int valore, Responsabile responsabile, ArrayList<Prodotto> materiale,
-			Commissione commissione) throws AperturaCantiereInvalidaException {
+			Commissione commissione, Magazzino magazzino) throws AperturaCantiereInvalidaException {
 
 		if (commissione.getOttenimentoPermessi()) {
-			cantieri.add(new Cantiere(responsabile, valore, commissione, scaricaDaMagazzino(materiale)));
+			cantieri.add(new Cantiere(responsabile, valore, commissione, scaricaDaMagazzino(materiale, magazzino)));
 			
 		}
 
@@ -76,9 +76,6 @@ public class RepartoOperativo implements Serializable {
 		return cantieri.get(i);
 	}
 
-	public Magazzino getMagazzino() {
-		return this.magazzino;
-	}
 
 	/**
 	 * Data una lista di prodotti, il metodo li preleva dal magazzino e li
@@ -87,19 +84,19 @@ public class RepartoOperativo implements Serializable {
 	 * @param prodotti prodotti da prelevare dal magazzino
 	 * @return lista di prodotti prelevati dal magazzino
 	 */
-	public ArrayList<Prodotto> scaricaDaMagazzino(ArrayList<Prodotto> prodotti) {
+	public ArrayList<Prodotto> scaricaDaMagazzino(ArrayList<Prodotto> prodotti, Magazzino magazzino) {
 
 		ArrayList<Prodotto> res = new ArrayList<Prodotto>();
 
 		for (Prodotto p : prodotti)
-			if (this.magazzino.getListaProdotti().contains(p))
-				res.add(this.magazzino.prelevaProdotto(p));
+			if (magazzino.getListaProdotti().contains(p))
+				res.add(magazzino.prelevaProdotto(p));
 
 		return res;
 	}
 
-	public ArrayList<Prodotto> getProdottiDalMagazzino() {
-		return this.magazzino.getListaProdotti();
+	public ArrayList<Prodotto> getProdottiDalMagazzino(Magazzino magazzino) {
+		return magazzino.getListaProdotti();
 	}
 
 	public ArrayList<Cantiere> getCantieri() {
@@ -113,11 +110,16 @@ public class RepartoOperativo implements Serializable {
 		}
 		return num;
 	}
+	
+	public ArrayList<Cantiere> selezionaCantieri(Selezionabile<Cantiere> s) {
+		
+		Selezionatore selezione = new Selezionatore<Cantiere>(cantieri, s);
+		return selezione.seleziona();
+	}
 
 
 	public String toString() {
 
-		return getClass().getName() + "[Cantieri : " + cantieri.toString() + ", magazzino : " + magazzino.toString()
-				+ "]";
+		return getClass().getName() + "[Cantieri : " + cantieri.toString() + "]";
 	}
 }

@@ -11,11 +11,12 @@ import esterni.Fornitore;
 import risorse.Macchinario;
 import risorse.Magazzino;
 import risorse.Prodotto;
+import utils.Selezionabile;
+import utils.Selezionatore;
 
 public class AmministrativoEsterno extends RepartoAmministrativo {
 
 	private ArrayList<Commissione> listaCommissioni;
-	private Magazzino magazzino;
 	private ArrayList<Fornitore> listaFornitori;
 
 	/**
@@ -28,10 +29,9 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 	 * @param magazzino il magazzino che il reparto gestisce
 	 */
 
-	public AmministrativoEsterno(double fondi, Magazzino magazzino) {
+	public AmministrativoEsterno(double fondi) {
 
 		super(fondi);
-		this.magazzino = magazzino;
 		listaCommissioni = new ArrayList<Commissione>();
 		listaFornitori = new ArrayList<Fornitore>();
 
@@ -151,7 +151,7 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 
 	}
 
-	public void acquistaDaFornitore(Fornitore f, Prodotto p) {
+	public void acquistaDaFornitore(Fornitore f, Prodotto p, Magazzino magazzino) {
 
 		if (f == null || p == null || !f.getCatalogo().contains(p) || !listaFornitori.contains(f))
 			return;
@@ -166,12 +166,23 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 			e.printStackTrace();
 		}
 	}
+	
+	public ArrayList<Prodotto> selezionaDaMagazzino(Selezionabile<Prodotto> s, Magazzino m) {
+		
+		Selezionatore<Prodotto> selezione = new Selezionatore<Prodotto>(m.getListaProdotti(), s);
+		return selezione.seleziona();
+	}
+	
+	public ArrayList<Prodotto> selezionaDaCatalogoFornitore(Selezionabile<Prodotto> s, Fornitore f) {
+		
+		Selezionatore<Prodotto> selezione = new Selezionatore<Prodotto>(f.getCatalogo(), s);
+		return selezione.seleziona();
+	}
 
 
 	public String toString() {
 
-		return super.toString() + " [lista commissioni: \n" + listaCommissioni + "\nMagazzino: \n" + magazzino
-				+ "\nLista fornitori: \n" + listaFornitori + "]";
+		return super.toString() + " [lista commissioni: \n" + listaCommissioni + "\nLista fornitori: \n" + listaFornitori + "]";
 	}
 
 }

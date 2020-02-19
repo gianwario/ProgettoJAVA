@@ -301,9 +301,8 @@ public class OperativoGUI extends JFrame {
 		JButton conf = new JButton("Genera report");
 		conf.setPreferredSize(new Dimension(200, 30));
 		conf.addActionListener((e) -> {
-			Selezionabile<Cantiere> s = getCriterio();
-			Selezionatore s1 = new Selezionatore(azienda.getOperativo().getCantieri(), s);
-			ArrayList<Cantiere> selected = s1.seleziona();
+			Selezionabile<Cantiere> s = getCriterio();			
+			ArrayList<Cantiere> selected = azienda.getOperativo().selezionaCantieri(s);
 			tarea.setText("Cantieri selezionati :  " + selected.size() + " \n\n\n");
 			int i = 1;
 			for (Cantiere c : selected) {
@@ -617,7 +616,7 @@ public class OperativoGUI extends JFrame {
 			JButton crea = new JButton("Crea cantiere");
 			crea.addActionListener((e) -> {
 				try {
-					azienda.getOperativo().apriCantiere(valore, responsabile, out, commissione);
+					azienda.getOperativo().apriCantiere(valore, responsabile, out, commissione, azienda.getMagazzino());
 				} catch (AperturaCantiereInvalidaException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
