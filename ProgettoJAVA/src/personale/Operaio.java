@@ -17,28 +17,14 @@ public class Operaio extends Dipendente {
 	}
 
 	/**
-	 * Override del metodo 'pagaDipendente' della classe astratta dipendente. Paga
-	 * lo stipendio base ad un operaio con un bonus nel caso sia assegnato come
+	 * Override del metodo 'checkPaga' della classe astratta dipendente. Calcola
+	 * lo stipendio da pagare ad un operaio con un bonus nel caso sia assegnato come
 	 * conducente ad un mezzo . Lo stipendio base di un operaio è di 350euro a
 	 * settimana, il bonus è calcolato in base a se guida o meno un mezzo e la
 	 * patente che ha.
 	 * 
 	 * @return l'importo da pagare al dipendente
 	 */
-	public double pagaDipendente() {
-		
-		setDipendentePagato();
-		if (conducente) {
-			if (patente == "B")
-				return STIPENDIO_BASE + ((STIPENDIO_BASE * PERCENTUALE_PATENTE_B) / 100);
-			if (patente == "C")
-				return STIPENDIO_BASE + ((STIPENDIO_BASE * PERCENTUALE_PATENTE_C) / 100);
-			if (patente == "D")
-				return STIPENDIO_BASE + ((STIPENDIO_BASE * PERCENTUALE_PATENTE_D) / 100);
-		}
-		return STIPENDIO_BASE;
-	}
-	
 	public double checkPaga() {
 		
 		if (conducente) {

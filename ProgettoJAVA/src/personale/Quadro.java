@@ -12,17 +12,12 @@ public class Quadro extends Dipendente implements Responsabile {
 	}
 
 	/**
-	 * Override del metodo 'pagaDipendente' della classe astratta dipendente. Paga
-	 * lo stipendio d un quadro, aggiungendo un bonus se egli dirige un cantiere. Lo
+	 * Override del metodo 'checkPaga' della classe astratta dipendente. Calcola lo
+	 * stipendio da pagare al quadro, aggiungendo un bonus se egli dirige un cantiere. Lo
 	 * stipendio base di un quadro è di 400euro a settimana, il bonus è di 20euro.
 	 * 
 	 * @return l'importo da pagare al dipendente
-	 */
-	public double pagaDipendente() {
-		setDipendentePagato();
-		return !isDirigente ? STIPENDIO_BASE : STIPENDIO_BASE + BONUS_DIRIGENZA;
-	}
-	
+	 */	
 	public double checkPaga() {
 		return !isDirigente ? STIPENDIO_BASE : STIPENDIO_BASE + BONUS_DIRIGENZA;
 	}
