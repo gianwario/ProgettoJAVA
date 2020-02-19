@@ -30,7 +30,7 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 		for (Dipendente p : personale) {
 			if (p.controllaStatoPagamento() == false) {
 				try {
-					effettuaSpesa(p.pagaDipendente());
+					effettuaSpesa(p.checkPaga());
 					p.setDipendentePagato();
 				} catch (FondiInsufficientiException e) {
 
@@ -46,9 +46,10 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 	 * @param d dipendente a cui pagare lo stipendio
 	 */
 	public void effettuaPagamento(Dipendente d) {
-		if(personale.contains(d) && !d.controllaStatoPagamento())
-					effettuaSpesa(d.pagaDipendente());
-
+		if(personale.contains(d) && !d.controllaStatoPagamento()) {
+					effettuaSpesa(d.checkPaga());
+					d.setDipendentePagato();
+		}
 	}
 
 	/**

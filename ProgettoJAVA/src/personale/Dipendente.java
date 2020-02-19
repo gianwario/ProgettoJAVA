@@ -23,11 +23,9 @@ public abstract class Dipendente implements Serializable, Cloneable {
 	}
 
 	/**
-	 * Effettua il pagamento del dipendente. Deve essere ridefinito in tutte le
+	 * Calcola lo stipendio che un dipendente deve ricevere. Deve essere ridefinito in tutte le
 	 * specializzazioni di dipendente.
-	 */
-	public abstract double pagaDipendente();
-	
+	 */	
 	public abstract double checkPaga();
 
 	public void setDipendentePagato() {

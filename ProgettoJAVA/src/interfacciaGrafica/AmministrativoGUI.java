@@ -434,12 +434,6 @@ public class AmministrativoGUI extends JFrame {
 			new AggiungiCommissione();
 		});
 		
-		ob4.addActionListener((e) -> {			
-			
-			String s = (String)obox3.getSelectedItem();			
-			
-			for(Fornitore f : azienda.getEsterno().getListaFornitori())				
-				if(f.getNome().equals(s)) {
 
 		ob4.addActionListener((e) -> {
 
