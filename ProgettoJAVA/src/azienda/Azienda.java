@@ -10,22 +10,51 @@ import repartoAmministrativo.AmministrativoEsterno;
 
 public class Azienda implements Serializable {
 
-	AmministrativoInterno interno;
-	AmministrativoEsterno esterno;
-	RepartoOperativo operativo;
-	Magazzino magazzino;
+	private AmministrativoInterno interno;
+	private AmministrativoEsterno esterno;
+	private RepartoOperativo operativo;
+	private Magazzino magazzino;
 
 	/**
 	 * L'azienda racchiude in se tutti i reparti
 	 * 
 	 * @param capitale il fondo iniziale dell'azienda che verrà diviso fra i due
 	 *                 reparti(esterno e interno)
+	 * @param vol il volume in m3 del magazzino dell'azienda
 	 */
 	public Azienda(int capitale, int vol) {
 		interno = new AmministrativoInterno(capitale / 2);
 		magazzino = new Magazzino(vol);
 		esterno = new AmministrativoEsterno(capitale / 2);
 		operativo = new RepartoOperativo();
+	}
+
+	
+	/**
+	 * Divide i fondi totali equamente fra le due sezioni di reparto amministrativo 
+	 */
+	public void equilibriaFondi() {
+		double f = esterno.controllaFondi() + interno.controllaFondi();
+		esterno.effettuaSpesa(getFondiEsterno());
+		interno.effettuaSpesa(getFondiInterno());
+		esterno.aggiungiFondi(f / 2);
+		interno.aggiungiFondi(f / 2);
+	}
+
+	public AmministrativoInterno getInterno() {
+		return interno;
+	}
+
+	public AmministrativoEsterno getEsterno() {
+		return esterno;
+	}
+
+	public RepartoOperativo getOperativo() {
+		return operativo;
+	}
+
+	public Magazzino getMagazzino() {
+		return magazzino;
 	}
 
 	public double getFondiTotali() {
@@ -39,47 +68,6 @@ public class Azienda implements Serializable {
 	public double getFondiInterno() {
 		return interno.controllaFondi();
 	}
-
-	public void equilibriaFondi() {
-		double f = esterno.controllaFondi() + interno.controllaFondi();
-		esterno.effettuaSpesa(getFondiEsterno());
-		interno.effettuaSpesa(getFondiInterno());
-		esterno.aggiungiFondi(f / 2);
-		interno.aggiungiFondi(f / 2);
-	}
-
-	public AmministrativoInterno getInterno() {
-		return interno;
-	}
-
-	public void setInterno(AmministrativoInterno interno) {
-		this.interno = interno;
-	}
-
-	public AmministrativoEsterno getEsterno() {
-		return esterno;
-	}
-
-	public void setEsterno(AmministrativoEsterno esterno) {
-		this.esterno = esterno;
-	}
-
-	public RepartoOperativo getOperativo() {
-		return operativo;
-	}
-
-	public void setOperativo(RepartoOperativo operativo) {
-		this.operativo = operativo;
-	}
-
-	public Magazzino getMagazzino() {
-		return magazzino;
-	}
-
-	public void setMagazzino(Magazzino magazzino) {
-		this.magazzino = magazzino;
-	}
-
 	public String toString() {
 		return getClass().getName() + "\n " + esterno.toString() + "\n " + interno.toString() + "\n "
 				+ operativo.toString();

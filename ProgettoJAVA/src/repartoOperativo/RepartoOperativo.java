@@ -22,8 +22,6 @@ public class RepartoOperativo implements Serializable {
 	 * La classe che rappresenta il reparto operativo che si occupa dell'apertura e
 	 * della chiusura di cantieri per svolgere i lavori richiesti dalle commissioni
 	 * 
-	 * @param magazzino il magazzino dell'azienda da cui prelevare i materiali per i
-	 *                  lavori
 	 */
 
 	public RepartoOperativo() {
@@ -40,6 +38,8 @@ public class RepartoOperativo implements Serializable {
 	 *                     cantiere
 	 * @param materiale    lista dei materiali delegati al cantiere
 	 * @param commissione  la commissione che ha richiesto l'apertura del cantiere
+	 * @param magazzino    il magazzino dal quale scaricare
+	 * @throws AperturaCantiereInvalidaException lanciata se i permessi non sono stati ancora pagati
 	 */
 	public void apriCantiere(int valore, Responsabile responsabile, ArrayList<Prodotto> materiale,
 			Commissione commissione, Magazzino magazzino) throws AperturaCantiereInvalidaException {
@@ -82,6 +82,7 @@ public class RepartoOperativo implements Serializable {
 	 * restituisce
 	 * 
 	 * @param prodotti prodotti da prelevare dal magazzino
+	 * @param magazzino il magazzino dal quale prelevare
 	 * @return lista di prodotti prelevati dal magazzino
 	 */
 	public ArrayList<Prodotto> scaricaDaMagazzino(ArrayList<Prodotto> prodotti, Magazzino magazzino) {
@@ -94,6 +95,7 @@ public class RepartoOperativo implements Serializable {
 
 		return res;
 	}
+
 
 	public ArrayList<Prodotto> getProdottiDalMagazzino(Magazzino magazzino) {
 		return magazzino.getListaProdotti();
@@ -111,6 +113,11 @@ public class RepartoOperativo implements Serializable {
 		return num;
 	}
 	
+	/**
+	 * Seleziona dei cantieri in base ad un criterio passato come parametro
+	 * @param s criterio di selezione
+	 * @return cantieri selezionati
+	 */
 	public ArrayList<Cantiere> selezionaCantieri(Selezionabile<Cantiere> s) {
 		
 		Selezionatore selezione = new Selezionatore<Cantiere>(cantieri, s);

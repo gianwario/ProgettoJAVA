@@ -51,6 +51,10 @@ public class Attrezzo extends Prodotto {
 		return super.toString() + ", materiale = " + materiale + "]";
 	}
 	
+	/**
+	 * metodo di stampa formattato per GUI
+	 * @return stringa formattata
+	 */
 	public String stampa() {
 		
 		return super.stampa() + ", di " + materiale;

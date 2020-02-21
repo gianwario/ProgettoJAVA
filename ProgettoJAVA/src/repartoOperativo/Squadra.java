@@ -16,7 +16,6 @@ public class Squadra implements Serializable {
 	/**
 	 * La classe rappresenta l'astrazione di squadra, un insieme di operai con un
 	 * Quadro che ricopre il ruolo di caposquadra
-	 * 
 	 * @param caposquadra il quadro assegnato come caposquadra della squadra
 	 * @param operai      lista di operai che compongono la squadra
 	 */

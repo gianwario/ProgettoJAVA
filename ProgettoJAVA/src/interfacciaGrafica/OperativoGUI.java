@@ -63,6 +63,8 @@ public class OperativoGUI extends JFrame {
 	private JTextField jt6;
 	private JTextField jt7;
 
+	private JComboBox list ;
+			
 	private Azienda azienda;
 
 	private JTextArea tarea;
@@ -94,7 +96,7 @@ public class OperativoGUI extends JFrame {
 		// BOTTONI
 		JButton com = new JButton("Visualizza commissione");
 		JButton sq = new JButton("Visualizza squadre");
-		JButton mat = new JButton("Visualizza materili");
+		JButton mat = new JButton("Visualizza materiali");
 		JButton cancella = new JButton("Pulisci report");
 		JButton newsq = new JButton("Aggiungi squadra");
 		JButton macc = new JButton("Gestisci macchinari");
@@ -112,7 +114,7 @@ public class OperativoGUI extends JFrame {
 		for (Cantiere c : azienda.getOperativo().getCantieri()) {
 			al.add("Cantiere per : " + c.getCommissione().getNominativoCliente());
 		}
-		JComboBox list = new JComboBox(al.toArray());
+		list = new JComboBox(al.toArray());
 		JPanel tmplist = new JPanel();
 		list.addActionListener((e) -> {
 			tarea.setText("Cantiere commissionato da  "
@@ -120,7 +122,7 @@ public class OperativoGUI extends JFrame {
 							.getNominativoCliente()
 					+ " con valore di $" + azienda.getOperativo().getCantiere(list.getSelectedIndex()).getValore()+"\n"
 					+"Responsabile : "+azienda.getOperativo().getCantiere(list.getSelectedIndex()).getResponsabile().getCognome()+" "
-					+azienda.getOperativo().getCantiere(list.getSelectedIndex()).getResponsabile().getCognome());
+					+azienda.getOperativo().getCantiere(list.getSelectedIndex()).getResponsabile().getNome());
 			com.setEnabled(true);
 			sq.setEnabled(true);
 			mat.setEnabled(true);
@@ -617,6 +619,9 @@ public class OperativoGUI extends JFrame {
 			crea.addActionListener((e) -> {
 				try {
 					azienda.getOperativo().apriCantiere(valore, responsabile, out, commissione, azienda.getMagazzino());
+					list.setVisible(false);
+					list.addItem("Cantiere per : " + commissione.getNominativoCliente());
+					list.setVisible(true);
 				} catch (AperturaCantiereInvalidaException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

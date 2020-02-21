@@ -101,18 +101,10 @@ public class InitGUI extends JFrame {
 		cp.add(vol);
 
 		JButton b = new JButton("Crea");
-		JButton bt = new JButton("Reparto Amministrativo");
-		JButton bt1 = new JButton("Reparto Operativo");
 		JPanel pan = new JPanel();
 		JPanel pan1 = new JPanel();
 
 		pan.add(b);
-		pan1.add(bt);
-		pan.add(bt1);
-
-		bt.setVisible(false);
-		bt1.setVisible(false);
-
 		cp.add(pan);
 		cp.add(pan1);
 		cp.add(pan);
@@ -125,8 +117,7 @@ public class InitGUI extends JFrame {
 			az = a.getAzienda();
 			System.out.println(az);
 			b.setVisible(false);
-			bt.setVisible(true);
-			bt1.setVisible(true);
+
 		});
 		p.add(cp);
 

@@ -12,8 +12,8 @@ public abstract class Dipendente implements Serializable, Cloneable {
 	/**
 	 * Classe che rappresenta il concetto di un dipendente che lavora per l'azienda. 
 	 * Riceve uno stipendio in base al ruolo che ricopre
-	 * @param nome
-	 * @param cognome
+	 * @param nome il nome del dipendente
+	 * @param cognome il cognome del dipendente
 	 */
 	public Dipendente(String nome, String cognome) {
 		this.nome = nome;
@@ -25,6 +25,7 @@ public abstract class Dipendente implements Serializable, Cloneable {
 	/**
 	 * Calcola lo stipendio che un dipendente deve ricevere. Deve essere ridefinito in tutte le
 	 * specializzazioni di dipendente.
+	 * @return l'importo da pagare al dipendente
 	 */	
 	public abstract double checkPaga();
 
@@ -88,6 +89,10 @@ public abstract class Dipendente implements Serializable, Cloneable {
 		}
 	}	
 	
+	/**
+	 * metodo utilizzato per la stampa di un dipendente formattata per la GUI
+	 * @return la stringa formattata
+	 */
 	public String stampa() {
 		
 		return cognome + " " + nome + ",  pagato = " + pagato + ", stipendio: $" + checkPaga() + ",   occupato =  " + occupato;

@@ -51,7 +51,7 @@ public class Operaio extends Dipendente {
 	}
 	
 	/** Indica che l'operaio è conducente di un macchinario
-	 * 
+	 * @param conducente true se conduce un veicolo altrimenti false
 	 */
 	public void setConducente(boolean conducente) {
 		this.conducente = conducente;

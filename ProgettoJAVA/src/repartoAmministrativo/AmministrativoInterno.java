@@ -17,7 +17,7 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 	 * Sezione interna del reparto amministrativo che gestisce i dipendenti. Si
 	 * occupa dell'assunzione, del licenziamento e dei pagamenti.
 	 * 
-	 * @param i fondi con cui parte il dipartimento interno
+	 * @param fondi i fondi con cui parte il dipartimento interno
 	 */
 	public AmministrativoInterno(double fondi) {
 		super(fondi);
@@ -65,6 +65,7 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 
 	/**
 	 * Rimuove un dipendente dalla lista del personale d dipendente da licenziare
+	 * @param d il dipendente
 	 */
 	public void licenziaDipendente(Dipendente d) {
 		if(personale.contains(d))
@@ -94,6 +95,11 @@ public class AmministrativoInterno extends RepartoAmministrativo {
 		}
 	}
 	
+	/**
+	 * Seleziona un dipendente in base ad un criterio passato come parametro
+	 * @param s criterio di selezione
+	 * @return lista di dipendenti selezionati
+	 */
 	public ArrayList<Dipendente> selezionaDipendenti(Selezionabile<Dipendente> s) {
 		
 		Selezionatore<Dipendente> selezionatore = new Selezionatore<Dipendente>(personale, s);		

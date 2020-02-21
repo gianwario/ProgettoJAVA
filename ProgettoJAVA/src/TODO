@@ -2,7 +2,8 @@ RICORDATI DI PAGARE META' DELLA COMMISSIONE ALL'APERTURA DI UNA COMMISSIONE --do
 
 -MODIFICA CANTIERE-REPARTO OPERATIVO GESTIONE MATERIALI --done
 	-nell'apertura cantiere modifica il criterio di scelta prodotti --done
--BUGFIX reparto operativo, aggiorna combobox in alto a sinistra dopo apertura nuovo cantiere
--Forza inserimento materiali
--Bottone "visualizza materili" aggiungi la A
--Aggiusta stampa dirigente in visualizza cantiere
+-BUGFIX 
+-reparto operativo, aggiorna combobox in alto a sinistra dopo apertura nuovo cantiere --done
+-Forza inserimento materiali --no
+-Bottone "visualizza materili" aggiungi la A --done
+-Aggiusta stampa dirigente in visualizza cantiere --done

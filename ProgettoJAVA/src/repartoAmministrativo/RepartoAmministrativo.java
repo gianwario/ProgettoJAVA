@@ -24,7 +24,7 @@ public abstract class RepartoAmministrativo implements Serializable {
 	 * Un reparto riceve un pagamento e viene aggiunta una determinata somma ai
 	 * fondi
 	 * 
-	 * @param fondi l'importo guadagnato
+	 * @param importo l'importo guadagnato
 	 */
 	public void aggiungiFondi(double importo) {
 		if(importo > 0)
@@ -36,7 +36,7 @@ public abstract class RepartoAmministrativo implements Serializable {
 	/**
 	 * Un reparto effettua una spesa e viene rimosso dal fondo l'importo speso
 	 * 
-	 * @param fondi l'importo da rimuovere
+	 * @param importo l'importo da rimuovere
 	 */
 	public void effettuaSpesa(double importo) {
 		if (importo > 0) {

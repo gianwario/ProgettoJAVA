@@ -12,6 +12,11 @@ public class Fornitore implements Serializable{
 	private String nome;
 	private ArrayList<Prodotto> catalogo;
 
+	/**
+	 * Rappresenta il concetto di fornitore, mette a disposizione
+	 * dell'azienda un catalogo di prodotti che possono essere acquistati
+	 * @param nome il nome del fornitore
+	 */
 	public Fornitore(String nome) {
 
 		this.nome = nome;
@@ -45,6 +50,11 @@ public class Fornitore implements Serializable{
 		
 	}
 	
+	
+	/**
+	 * Aggiunge al catalogo del fornitore un prodotto
+	 * @param p il prodotto da aggiungere
+	 */
 	public void aggiungiProdotto(Prodotto p) {
 		
 		if(p == null)

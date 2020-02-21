@@ -15,6 +15,10 @@ public class LeggiScriviAzienda {
 	public LeggiScriviAzienda() {
 	}
 
+	/**
+	 * Scrive un azienda in un file
+	 * @param fileName il path del file in cui memorizzare l'azienda
+	 */
 	public void scriviAzienda(String fileName) {
 		File file = new File(fileName);
 		try {
@@ -26,6 +30,10 @@ public class LeggiScriviAzienda {
 		}
 	}
 
+	/**
+	 * Legge da un file un azienda
+	 * @param fileName il path del file dal quale leggere l'azienda
+	 */
 	public void leggiAzienda(String fileName) {
 		File file = new File(fileName);
 		if (file.exists()) {
@@ -43,10 +51,18 @@ public class LeggiScriviAzienda {
 		}
 	}
 
+	/**
+	 * Restituisce l'azienda letta dal file
+	 * @return azienda
+	 */
 	public Azienda getAzienda() {
 		return a;
 	}
 	
+	/**
+	 * Imposta l'azienda per lettura o scrittura
+	 * @param a azienda
+	 */
 	public void setAzienda(Azienda a) {
 		this.a=a;
 	}

@@ -268,7 +268,7 @@ public class AmministrativoGUI extends JFrame {
 
 			if (((Dipendente) obox.getSelectedItem()).controllaStatoPagamento() == true) {
 				olabel2.setText(((Dipendente) obox.getSelectedItem()).getNome() + " "
-						+ ((Dipendente) obox.getSelectedItem()).getCognome() + " giï¿½ pagato!");
+						+ ((Dipendente) obox.getSelectedItem()).getCognome() + " già pagato!");
 				return;
 			}
 
@@ -1788,7 +1788,7 @@ public class AmministrativoGUI extends JFrame {
 			JPanel p3 = new JPanel();
 			JPanel p4 = new JPanel();
 			JPanel p5 = new JPanel();
-			JLabel sald = new JLabel("Totale: $" + saldo + "  Capacitï¿½ rimasta: " + capa);
+			JLabel sald = new JLabel("Totale: $" + saldo + "  Capacità rimasta: " + capa);
 
 			JTextArea area = new JTextArea("CARRELLO: \n");
 			JScrollPane bar = new JScrollPane(area);
@@ -1829,7 +1829,7 @@ public class AmministrativoGUI extends JFrame {
 				carrello.add(p);
 				saldo += p.getPrezzo();
 				capa -= p.getVolume();
-				sald.setText("Totale: $" + saldo + "  Capacitï¿½ rimasta: " + capa);
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
 				area.append(p.stampa() + "\n");
 
 			});
@@ -1844,15 +1844,15 @@ public class AmministrativoGUI extends JFrame {
 						azienda.getMagazzino().aggiungiProdotto(p);
 					} catch (CapacitaInsufficienteException e1) {
 
-						JOptionPane.showMessageDialog(null, "Capacitï¿½ magazzino insufficiente!",
+						JOptionPane.showMessageDialog(null, "Capacità magazzino insufficiente!",
 								"CapacitaInsufficienteException", JOptionPane.ERROR_MESSAGE, null);
 					}
 				}
 				carrello.removeAll(carrello);
 				saldo = 0;
-				sald.setText("Totale: $" + saldo + "  Capacitï¿½ rimasta: " + capa);
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
 				area.setText("CARRELLO: \n");
-				sald.setText("Totale: $" + saldo + "  Capacitï¿½ rimasta: " + capa);
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
 				fondi2.setText("Gestisci sezione esterna    Fondi: $" + (int) azienda.getFondiEsterno());
 
 				cap.setText("Capcita occupata del magazzino: " + (int) azienda.getMagazzino().getCapacitaOccupata()
@@ -1866,9 +1866,9 @@ public class AmministrativoGUI extends JFrame {
 					capa += p.getVolume();
 				carrello.removeAll(carrello);
 				saldo = 0;
-				sald.setText("Totale: $" + saldo + "  Capacitï¿½ rimasta: " + capa);
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
 				area.setText("CARRELLO: \n");
-				sald.setText("Totale: $" + saldo + "  Capacitï¿½ rimasta: " + capa);
+				sald.setText("Totale: $" + saldo + "  Capacità rimasta: " + capa);
 
 			});
 

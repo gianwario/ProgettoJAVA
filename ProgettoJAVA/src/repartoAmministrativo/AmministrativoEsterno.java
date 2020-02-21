@@ -25,8 +25,7 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 	 * rifornisce i materiali ai magazzini e ottiene i permessi di costruzione dagli
 	 * enti locali
 	 * 
-	 * @param fondi     fondi iniziali
-	 * @param magazzino il magazzino che il reparto gestisce
+	 * @param fondi fondi iniziali
 	 */
 
 	public AmministrativoEsterno(double fondi) {
@@ -133,6 +132,7 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 			listaFornitori.remove(f);
 	}
 
+
 	public void pagaProdotti(ArrayList<Prodotto> list) {
 
 		double sum = 0;
@@ -167,12 +167,25 @@ public class AmministrativoEsterno extends RepartoAmministrativo {
 		}
 	}
 	
+	/**
+	 * Seleziona una lista di prodotti da un magazzino in base ad un criterio passato come parametro
+	 * @param s criterio di selezione
+	 * @param m magazzino dal quale selezionare
+	 * @return la lista di prodotti selezionati
+	 */
 	public ArrayList<Prodotto> selezionaDaMagazzino(Selezionabile<Prodotto> s, Magazzino m) {
 		
 		Selezionatore<Prodotto> selezione = new Selezionatore<Prodotto>(m.getListaProdotti(), s);
 		return selezione.seleziona();
 	}
 	
+	/**
+	 * Seleziona una lista di prodotti dal catalogo di un fornitore
+	 *  in base ad un criterio passato come parametro
+	 * @param s criterio di selezione
+	 * @param f fornitore dal quale selezionare
+	 * @return la lista di prodotti selezionati
+	 */
 	public ArrayList<Prodotto> selezionaDaCatalogoFornitore(Selezionabile<Prodotto> s, Fornitore f) {
 		
 		Selezionatore<Prodotto> selezione = new Selezionatore<Prodotto>(f.getCatalogo(), s);

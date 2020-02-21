@@ -41,6 +41,7 @@ public class Magazzino implements Serializable{
 	 * Aggiunge un prodotto al magazzino se la capacita rimasta è sufficiente
 	 * 
 	 * @param p prodotto da aggiungere al magazzino in seguito all'acquisto
+	 * @throws CapacitaInsufficienteException lanciata se 
 	 */
 	public void aggiungiProdotto(Prodotto p) throws CapacitaInsufficienteException {
 		

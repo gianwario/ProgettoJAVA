@@ -25,7 +25,7 @@ public class Cantiere implements Cloneable, Serializable {
 	 * vengono svolti i lavori per completare una commissione di cui si hanno i
 	 * permessi di costruzione. Ha delle squadre di operai che vi lavorano e un solo
 	 * dipendente che ricopre il ruolo di responsabile, il quale è scelto tra i
-	 * quadri se il valore del cantiere è < 500000, tra un dirigente altrimenti
+	 * quadri se il valore del cantiere è minore di 500000, tra un dirigente altrimenti
 	 * 
 	 * @param responsabile dipendente responsabile del cantiere
 	 * @param valore       fondi del cantiere
@@ -109,6 +109,10 @@ public class Cantiere implements Cloneable, Serializable {
 				+ responsabile + "\nSquadre = " + squadre + "\nLista materiali: \n" + materiali + "\n";
 	}
 
+	/**
+	 * metodo di stampa formattato per GUI
+	 * @return stringa formattata
+	 */
 	public String stampaCommissione() {
 		return "Cliente : " + getCommissione().getNominativoCliente() + ", introito netto : "
 				+ getCommissione().getPagamento() + "\n        prezzo permessi : " + getCommissione().getPrezzoPermessi()
@@ -116,6 +120,10 @@ public class Cantiere implements Cloneable, Serializable {
 				+ getCommissione().getOttenimentoPermessi()+"\n\n";
 	}
 
+	/**
+	 * metodo di stampa formattato per GUI
+	 * @return stringa formattata
+	 */
 	public String stampaSquadre() {
 		String r = "";
 		for (Squadra s : getSquadre()) {
@@ -128,6 +136,10 @@ public class Cantiere implements Cloneable, Serializable {
 		return r+"\n";
 	}
 	
+	/**
+	 * metodo di stampa formattato per GUI
+	 * @return stringa formattata
+	 */
 	public String stampaMateriali () {
 		String r="Prodotti utilizzati dal cantiere : \n";
 		for(Prodotto p : getMateriali()) {
